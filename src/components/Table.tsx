@@ -6,9 +6,10 @@ type Props = {
     dropdownOptions?: Array<{ value: string; label: string }>;
   }>;
   data: any[];
+  keyProp: string;
 };
 
-export default function Table({ columns, data }: Props) {
+export default function Table({ columns, data, keyProp }: Props) {
   return (
     <table>
       <thead>
@@ -20,7 +21,7 @@ export default function Table({ columns, data }: Props) {
       </thead>
       <tbody>
         {data.map((row, i) => (
-          <tr key={i}>
+          <tr key={row[keyProp]}>
             {columns.map((column) => (
               <td key={column.key}>{row[column.key]}</td>
             ))}

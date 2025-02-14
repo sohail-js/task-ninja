@@ -30,6 +30,7 @@ function App() {
             ],
           },
         ]}
+        keyProp="id"
         data={DATA}
       />
     </>
