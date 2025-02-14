@@ -4,6 +4,7 @@ import Table from "./components/Table";
 function App() {
   return (
     <>
+      <h1>Task Ninja</h1>
       <Table
         columns={[
           { key: "title", title: "Title", type: "text" },
