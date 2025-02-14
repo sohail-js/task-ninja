@@ -1,3 +1,5 @@
+import classNames from "classnames";
+
 type Props = {
   columns: Array<{
     key: string;
@@ -7,11 +9,12 @@ type Props = {
   }>;
   data: any[];
   keyProp: string;
+  className?: string;
 };
 
-export default function Table({ columns, data, keyProp }: Props) {
+export default function Table({ columns, data, keyProp, className }: Props) {
   return (
-    <table>
+    <table className={classNames("table-auto", className)}>
       <thead>
         <tr>
           {columns.map((column) => (

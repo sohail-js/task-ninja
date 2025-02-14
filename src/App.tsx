@@ -1,39 +1,49 @@
 import "./App.css";
+import Button from "./components/Button";
 import Table from "./components/Table";
 
 function App() {
   return (
     <>
-      <h1>Task Ninja</h1>
-      <Table
-        columns={[
-          { key: "title", title: "Title", type: "text" },
-          {
-            key: "priority",
-            title: "Priority",
-            type: "dropdown",
-            dropdownOptions: [
-              { value: "none", label: "None" },
-              { value: "low", label: "Low" },
-              { value: "medium", label: "Medium" },
-              { value: "high", label: "High" },
-              { value: "urgent", label: "Urgent" },
-            ],
-          },
-          {
-            key: "status",
-            title: "Status",
-            type: "dropdown",
-            dropdownOptions: [
-              { value: "not_started", label: "Not Started" },
-              { value: "in_progress", label: "In Progress" },
-              { value: "completed", label: "Completed" },
-            ],
-          },
-        ]}
-        keyProp="id"
-        data={DATA}
-      />
+      <div className="flex justify-between items-center p-4 pb-0.5">
+        <h1 className="text-2xl font-bold">Task Ninja</h1>
+        <Button mode="primary" onClick={() => alert("Create new task")}>
+          Create Task
+        </Button>
+      </div>
+
+      <div className="w-full p-4">
+        <Table
+          className="w-full p-4"
+          columns={[
+            { key: "title", title: "Title", type: "text" },
+            {
+              key: "priority",
+              title: "Priority",
+              type: "dropdown",
+              dropdownOptions: [
+                { value: "none", label: "None" },
+                { value: "low", label: "Low" },
+                { value: "medium", label: "Medium" },
+                { value: "high", label: "High" },
+                { value: "urgent", label: "Urgent" },
+              ],
+            },
+            {
+              key: "status",
+              title: "Status",
+              type: "dropdown",
+              dropdownOptions: [
+                { value: "not_started", label: "Not Started" },
+                { value: "in_progress", label: "In Progress" },
+                { value: "completed", label: "Completed" },
+              ],
+            },
+          ]}
+          keyProp="id"
+          data={DATA}
+        />
+      </div>
     </>
   );
 }
