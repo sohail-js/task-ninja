@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Field } from "../types";
+import { useEffect } from "react";
 
 type Props = {
   field: Field;
@@ -8,7 +9,18 @@ type Props = {
   className?: string;
 };
 
-export default function FormItem({ field, value, onChange, className }: Props) {
+export default function FormItem({
+  field,
+  value = "",
+  onChange,
+  className,
+}: Props) {
+  useEffect(() => {
+    if (field.type === "dropdown" && !value && field.dropdownOptions?.length) {
+      onChange(field.dropdownOptions[0].value);
+    }
+  }, [field, value, onChange]);
+
   switch (field.type) {
     case "text":
       return (

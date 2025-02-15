@@ -30,6 +30,7 @@ export default function Form({
       onSubmit={(e) => {
         e.preventDefault();
         onSubmit(formValues);
+        setFormValues({});
       }}
     >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xxl:grid-cols-3">

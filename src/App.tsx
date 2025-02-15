@@ -8,7 +8,14 @@ import { OPTIONS_PRIORITY, OPTIONS_STATUS } from "./constants";
 
 function App() {
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState(DATA);
+  const [data, setData] = useState<
+    {
+      id: string | number;
+      title: string;
+      priority: string;
+      status: string;
+    }[]
+  >(DATA);
 
   const addTaskHandler = () => {
     setOpen(true);
@@ -36,27 +43,26 @@ function App() {
               key: "priority",
               label: "Priority",
               type: "dropdown",
-              dropdownOptions: [
-                { value: "none", label: "None" },
-                { value: "low", label: "Low" },
-                { value: "medium", label: "Medium" },
-                { value: "high", label: "High" },
-                { value: "urgent", label: "Urgent" },
-              ],
+              dropdownOptions: OPTIONS_PRIORITY,
             },
             {
               key: "status",
               label: "Status",
               type: "dropdown",
-              dropdownOptions: [
-                { value: "not_started", label: "Not Started" },
-                { value: "in_progress", label: "In Progress" },
-                { value: "completed", label: "Completed" },
-              ],
+              dropdownOptions: OPTIONS_STATUS,
             },
           ]}
           onSubmit={(values) => {
             console.log(values);
+            setData((prevData) => [
+              ...prevData,
+              {
+                id: crypto.randomUUID(),
+                title: values.title,
+                priority: values.priority,
+                status: values.status,
+              },
+            ]);
             setOpen(false);
           }}
           onCancel={() => {
