@@ -2,15 +2,23 @@ import classNames from "classnames";
 import React from "react";
 
 type Props = {
-  onClick: () => void;
+  onClick?: () => void;
   children: React.ReactNode;
   mode: "primary" | "secondary" | "link" | "danger" | "warning" | "success";
   className?: string;
+  type?: "button" | "submit" | "reset";
 };
 
-export default function Button({ onClick, mode, children, className }: Props) {
+export default function Button({
+  onClick,
+  mode,
+  children,
+  className,
+  type,
+}: Props) {
   return (
     <button
+      type={type}
       className={classNames("px-4 py-2 rounded cursor-pointer", className, {
         "bg-blue-500 text-white hover:bg-blue-600": mode === "primary",
         "bg-gray-500 text-white hover:bg-gray-600": mode === "secondary",

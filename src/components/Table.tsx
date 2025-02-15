@@ -3,7 +3,7 @@ import classNames from "classnames";
 type Props = {
   columns: Array<{
     key: string;
-    title: string;
+    label: string;
     type: "text" | "dropdown";
     dropdownOptions?: Array<{ value: string; label: string }>;
   }>;
@@ -18,7 +18,7 @@ export default function Table({ columns, data, keyProp, className }: Props) {
       <thead>
         <tr>
           {columns.map((column) => (
-            <th key={column.key}>{column.title}</th>
+            <th key={column.key}>{column.label}</th>
           ))}
         </tr>
       </thead>
