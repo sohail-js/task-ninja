@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { Field } from "../../types";
-import withFormItem from "./FormItem";
+import FormItemWrapper from "./FormItemWrapper";
 
 type Props = {
   field: Field;
@@ -9,18 +9,23 @@ type Props = {
   className?: string;
 };
 
-function FormItemText({ value, onChange, className }: Props) {
+export default function FormItemText({
+  field,
+  value,
+  onChange,
+  className,
+}: Props) {
   return (
-    <input
-      type="text"
-      value={value ?? ""}
-      onChange={(e) => onChange(e.target.value)}
-      className={classNames(
-        className,
-        "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      )}
-    />
+    <FormItemWrapper field={field}>
+      <input
+        type="text"
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value)}
+        className={classNames(
+          className,
+          "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        )}
+      />
+    </FormItemWrapper>
   );
 }
-
-export default withFormItem<string>(FormItemText);
