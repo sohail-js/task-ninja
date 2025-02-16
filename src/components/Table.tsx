@@ -11,9 +11,16 @@ type Props = {
   keyProp: string;
   className?: string;
   contextMenuOptions?: Array<{}>;
+  onRecordOpen?: (record: any) => void;
 };
 
-export default function Table({ columns, data, keyProp, className }: Props) {
+export default function Table({
+  columns,
+  data,
+  keyProp,
+  className,
+  onRecordOpen,
+}: Props) {
   const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>(
     data.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
   );
@@ -97,6 +104,17 @@ export default function Table({ columns, data, keyProp, className }: Props) {
                 className="px-6 py-4 whitespace-nowrap text-sm"
               >
                 {row[column.key]}
+
+                {column.key === "title" && (
+                  <Button
+                    size="sm"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-100"
+                    mode="secondary"
+                    onClick={() => onRecordOpen?.(row)}
+                  >
+                    Open
+                  </Button>
+                )}
               </td>
             ))}
           </tr>

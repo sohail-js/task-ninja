@@ -6,20 +6,27 @@ import Table from "./components/Table";
 import { Form } from "./components/Form";
 import { OPTIONS_PRIORITY, OPTIONS_STATUS } from "./constants";
 
+type RecordItem = {
+  id: string | number;
+  title: string;
+  priority: string;
+  status: string;
+};
+
 function App() {
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState<
-    {
-      id: string | number;
-      title: string;
-      priority: string;
-      status: string;
-    }[]
-  >(DATA);
+  const [data, setData] = useState<RecordItem[]>(DATA);
+  const [editData, setEditData] = useState<RecordItem>();
 
   const addTaskHandler = () => {
     setOpen(true);
   };
+
+  const closeDrawer = () => {
+    setOpen(false);
+    setEditData(undefined);
+  };
+
   return (
     <>
       <div className="flex justify-between items-center p-4 pb-0.5">
@@ -29,13 +36,7 @@ function App() {
         </Button>
       </div>
 
-      <Drawer
-        title="Create Task"
-        isOpen={open}
-        onClose={() => {
-          setOpen(false);
-        }}
-      >
+      <Drawer title="Create Task" isOpen={open} onClose={closeDrawer}>
         {open && (
           <Form
             fields={[
@@ -53,20 +54,36 @@ function App() {
                 dropdownOptions: OPTIONS_STATUS,
               },
             ]}
+            defaultValues={editData}
             onSubmit={(values) => {
-              setData((prevData) => [
-                ...prevData,
-                {
-                  id: crypto.randomUUID(),
-                  title: values.title,
-                  priority: values.priority,
-                  status: values.status,
-                },
-              ]);
-              setOpen(false);
+              if (editData) {
+                setData((prevData) => {
+                  const index = prevData.findIndex(
+                    (item) => item.id === editData.id
+                  );
+                  prevData[index] = {
+                    id: editData.id,
+                    title: values.title,
+                    priority: values.priority,
+                    status: values.status,
+                  };
+                  return [...prevData];
+                });
+              } else {
+                setData((prevData) => [
+                  ...prevData,
+                  {
+                    id: crypto.randomUUID(),
+                    title: values.title,
+                    priority: values.priority,
+                    status: values.status,
+                  },
+                ]);
+              }
+              closeDrawer();
             }}
             onCancel={() => {
-              setOpen(false);
+              closeDrawer();
             }}
           />
         )}
@@ -92,6 +109,10 @@ function App() {
           ]}
           keyProp="id"
           data={data}
+          onRecordOpen={(record) => {
+            setEditData(record);
+            setOpen(true);
+          }}
         />
       </div>
     </>
