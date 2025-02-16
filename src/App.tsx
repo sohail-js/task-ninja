@@ -5,6 +5,7 @@ import Drawer from "./components/Drawer";
 import Table from "./components/Table";
 import { Form } from "./components/Form";
 import { OPTIONS_PRIORITY, OPTIONS_STATUS } from "./constants";
+import { HiTrash } from "react-icons/hi2";
 
 type RecordItem = {
   id: string | number;
@@ -113,6 +114,19 @@ function App() {
             setEditData(record);
             setOpen(true);
           }}
+          contextMenuOptions={[
+            {
+              label: "Delete",
+              onClick: (record) => {
+                if (confirm("Are you sure you want to delete this record?")) {
+                  setData((prevData) =>
+                    prevData.filter((item) => item.id !== record.id)
+                  );
+                }
+              },
+              icon: <HiTrash />,
+            },
+          ]}
         />
       </div>
     </>

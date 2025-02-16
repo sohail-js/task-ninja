@@ -4,13 +4,18 @@ import Button from "./Button";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useState } from "react";
 import FormItemCheckbox from "./Form/FormItemCheckbox";
+import Dropdown from "./Dropdown";
 
 type Props = {
   columns: Array<Field>;
   data: any[];
   keyProp: string;
   className?: string;
-  contextMenuOptions?: Array<{}>;
+  contextMenuOptions?: Array<{
+    label: string;
+    icon: React.ReactNode;
+    onClick: (record: any) => void;
+  }>;
   onRecordOpen?: (record: any) => void;
 };
 
@@ -20,6 +25,7 @@ export default function Table({
   keyProp,
   className,
   onRecordOpen,
+  contextMenuOptions,
 }: Props) {
   const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>(
     data.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
@@ -83,9 +89,22 @@ export default function Table({
                 }
               )}
             >
-              <Button mode="link" size="sm">
-                <HiDotsHorizontal />
-              </Button>
+              <Dropdown
+                menuItems={(contextMenuOptions ?? []).map((option) => ({
+                  label: option.label,
+                  icon: option.icon,
+                }))}
+                onItemClick={(item) => {
+                  const option = contextMenuOptions?.find(
+                    (option) => option.label === item.label
+                  );
+                  option?.onClick(row);
+                }}
+              >
+                <Button mode="link" size="sm">
+                  <HiDotsHorizontal />
+                </Button>
+              </Dropdown>
               <FormItemCheckbox
                 field={{
                   type: "checkbox",

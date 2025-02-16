@@ -11,3 +11,8 @@ export interface ContextMenuOption {
   value: string;
   icon: string;
 }
+
+export type MenuItem = {
+  label: string;
+  icon: React.ReactNode;
+};
