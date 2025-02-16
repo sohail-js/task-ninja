@@ -1,22 +1,20 @@
 import classNames from "classnames";
-import { Field } from "../../types";
-import FormItemWrapper from "./FormItemWrapper";
+import FormItemWrapper, { FormItemWrapperProps } from "./FormItemWrapper";
 
-type Props = {
-  field: Field;
+interface Props extends Omit<FormItemWrapperProps, "children"> {
   onChange: (value: string) => void;
   value?: string;
-  className?: string;
-};
+}
 
 export default function FormItemText({
   field,
   value,
   onChange,
   className,
+  ...otherProps
 }: Props) {
   return (
-    <FormItemWrapper field={field}>
+    <FormItemWrapper field={field} value={value} {...otherProps}>
       <input
         type="text"
         value={value ?? ""}

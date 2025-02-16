@@ -8,6 +8,7 @@ type Props = {
   className?: string;
   type?: "button" | "submit" | "reset";
   size?: "sm" | "md" | "lg";
+  disabled?: boolean;
 };
 
 export default function Button({
@@ -17,12 +18,14 @@ export default function Button({
   className,
   type,
   size,
+  disabled,
 }: Props) {
   return (
     <button
+      disabled={disabled}
       type={type}
       className={classNames(
-        "px-4 py-2 rounded cursor-pointer",
+        "px-4 py-2 rounded",
         className,
         {
           "bg-blue-500 text-white hover:bg-blue-600": mode === "primary",
@@ -33,6 +36,8 @@ export default function Button({
           "bg-green-500 text-white hover:bg-green-600": mode === "success",
         },
         {
+          "opacity-50 cursor-not-allowed": disabled,
+          "cursor-pointer": !disabled,
           "text-sm": size === "sm",
           "text-lg": size === "lg",
         }

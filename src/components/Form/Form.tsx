@@ -22,19 +22,42 @@ export default function Form({
     defaultValues || {}
   );
 
+  const [formValid, setFormValid] = useState(
+    fields.reduce((acc, field) => ({
+      ...acc,
+      [field.key]: true,
+    }))
+  );
+
+  const [showErrors, setShowErrors] = useState(false);
+
+  const valid = Object.values(formValid).every((v) => v);
+
   useEffect(() => {
     setFormValues(defaultValues || {});
   }, [defaultValues]);
 
+  const submitHandler = (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowErrors(true);
+    if (valid) {
+      onSubmit(formValues);
+      close();
+    }
+  };
+
+  const cancelHandler = () => {
+    onCancel?.();
+    close();
+  };
+
+  const close = () => {
+    setFormValues({});
+    setShowErrors(false);
+  };
+
   return (
-    <form
-      className=""
-      onSubmit={(e) => {
-        e.preventDefault();
-        onSubmit(formValues);
-        setFormValues({});
-      }}
-    >
+    <form onSubmit={submitHandler}>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xxl:grid-cols-3">
         {fields.map((field) => {
           switch (field.type) {
@@ -48,6 +71,13 @@ export default function Form({
                   onChange={(value) =>
                     setFormValues((prev) => ({ ...prev, [field.key]: value }))
                   }
+                  validations={{
+                    required: field.required,
+                  }}
+                  onValidityChange={(valid) =>
+                    setFormValid((prev) => ({ ...prev, [field.key]: valid }))
+                  }
+                  showErrors={showErrors}
                 />
               );
 
@@ -80,10 +110,10 @@ export default function Form({
         })}
       </div>
       <div className="flex justify-end space-x-4 mt-4">
-        <Button mode="secondary" type="button" onClick={onCancel}>
+        <Button mode="secondary" type="button" onClick={cancelHandler}>
           Cancel
         </Button>
-        <Button mode="primary" type="submit">
+        <Button mode="primary" type="submit" disabled={showErrors && !valid}>
           Submit
         </Button>
       </div>

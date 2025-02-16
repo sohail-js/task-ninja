@@ -36,38 +36,40 @@ function App() {
           setOpen(false);
         }}
       >
-        <Form
-          fields={[
-            { key: "title", label: "Title", type: "text" },
-            {
-              key: "priority",
-              label: "Priority",
-              type: "dropdown",
-              dropdownOptions: OPTIONS_PRIORITY,
-            },
-            {
-              key: "status",
-              label: "Status",
-              type: "dropdown",
-              dropdownOptions: OPTIONS_STATUS,
-            },
-          ]}
-          onSubmit={(values) => {
-            setData((prevData) => [
-              ...prevData,
+        {open && (
+          <Form
+            fields={[
+              { key: "title", label: "Title", type: "text", required: true },
               {
-                id: crypto.randomUUID(),
-                title: values.title,
-                priority: values.priority,
-                status: values.status,
+                key: "priority",
+                label: "Priority",
+                type: "dropdown",
+                dropdownOptions: OPTIONS_PRIORITY,
               },
-            ]);
-            setOpen(false);
-          }}
-          onCancel={() => {
-            setOpen(false);
-          }}
-        />
+              {
+                key: "status",
+                label: "Status",
+                type: "dropdown",
+                dropdownOptions: OPTIONS_STATUS,
+              },
+            ]}
+            onSubmit={(values) => {
+              setData((prevData) => [
+                ...prevData,
+                {
+                  id: crypto.randomUUID(),
+                  title: values.title,
+                  priority: values.priority,
+                  status: values.status,
+                },
+              ]);
+              setOpen(false);
+            }}
+            onCancel={() => {
+              setOpen(false);
+            }}
+          />
+        )}
       </Drawer>
 
       <div className="w-full p-4">

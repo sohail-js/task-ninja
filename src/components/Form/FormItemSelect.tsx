@@ -1,23 +1,25 @@
-import { Field } from "../../types";
-import FormItemWrapper from "./FormItemWrapper";
+import FormItemWrapper, { FormItemWrapperProps } from "./FormItemWrapper";
 import { HiChevronDown } from "react-icons/hi2";
 import { useEffect } from "react";
 
-type Props = {
-  field: Field;
+interface Props extends Omit<FormItemWrapperProps, "children"> {
   onChange: (value: string) => void;
   value?: string;
-  className?: string;
-};
+}
 
-export default function FormItemSelect({ field, value, onChange }: Props) {
+export default function FormItemSelect({
+  field,
+  value,
+  onChange,
+  ...otherProps
+}: Props) {
   useEffect(() => {
     if (!value && field.dropdownOptions?.length) {
       onChange(field.dropdownOptions[0].value);
     }
   }, [field, value, onChange]);
   return (
-    <FormItemWrapper field={field}>
+    <FormItemWrapper field={field} value={value} {...otherProps}>
       <div className="relative">
         <select
           value={value}
