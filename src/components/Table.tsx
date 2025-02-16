@@ -14,11 +14,22 @@ type Props = {
 };
 
 export default function Table({ columns, data, keyProp, className }: Props) {
-  const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>({});
+  const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>(
+    data.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
+  );
 
   const recordCheckboxChangeHandler = (key: string, value: boolean) => {
     setSelectedRows((prev) => ({ ...prev, [key]: value }));
   };
+
+  const selectedRowValues = Object.values(selectedRows);
+
+  const allSelected =
+    selectedRowValues.length > 0 && selectedRowValues.every((value) => value);
+  const indeterminate =
+    selectedRowValues.length > 0 &&
+    selectedRowValues.some((value) => value) &&
+    selectedRowValues.some((value) => !value);
 
   return (
     <table
@@ -26,7 +37,24 @@ export default function Table({ columns, data, keyProp, className }: Props) {
     >
       <thead>
         <tr>
-          <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider w-0.5"></th>
+          <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider w-0.5">
+            <FormItemCheckbox
+              field={{
+                type: "checkbox",
+                label: "",
+                key: "checkbox",
+              }}
+              value={allSelected}
+              indeterminate={indeterminate}
+              onChange={(value) => {
+                const newSelectedRows = data.reduce(
+                  (acc, row) => ({ ...acc, [row[keyProp]]: value }),
+                  {}
+                );
+                setSelectedRows(newSelectedRows);
+              }}
+            />
+          </th>
           {columns.map((column) => (
             <th
               key={column.key}
@@ -39,8 +67,15 @@ export default function Table({ columns, data, keyProp, className }: Props) {
       </thead>
       <tbody className="bg-white divide-y divide-gray-200">
         {data.map((row) => (
-          <tr key={row[keyProp]}>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center justify-center w-0.5">
+          <tr key={row[keyProp]} className="group">
+            <td
+              className={classNames(
+                "px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center justify-center w-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-100",
+                {
+                  "opacity-100": selectedRows[row[keyProp]],
+                }
+              )}
+            >
               <Button mode="link" size="sm">
                 <HiDotsHorizontal />
               </Button>
