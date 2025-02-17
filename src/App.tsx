@@ -47,12 +47,14 @@ function App() {
                 label: "Priority",
                 type: "dropdown",
                 dropdownOptions: OPTIONS_PRIORITY,
+                required: true,
               },
               {
                 key: "status",
                 label: "Status",
                 type: "dropdown",
                 dropdownOptions: OPTIONS_STATUS,
+                required: true,
               },
             ]}
             defaultValues={editData}

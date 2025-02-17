@@ -56,6 +56,22 @@ export default function Form({
     setShowErrors(false);
   };
 
+  function getCommonProps(field: Field) {
+    return {
+      field,
+      className: "mb-4",
+      key: field.key,
+      onChange: (value: any) =>
+        setFormValues((prev) => ({ ...prev, [field.key]: value })),
+      validations: {
+        required: field.required,
+      },
+      onValidityChange: (valid: boolean) =>
+        setFormValid((prev) => ({ ...prev, [field.key]: valid })),
+      showErrors: showErrors,
+    };
+  }
+
   return (
     <form onSubmit={submitHandler}>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xxl:grid-cols-3">
@@ -64,46 +80,24 @@ export default function Form({
             case "text":
               return (
                 <FormItemText
-                  field={field}
-                  className="mb-4"
-                  key={field.key}
+                  {...getCommonProps(field)}
                   value={formValues?.[field.key] as string}
-                  onChange={(value) =>
-                    setFormValues((prev) => ({ ...prev, [field.key]: value }))
-                  }
-                  validations={{
-                    required: field.required,
-                  }}
-                  onValidityChange={(valid) =>
-                    setFormValid((prev) => ({ ...prev, [field.key]: valid }))
-                  }
-                  showErrors={showErrors}
                 />
               );
 
             case "dropdown":
               return (
                 <FormItemSelect
-                  field={field}
-                  className="mb-4"
-                  key={field.key}
                   value={formValues?.[field.key] as string}
-                  onChange={(value) =>
-                    setFormValues((prev) => ({ ...prev, [field.key]: value }))
-                  }
+                  {...getCommonProps(field)}
                 />
               );
 
             case "checkbox":
               return (
                 <FormItemCheckbox
-                  field={field}
-                  className="mb-4"
-                  key={field.key}
                   value={!!formValues?.[field.key]}
-                  onChange={(value) =>
-                    setFormValues((prev) => ({ ...prev, [field.key]: value }))
-                  }
+                  {...getCommonProps(field)}
                 />
               );
           }

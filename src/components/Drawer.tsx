@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 
 type Props = {
@@ -15,9 +16,13 @@ export default function Drawer({ title, children, isOpen, onClose }: Props) {
       onClick={onClose}
     >
       <div
-        className={`fixed inset-y-0 right-0 w-2xl bg-white z-50 shadow-lg transform transition-transform ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={classNames(
+          `fixed inset-y-0 right-0 w-2xl bg-white z-50 shadow-lg transform transition-transform dark:bg-gray-800`,
+          {
+            "translate-x-0": isOpen,
+            "translate-x-full": !isOpen,
+          }
+        )}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between p-4 border-b">
