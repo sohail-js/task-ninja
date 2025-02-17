@@ -15,6 +15,14 @@ type TableContextProps = {
     icon: React.ReactNode;
     onClick: (record: any) => void;
   }>;
+  sortColumn: Field | null;
+  setSortColumn: React.Dispatch<React.SetStateAction<Field | null>>;
+  sortDirection: "asc" | "desc";
+  setSortDirection: React.Dispatch<React.SetStateAction<"asc" | "desc">>;
+  filter: Record<string, string | boolean>;
+  setFilter: React.Dispatch<
+    React.SetStateAction<Record<string, string | boolean>>
+  >;
 };
 
 const TableContext = createContext<TableContextProps | null>(null);
@@ -34,12 +42,26 @@ export const TableProvider = ({
   keyProp,
   onRecordOpen,
   contextMenuOptions,
-}: Omit<TableContextProps, "selectedRows" | "setSelectedRows"> & {
+}: Omit<
+  TableContextProps,
+  | "selectedRows"
+  | "setSelectedRows"
+  | "sortColumn"
+  | "setSortColumn"
+  | "sortDirection"
+  | "setSortDirection"
+  | "filter"
+  | "setFilter"
+> & {
   children: React.ReactNode;
 }) => {
   const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>(
     data.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
   );
+
+  const [sortColumn, setSortColumn] = useState<Field | null>(null);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [filter, setFilter] = useState<Record<string, string | boolean>>({}); // key: column key, value: filter value
 
   return (
     <TableContext.Provider
@@ -51,6 +73,12 @@ export const TableProvider = ({
         setSelectedRows,
         onRecordOpen,
         contextMenuOptions,
+        sortColumn,
+        setSortColumn,
+        sortDirection,
+        setSortDirection,
+        filter,
+        setFilter,
       }}
     >
       {children}

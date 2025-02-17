@@ -1,5 +1,6 @@
 import FormItemCheckbox from "../Form/FormItemCheckbox";
 import { useTable } from "./TableContext";
+import TableHeaderColumn from "./TableHeaderColumn";
 
 export default function TableHeader() {
   const { columns, data, keyProp, selectedRows, setSelectedRows } = useTable();
@@ -30,12 +31,7 @@ export default function TableHeader() {
           />
         </th>
         {columns.map((column) => (
-          <th
-            key={column.key}
-            className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider bg-gray-50 dark:bg-gray-800 dark:text-gray-200"
-          >
-            {column.label}
-          </th>
+          <TableHeaderColumn key={column.key} column={column} />
         ))}
       </tr>
     </thead>
