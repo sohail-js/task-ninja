@@ -32,7 +32,7 @@ export default function TableHeader() {
         {columns.map((column) => (
           <th
             key={column.key}
-            className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider bg-gray-50"
+            className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider bg-gray-50 dark:bg-gray-800 dark:text-gray-200"
           >
             {column.label}
           </th>
