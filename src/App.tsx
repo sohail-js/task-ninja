@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import Button from "./components/Button";
 import Drawer from "./components/Drawer";
-import Table from "./components/Table";
+import { Table } from "./components/Table";
 import { Form } from "./components/Form";
 import { OPTIONS_PRIORITY, OPTIONS_STATUS } from "./constants";
 import { HiTrash } from "react-icons/hi2";
