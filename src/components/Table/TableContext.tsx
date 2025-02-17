@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Field } from "../../types";
 
 type TableContextProps = {
@@ -55,19 +55,30 @@ export const TableProvider = ({
 > & {
   children: React.ReactNode;
 }) => {
-  const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>(
-    data.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
-  );
-
   const [sortColumn, setSortColumn] = useState<Field | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [filter, setFilter] = useState<Record<string, string | boolean>>({}); // key: column key, value: filter value
+
+  const { filteredData } = useFilteredData({
+    data,
+    filter,
+  });
+  const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>(
+    filteredData.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
+  );
+
+  // TODO: Reset selected rows when data changes.
+  // useEffect(() => {
+  //   setSelectedRows(
+  //     filteredData.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
+  //   );
+  // }, [JSON.stringify(filteredData), keyProp]);
 
   return (
     <TableContext.Provider
       value={{
         columns,
-        data,
+        data: filteredData,
         keyProp,
         selectedRows,
         setSelectedRows,
@@ -85,3 +96,22 @@ export const TableProvider = ({
     </TableContext.Provider>
   );
 };
+
+function useFilteredData({
+  data,
+  filter,
+}: {
+  data: any[];
+  filter: Record<string, string | boolean>;
+}) {
+  const filteredData = data.filter((record) =>
+    Object.entries(filter).every(([key, value]) => {
+      if (typeof value === "boolean") {
+        return record[key] === value;
+      }
+      return record[key].toLowerCase().includes(value.toLowerCase());
+    })
+  );
+
+  return { filteredData };
+}
