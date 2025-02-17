@@ -16,6 +16,8 @@ export type FormItemWrapperProps = {
   showErrors?: boolean;
   onValidityChange?: (valid: boolean) => void;
   errors?: string[];
+  placeholder?: string;
+  size?: "sm" | "md" | "lg";
 };
 
 export default function FormItemWrapper({
@@ -36,7 +38,7 @@ export default function FormItemWrapper({
   return (
     <div className={classNames(className)}>
       {field.label && (
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-200">
           {field.label}
         </label>
       )}
@@ -44,7 +46,7 @@ export default function FormItemWrapper({
 
       {/* error messages */}
       {showErrors && errors.length > 0 && (
-        <div className="text-red-500 text-xs italic">
+        <div className="text-red-500 text-xs italic mt-1">
           {errors.map((error, index) => (
             <div key={index}>{error}</div>
           ))}

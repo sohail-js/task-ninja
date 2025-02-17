@@ -10,7 +10,8 @@ export default function FormItemText({
   field,
   value,
   onChange,
-  className,
+  placeholder,
+  size = "md",
   ...otherProps
 }: Props) {
   return (
@@ -20,9 +21,14 @@ export default function FormItemText({
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
         className={classNames(
-          className,
-          "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          "shadow appearance-none border rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-200",
+          {
+            "text-sm py-0.5 px-1": size === "sm",
+            "text-lg py-2 px-3": size === "lg",
+            "py-2 px-3": size === "md",
+          }
         )}
+        placeholder={placeholder}
       />
     </FormItemWrapper>
   );
