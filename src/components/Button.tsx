@@ -9,6 +9,7 @@ type Props = {
   type?: "button" | "submit" | "reset";
   size?: "sm" | "md" | "lg";
   disabled?: boolean;
+  prefix?: React.ReactNode;
 };
 
 export default function Button({
@@ -19,6 +20,7 @@ export default function Button({
   type,
   size,
   disabled,
+  prefix,
 }: Props) {
   return (
     <button
@@ -44,7 +46,10 @@ export default function Button({
       )}
       onClick={onClick}
     >
-      {children}
+      <div className="flex items-center gap-1">
+        {prefix}
+        {children}
+      </div>
     </button>
   );
 }

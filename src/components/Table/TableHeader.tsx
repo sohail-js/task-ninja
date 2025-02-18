@@ -3,7 +3,15 @@ import { useTable } from "./TableContext";
 import TableHeaderColumn from "./TableHeaderColumn";
 
 export default function TableHeader() {
-  const { columns, data, keyProp, selectedRows, setSelectedRows } = useTable();
+  const {
+    columns,
+    data,
+    keyProp,
+    selectedRows,
+    setSelectedRows,
+    selectable,
+    actions,
+  } = useTable();
 
   const selectedRowValues = Object.values(selectedRows);
   const allSelected =
@@ -15,24 +23,28 @@ export default function TableHeader() {
   return (
     <thead>
       <tr>
-        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider w-0.5">
-          <FormItemCheckbox
-            field={{ type: "checkbox", label: "", key: "checkbox" }}
-            value={allSelected}
-            indeterminate={indeterminate}
-            onChange={(value) => {
-              setSelectedRows(
-                data.reduce(
-                  (acc, row) => ({ ...acc, [row[keyProp]]: value }),
-                  {}
-                )
-              );
-            }}
-          />
-        </th>
+        {selectable && (
+          <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider w-0.5">
+            <FormItemCheckbox
+              field={{ type: "checkbox", label: "", key: "checkbox" }}
+              value={allSelected}
+              indeterminate={indeterminate}
+              onChange={(value) => {
+                setSelectedRows(
+                  data.reduce(
+                    (acc, row) => ({ ...acc, [row[keyProp]]: value }),
+                    {}
+                  )
+                );
+              }}
+            />
+          </th>
+        )}
         {columns.map((column) => (
           <TableHeaderColumn key={column.key} column={column} />
         ))}
+
+        {Boolean(actions?.length) && <th className="px-6 py-3"></th>}
       </tr>
     </thead>
   );

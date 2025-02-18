@@ -11,7 +11,7 @@ export default function TableCell({ row, columnKey }: Props) {
 
   return (
     <td className="px-6 py-4 whitespace-nowrap text-sm">
-      {row[columnKey]}
+      {getDisplayValue(row[columnKey])}
 
       {columnKey === "title" && onRecordOpen && (
         <Button
@@ -25,4 +25,16 @@ export default function TableCell({ row, columnKey }: Props) {
       )}
     </td>
   );
+}
+
+function getDisplayValue(value: any) {
+  if (typeof value === "boolean") {
+    return value ? "true" : "false";
+  }
+
+  if (value instanceof Date) {
+    return value.toLocaleDateString();
+  }
+
+  return value;
 }

@@ -1,33 +1,25 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { Field } from "../../types";
+import { TableProps } from "./Table";
 
-type TableContextProps = {
-  columns: Array<Field>;
-  data: any[];
-  keyProp: string;
+interface TableContextProps extends TableProps {
   selectedRows: Record<string, boolean>;
   setSelectedRows: React.Dispatch<
     React.SetStateAction<Record<string, boolean>>
   >;
-  onRecordOpen?: (record: any) => void;
-  contextMenuOptions?: Array<{
-    label: string;
-    icon: React.ReactNode;
-    onClick: (record: any) => void;
-  }>;
   sortColumn: Field | null;
   setSortColumn: React.Dispatch<React.SetStateAction<Field | null>>;
   sortDirection: "asc" | "desc";
   setSortDirection: React.Dispatch<React.SetStateAction<"asc" | "desc">>;
-  filter: Record<string, string | boolean>;
+  filter: Record<string, string | number | boolean>;
   setFilter: React.Dispatch<
-    React.SetStateAction<Record<string, string | boolean>>
+    React.SetStateAction<Record<string, string | number | boolean>>
   >;
   pageSize: number;
   setPageSize: (pageSize: number) => void;
   currentPage: number;
   setCurrentPage: (currentPage: number) => void;
-};
+}
 
 const TableContext = createContext<TableContextProps | null>(null);
 
@@ -44,6 +36,12 @@ export const TableProvider = ({
   columns,
   data,
   keyProp,
+  inlineEditable,
+  actions,
+  onActionClick,
+  selectable,
+  showFilters,
+  allowSort,
   onRecordOpen,
   contextMenuOptions,
 }: Omit<
@@ -65,7 +63,9 @@ export const TableProvider = ({
 }) => {
   const [sortColumn, setSortColumn] = useState<Field | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-  const [filter, setFilter] = useState<Record<string, string | boolean>>({}); // key: column key, value: filter value
+  const [filter, setFilter] = useState<
+    Record<string, string | number | boolean>
+  >({}); // key: column key, value: filter value
 
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -107,6 +107,12 @@ export const TableProvider = ({
         setPageSize,
         currentPage,
         setCurrentPage,
+        inlineEditable,
+        actions,
+        onActionClick,
+        selectable,
+        showFilters,
+        allowSort,
       }}
     >
       {children}
@@ -121,7 +127,7 @@ function useFilteredData({
   sortDirection,
 }: {
   data: any[];
-  filter: Record<string, string | boolean>;
+  filter: Record<string, string | number | boolean>;
   sortColumn?: Field | null;
   sortDirection?: "asc" | "desc";
 }) {
@@ -130,7 +136,9 @@ function useFilteredData({
       if (typeof value === "boolean") {
         return record[key] === value;
       }
-      return record[key].toLowerCase().includes(value.toLowerCase());
+      return record[key]
+        .toLowerCase()
+        .includes(typeof value == "string" ? value.toLowerCase() : value);
     })
   );
 

@@ -10,8 +10,14 @@ type Props = {
 };
 
 export default function TableHeaderColumn({ column }: Props) {
-  const { sortColumn, setSortColumn, sortDirection, setSortDirection } =
-    useTable();
+  const {
+    sortColumn,
+    setSortColumn,
+    sortDirection,
+    setSortDirection,
+    showFilters,
+    allowSort,
+  } = useTable();
   return (
     <th
       key={column.key}
@@ -21,6 +27,7 @@ export default function TableHeaderColumn({ column }: Props) {
         className="flex items-center cursor-pointer"
         role="button"
         onClick={() => {
+          if (!allowSort) return;
           if (sortColumn?.key === column.key) {
             setSortDirection(sortDirection === "asc" ? "desc" : "asc");
           } else {
@@ -30,20 +37,22 @@ export default function TableHeaderColumn({ column }: Props) {
         }}
       >
         <span>{column.label}</span>
-        <span
-          className="ml-2"
-          title={sortDirection === "asc" ? "Ascending" : "Descending"}
-        >
-          {sortColumn?.key === column.key &&
-            (sortDirection === "asc" ? (
-              <HiSortAscending />
-            ) : (
-              <HiSortDescending />
-            ))}
-        </span>
+        {allowSort && (
+          <span
+            className="ml-2"
+            title={sortDirection === "asc" ? "Ascending" : "Descending"}
+          >
+            {sortColumn?.key === column.key &&
+              (sortDirection === "asc" ? (
+                <HiSortAscending />
+              ) : (
+                <HiSortDescending />
+              ))}
+          </span>
+        )}
       </div>
 
-      <TableFilter column={column} />
+      {showFilters && <TableFilter column={column} />}
     </th>
   );
 }

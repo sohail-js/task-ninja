@@ -5,7 +5,7 @@ import TableBody from "./TableBody";
 import { Field } from "../../types";
 import TablePagination from "./TablePagination";
 
-type Props = {
+export type TableProps = {
   columns: Array<Field>;
   data: any[];
   keyProp: string;
@@ -16,32 +16,33 @@ type Props = {
     onClick: (record: any) => void;
   }>;
   onRecordOpen?: (record: any) => void;
+  inlineEditable?: boolean; // TODO
+  actions?: Array<{
+    label: string | React.ReactNode;
+    key: string;
+  }>;
+  onActionClick?: (action: string, record: any) => void;
+  selectable?: boolean;
+  showPagination?: boolean;
+  showFilters?: boolean;
+  allowSort?: boolean;
 };
 
 export default function Table({
-  columns,
-  data,
-  keyProp,
   className,
-  onRecordOpen,
-  contextMenuOptions,
-}: Props) {
+  showPagination,
+  ...props
+}: TableProps) {
   return (
-    <TableProvider
-      columns={columns}
-      data={data}
-      keyProp={keyProp}
-      onRecordOpen={onRecordOpen}
-      contextMenuOptions={contextMenuOptions}
-    >
-      <TableMeta />
+    <TableProvider {...props}>
+      {/* <TableMeta /> */}
       <table
         className={classNames("min-w-full divide-y divide-gray-200", className)}
       >
         <TableHeader />
         <TableBody />
       </table>
-      <TablePagination className="mt-4" />
+      {showPagination && <TablePagination className="mt-4" />}
     </TableProvider>
   );
 }
