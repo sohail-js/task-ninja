@@ -9,7 +9,7 @@ import {
   OPTIONS_PRIORITY,
   OPTIONS_STATUS,
 } from "./constants";
-import { HiTrash } from "react-icons/hi2";
+import { HiPlus, HiTrash, HiViewColumns } from "react-icons/hi2";
 import { getLocalStorage, setLocalStorage } from "./services/localStorage";
 
 type RecordItem = {
@@ -21,6 +21,7 @@ type RecordItem = {
 
 function App() {
   const [open, setOpen] = useState(false);
+  const [openColumnsConfig, setOpenColumnsConfig] = useState(false);
   const [data, setData] = useState<RecordItem[]>(
     getLocalStorage(LOCAL_STORAGE_KEYS.tasks) ?? []
   );
@@ -44,11 +45,66 @@ function App() {
     <>
       <div className="flex justify-between items-center p-4 pb-0.5">
         <h1 className="text-2xl font-bold">Task Ninja</h1>
-        <Button mode="primary" onClick={addTaskHandler}>
-          Create Task
-        </Button>
+
+        <div className="flex items-center gap-2">
+          <Button
+            mode="secondary"
+            onClick={() => setOpenColumnsConfig(true)}
+            prefix={<HiViewColumns />}
+          >
+            Columns Config
+          </Button>
+          <Button mode="primary" onClick={addTaskHandler} prefix={<HiPlus />}>
+            Create Task
+          </Button>
+        </div>
       </div>
 
+      <Drawer
+        title="Columns Config"
+        isOpen={openColumnsConfig}
+        onClose={() => setOpenColumnsConfig(false)}
+      >
+        <div className="toolbar"></div>
+        <div className="content">
+          <Table
+            columns={[
+              {
+                key: "visible",
+                label: "Visible",
+                type: "checkbox",
+              },
+              {
+                key: "label",
+                label: "Label",
+                type: "text",
+              },
+              {
+                key: "type",
+                label: "Type",
+                type: "dropdown",
+                dropdownOptions: [
+                  { label: "Text", value: "text" },
+                  { label: "Checkbox", value: "checkbox" },
+                ],
+              },
+            ]}
+            actions={[
+              {
+                key: "delete",
+                label: <HiTrash />,
+              },
+            ]}
+            onActionClick={(action, record) => {
+              console.log(action, record);
+            }}
+            data={[
+              { id: "title", visible: true, label: "Title", type: "text" },
+            ]}
+            keyProp="id"
+          />
+        </div>
+      </Drawer>
       <Drawer title="Create Task" isOpen={open} onClose={closeDrawer}>
         {open && (
           <Form
@@ -141,6 +197,10 @@ function App() {
               icon: <HiTrash />,
             },
           ]}
+          allowSort
+          selectable
+          showPagination
+          showFilters
         />
       </div>
     </>
