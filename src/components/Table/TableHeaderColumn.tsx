@@ -30,7 +30,10 @@ export default function TableHeaderColumn({ column }: Props) {
         }}
       >
         <span>{column.label}</span>
-        <span className="ml-2">
+        <span
+          className="ml-2"
+          title={sortDirection === "asc" ? "Ascending" : "Descending"}
+        >
           {sortColumn?.key === column.key &&
             (sortDirection === "asc" ? (
               <HiSortAscending />

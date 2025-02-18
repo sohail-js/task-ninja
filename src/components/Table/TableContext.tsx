@@ -62,6 +62,8 @@ export const TableProvider = ({
   const { filteredData } = useFilteredData({
     data,
     filter,
+    sortColumn,
+    sortDirection,
   });
   const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>(
     filteredData.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
@@ -100,9 +102,13 @@ export const TableProvider = ({
 function useFilteredData({
   data,
   filter,
+  sortColumn,
+  sortDirection,
 }: {
   data: any[];
   filter: Record<string, string | boolean>;
+  sortColumn?: Field | null;
+  sortDirection?: "asc" | "desc";
 }) {
   const filteredData = data.filter((record) =>
     Object.entries(filter).every(([key, value]) => {
@@ -112,6 +118,18 @@ function useFilteredData({
       return record[key].toLowerCase().includes(value.toLowerCase());
     })
   );
+
+  if (sortColumn) {
+    filteredData.sort((a, b) => {
+      if (a[sortColumn.key] < b[sortColumn.key]) {
+        return sortDirection === "asc" ? -1 : 1;
+      }
+      if (a[sortColumn.key] > b[sortColumn.key]) {
+        return sortDirection === "asc" ? 1 : -1;
+      }
+      return 0;
+    });
+  }
 
   return { filteredData };
 }
