@@ -23,6 +23,10 @@ type TableContextProps = {
   setFilter: React.Dispatch<
     React.SetStateAction<Record<string, string | boolean>>
   >;
+  pageSize: number;
+  setPageSize: (pageSize: number) => void;
+  currentPage: number;
+  setCurrentPage: (currentPage: number) => void;
 };
 
 const TableContext = createContext<TableContextProps | null>(null);
@@ -52,12 +56,19 @@ export const TableProvider = ({
   | "setSortDirection"
   | "filter"
   | "setFilter"
+  | "pageSize"
+  | "setPageSize"
+  | "currentPage"
+  | "setCurrentPage"
 > & {
   children: React.ReactNode;
 }) => {
   const [sortColumn, setSortColumn] = useState<Field | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [filter, setFilter] = useState<Record<string, string | boolean>>({}); // key: column key, value: filter value
+
+  const [pageSize, setPageSize] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { filteredData } = useFilteredData({
     data,
@@ -92,6 +103,10 @@ export const TableProvider = ({
         setSortDirection,
         filter,
         setFilter,
+        pageSize,
+        setPageSize,
+        currentPage,
+        setCurrentPage,
       }}
     >
       {children}

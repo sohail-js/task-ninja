@@ -2,7 +2,7 @@ export interface Field {
   key: string;
   type: "text" | "dropdown" | "checkbox";
   label: string;
-  dropdownOptions?: Array<{ value: string; label: string }>;
+  dropdownOptions?: Array<{ value: string | number; label: string }>;
   required?: boolean;
 }
 
