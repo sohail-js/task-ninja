@@ -1,11 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Button from "./components/Button";
 import Drawer from "./components/Drawer";
 import { Table } from "./components/Table";
 import { Form } from "./components/Form";
-import { OPTIONS_PRIORITY, OPTIONS_STATUS } from "./constants";
+import {
+  LOCAL_STORAGE_KEYS,
+  OPTIONS_PRIORITY,
+  OPTIONS_STATUS,
+} from "./constants";
 import { HiTrash } from "react-icons/hi2";
+import { getLocalStorage, setLocalStorage } from "./services/localStorage";
 
 type RecordItem = {
   id: string | number;
@@ -16,7 +21,9 @@ type RecordItem = {
 
 function App() {
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState<RecordItem[]>(DATA);
+  const [data, setData] = useState<RecordItem[]>(
+    getLocalStorage(LOCAL_STORAGE_KEYS.tasks) ?? []
+  );
   const [editData, setEditData] = useState<RecordItem>();
 
   const addTaskHandler = () => {
@@ -27,6 +34,11 @@ function App() {
     setOpen(false);
     setEditData(undefined);
   };
+
+  useEffect(() => {
+    console.log("Data changed");
+    setLocalStorage(LOCAL_STORAGE_KEYS.tasks, data);
+  }, [data]);
 
   return (
     <>
@@ -136,18 +148,3 @@ function App() {
 }
 
 export default App;
-
-const DATA = [
-  {
-    id: 1,
-    title: "Write project proposal",
-    status: "in_progress",
-    priority: "high",
-  },
-  {
-    id: 2,
-    title: "Fix login page bug",
-    status: "not_started",
-    priority: "none",
-  },
-];

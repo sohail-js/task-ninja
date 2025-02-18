@@ -40,6 +40,9 @@ export default function FormItemWrapper({
       {field.label && (
         <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-200">
           {field.label}
+          {validations?.required && (
+            <span className="text-red-500 ml-1">*</span>
+          )}
         </label>
       )}
       {children}

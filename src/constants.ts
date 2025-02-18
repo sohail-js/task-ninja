@@ -11,3 +11,7 @@ export const OPTIONS_STATUS = [
   { value: "in_progress", label: "In Progress" },
   { value: "completed", label: "Completed" },
 ];
+
+export const LOCAL_STORAGE_KEYS = {
+  tasks: "tasks",
+};

@@ -60,7 +60,6 @@ export default function Form({
     return {
       field,
       className: "mb-4",
-      key: field.key,
       onChange: (value: any) =>
         setFormValues((prev) => ({ ...prev, [field.key]: value })),
       validations: {
@@ -80,7 +79,9 @@ export default function Form({
             case "text":
               return (
                 <FormItemText
+                  key={field.key}
                   {...getCommonProps(field)}
+                  placeholder="Enter text"
                   value={formValues?.[field.key] as string}
                 />
               );
@@ -89,6 +90,7 @@ export default function Form({
               return (
                 <FormItemSelect
                   value={formValues?.[field.key] as string}
+                  key={field.key}
                   {...getCommonProps(field)}
                 />
               );
@@ -97,6 +99,7 @@ export default function Form({
               return (
                 <FormItemCheckbox
                   value={!!formValues?.[field.key]}
+                  key={field.key}
                   {...getCommonProps(field)}
                 />
               );

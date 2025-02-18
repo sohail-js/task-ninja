@@ -22,7 +22,7 @@ export default function Dropdown({ menuItems, onItemClick, children }: Props) {
         </div>
         <div
           hidden={!open}
-          className="absolute left-3 bg-white border rounded shadow p-2 z-20"
+          className="absolute left-3 bg-white border rounded shadow p-2 z-20 dark:bg-gray-800 dark:border-gray-700"
         >
           {menuItems.map((item, index) => (
             <div
