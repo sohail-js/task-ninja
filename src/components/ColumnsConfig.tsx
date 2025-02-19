@@ -63,7 +63,12 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
         onClose={() => setOpenColumnsConfig(false)}
       >
         <div className="flex items-center justify-end p-4">
-          <Button mode="primary" prefix={<HiPlus />} onClick={handleAddColumn}>
+          <Button
+            mode="primary"
+            size="sm"
+            prefix={<HiPlus />}
+            onClick={handleAddColumn}
+          >
             Add Column
           </Button>
         </div>
@@ -80,6 +85,7 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
                 label: "Label",
                 type: "text",
                 required: true,
+                unique: true,
               },
               {
                 key: "type",

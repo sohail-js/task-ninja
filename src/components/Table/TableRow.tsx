@@ -9,13 +9,14 @@ export default function TableRow({
   row,
   onChange,
   onValidityChange,
+  data,
 }: {
   row: any;
   onChange: (value: any) => void;
   onValidityChange?: (valid: boolean) => void;
+  data?: any[];
 }) {
   const { keyProp, columns, selectable, actions, onActionClick } = useTable();
-  const [showErrors, setShowErrors] = useState(false);
 
   return (
     <tr key={row[keyProp]} className="group">
@@ -30,14 +31,13 @@ export default function TableRow({
           key={column.key}
           row={row}
           column={column}
-          showErrors={showErrors}
           onChange={(data) => {
             onChange(data);
-            setShowErrors(true);
           }}
           onValidityChange={(valid) => {
             onValidityChange?.(valid);
           }}
+          data={data}
         />
       ))}
 

@@ -53,6 +53,7 @@ export default function TableBody() {
               return newStatus;
             });
           }}
+          data={data.filter((r) => r[keyProp] !== row[keyProp])}
         />
       ))}
     </tbody>

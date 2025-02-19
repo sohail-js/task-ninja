@@ -20,4 +20,5 @@ export type MenuItem = {
 export interface CustomField extends Field {
   visible?: boolean;
   editable?: boolean;
+  unique?: boolean;
 }

@@ -2,11 +2,11 @@ import classNames from "classnames";
 import { TableProvider, useTable } from "./TableContext";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
-import { Field } from "../../types";
+import { CustomField } from "../../types";
 import TablePagination from "./TablePagination";
 
 export type TableProps = {
-  columns: Array<Field>;
+  columns: Array<CustomField>;
   data: any[];
   keyProp: string;
   className?: string;

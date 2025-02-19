@@ -20,7 +20,14 @@ export const LOCAL_STORAGE_KEYS = {
 };
 
 export const DEFAULT_COLUMNS: CustomField[] = [
-  { key: "title", visible: true, label: "Title", type: "text", required: true },
+  {
+    key: "title",
+    visible: true,
+    label: "Title",
+    type: "text",
+    required: true,
+    unique: true,
+  },
   {
     key: "priority",
     visible: true,

@@ -10,15 +10,15 @@ type Props = {
   column: CustomField;
   onChange: (value: any) => void;
   onValidityChange?: (valid: boolean) => void;
-  showErrors?: boolean;
+  data?: any[];
 };
 
 export default function TableCell({
   row,
   column,
   onChange,
-  showErrors,
   onValidityChange,
+  data,
 }: Props) {
   const { onRecordOpen, inlineEditable } = useTable();
 
@@ -30,8 +30,8 @@ export default function TableCell({
           row={row}
           column={column}
           onChange={onChange}
-          showErrors={showErrors}
           onValidityChange={onValidityChange}
+          data={data}
         />
       ) : (
         getDisplayValue(row[columnKey]) ?? (
@@ -67,10 +67,10 @@ function getDisplayValue(value: any) {
 
 function EditableCell({
   column,
-  showErrors,
   onChange,
   row,
   onValidityChange,
+  data,
 }: Props) {
   const value = row[column.key];
   function getCommonProps(field: CustomField) {
@@ -87,27 +87,26 @@ function EditableCell({
         }),
       validations: {
         required: field.required,
+        unique: field.unique,
       },
       onValidityChange: (valid: boolean) => onValidityChange?.(valid),
-      showErrors,
+      showErrors: true,
       value,
+      data,
+      keyProp: column.key,
     };
   }
 
   switch (column.type) {
     case "text":
       return (
-        <FormItemText
-          key={column.key}
-          {...getCommonProps(column)}
-          placeholder="Enter text"
-        />
+        <FormItemText {...getCommonProps(column)} placeholder="Enter text" />
       );
 
     case "dropdown":
-      return <FormItemSelect key={column.key} {...getCommonProps(column)} />;
+      return <FormItemSelect {...getCommonProps(column)} />;
 
     case "checkbox":
-      return <FormItemCheckbox key={column.key} {...getCommonProps(column)} />;
+      return <FormItemCheckbox {...getCommonProps(column)} />;
   }
 }

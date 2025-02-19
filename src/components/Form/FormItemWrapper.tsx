@@ -11,12 +11,15 @@ export type FormItemWrapperProps = {
     min?: number;
     max?: number;
     pattern?: RegExp;
+    unique?: boolean;
   };
   value?: any;
   showErrors?: boolean;
   onValidityChange?: (valid: boolean) => void;
   placeholder?: string;
   size?: "sm" | "md" | "lg";
+  data?: any[];
+  keyProp?: string;
 };
 
 export default function FormItemWrapper({
@@ -26,9 +29,11 @@ export default function FormItemWrapper({
   showErrors,
   validations,
   value,
+  data,
+  keyProp,
   onValidityChange,
 }: FormItemWrapperProps) {
-  const errors = getErrors(validations, value);
+  const errors = getErrors(validations, value, data, keyProp);
 
   useEffect(() => {
     onValidityChange?.(errors.length === 0);
@@ -60,7 +65,9 @@ export default function FormItemWrapper({
 
 function getErrors(
   validations: FormItemWrapperProps["validations"],
-  value: any
+  value: any,
+  data: any[] = [],
+  keyProp: string = ""
 ) {
   const errors = [];
   if (validations?.required && !value) {
@@ -74,6 +81,9 @@ function getErrors(
   }
   if (validations?.pattern && !validations.pattern.test(value)) {
     errors.push("Invalid value");
+  }
+  if (validations?.unique && data?.find((item) => item[keyProp] === value)) {
+    errors.push("Value must be unique");
   }
   return errors;
 }
