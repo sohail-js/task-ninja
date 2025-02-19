@@ -15,7 +15,6 @@ export type FormItemWrapperProps = {
   value?: any;
   showErrors?: boolean;
   onValidityChange?: (valid: boolean) => void;
-  errors?: string[];
   placeholder?: string;
   size?: "sm" | "md" | "lg";
 };

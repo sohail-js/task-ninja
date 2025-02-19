@@ -14,6 +14,7 @@ type Props = {
 export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
   const [openColumnsConfig, setOpenColumnsConfig] = useState(false);
   const [data, setData] = useState(columns);
+  const [valid, setValid] = useState(true);
 
   useEffect(() => {
     setData(columns);
@@ -78,6 +79,7 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
                 key: "label",
                 label: "Label",
                 type: "text",
+                required: true,
               },
               {
                 key: "type",
@@ -113,6 +115,9 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
             onDataChange={(data) => {
               setData(data);
             }}
+            onValidityChange={(valid) => {
+              setValid(valid);
+            }}
           />
         </div>
 
@@ -120,7 +125,7 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
           <Button mode="secondary" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button mode="primary" onClick={handleSave}>
+          <Button mode="primary" onClick={handleSave} disabled={!valid}>
             Save
           </Button>
         </div>

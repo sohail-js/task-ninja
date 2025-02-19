@@ -27,6 +27,7 @@ export type TableProps = {
   showFilters?: boolean;
   allowSort?: boolean;
   onDataChange?: (data: any[]) => void;
+  onValidityChange?: (valid: boolean) => void;
 };
 
 export default function Table({

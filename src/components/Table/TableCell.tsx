@@ -13,14 +13,26 @@ type Props = {
   showErrors?: boolean;
 };
 
-export default function TableCell({ row, column, onChange }: Props) {
+export default function TableCell({
+  row,
+  column,
+  onChange,
+  showErrors,
+  onValidityChange,
+}: Props) {
   const { onRecordOpen, inlineEditable } = useTable();
 
   const columnKey = column.key;
   return (
     <td className="px-6 py-4 whitespace-nowrap text-sm">
       {inlineEditable ? (
-        <EditableCell row={row} column={column} onChange={onChange} />
+        <EditableCell
+          row={row}
+          column={column}
+          onChange={onChange}
+          showErrors={showErrors}
+          onValidityChange={onValidityChange}
+        />
       ) : (
         getDisplayValue(row[columnKey]) ?? (
           <span className="text-gray-600 italic">empty</span>
@@ -53,7 +65,13 @@ function getDisplayValue(value: any) {
   return value;
 }
 
-function EditableCell({ column, showErrors, onChange, row }: Props) {
+function EditableCell({
+  column,
+  showErrors,
+  onChange,
+  row,
+  onValidityChange,
+}: Props) {
   const value = row[column.key];
   function getCommonProps(field: CustomField) {
     return {
@@ -70,9 +88,8 @@ function EditableCell({ column, showErrors, onChange, row }: Props) {
       validations: {
         required: field.required,
       },
-      // onValidityChange: (valid: boolean) =>
-      // setFormValid((prev) => ({ ...prev, [field.key]: valid })),
-      showErrors: showErrors,
+      onValidityChange: (valid: boolean) => onValidityChange?.(valid),
+      showErrors,
       value,
     };
   }

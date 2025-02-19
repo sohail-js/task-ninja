@@ -45,6 +45,7 @@ export const TableProvider = ({
   onRecordOpen,
   contextMenuOptions,
   onDataChange,
+  onValidityChange,
 }: Omit<
   TableContextProps,
   | "selectedRows"
@@ -115,6 +116,7 @@ export const TableProvider = ({
         showFilters,
         allowSort,
         onDataChange,
+        onValidityChange,
       }}
     >
       {children}

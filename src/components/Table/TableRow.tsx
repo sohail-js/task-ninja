@@ -8,9 +8,11 @@ import { useState } from "react";
 export default function TableRow({
   row,
   onChange,
+  onValidityChange,
 }: {
   row: any;
   onChange: (value: any) => void;
+  onValidityChange?: (valid: boolean) => void;
 }) {
   const { keyProp, columns, selectable, actions, onActionClick } = useTable();
   const [showErrors, setShowErrors] = useState(false);
@@ -29,8 +31,13 @@ export default function TableRow({
           row={row}
           column={column}
           showErrors={showErrors}
-          onChange={onChange}
-          onValidityChange={() => {}}
+          onChange={(data) => {
+            onChange(data);
+            setShowErrors(true);
+          }}
+          onValidityChange={(valid) => {
+            onValidityChange?.(valid);
+          }}
         />
       ))}
 
