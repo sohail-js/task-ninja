@@ -76,13 +76,30 @@ const TableFilter = ({ column }: { column: Field }) => {
       );
     case "checkbox":
       return (
-        <FormItemCheckbox
+        <FormItemSelect
           size="sm"
           className="mt-2"
-          field={{ ...column, label: "" }}
-          value={(filter[column.key] as boolean) || false}
+          field={{
+            ...column,
+            label: "",
+            dropdownOptions: [
+              {
+                label: "true",
+                value: "true",
+              },
+              {
+                label: "false",
+                value: "false",
+              },
+            ],
+          }}
+          showClear
+          value={JSON.stringify(filter[column.key])}
           onChange={(value) => {
-            setFilter({ ...filter, [column.key]: value });
+            setFilter({
+              ...filter,
+              [column.key]: value ? JSON.parse(value as string) : value,
+            });
           }}
         />
       );
@@ -97,6 +114,7 @@ const TableFilter = ({ column }: { column: Field }) => {
           onChange={(value) => {
             setFilter({ ...filter, [column.key]: value });
           }}
+          showClear
         />
       );
   }

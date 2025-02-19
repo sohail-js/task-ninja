@@ -77,10 +77,16 @@ export const TableProvider = ({
     filter,
     sortColumn,
     sortDirection,
+    columns,
   });
   const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>(
     filteredData.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
   );
+
+  // Reset current page if the data changes and the current page is out of bounds.
+  if (filteredData.length < pageSize * (currentPage - 1)) {
+    setCurrentPage(1);
+  }
 
   // TODO: Reset selected rows when data changes.
   // useEffect(() => {
@@ -129,19 +135,34 @@ function useFilteredData({
   filter,
   sortColumn,
   sortDirection,
+  columns,
 }: {
   data: any[];
   filter: Record<string, string | number | boolean>;
   sortColumn?: Field | null;
   sortDirection?: "asc" | "desc";
+  columns: Field[];
 }) {
+  const typeMap = columns.reduce((acc, column) => {
+    acc[column.key] = column.type;
+    return acc;
+  }, {} as Record<string, string>);
   const filteredData = data.filter((record) =>
     Object.entries(filter).every(([key, value]) => {
-      if (typeof value === "boolean") {
+      // If the filter value is an empty string, return true to include the record.
+      if (value === "") {
+        return true;
+      }
+
+      const type = typeMap[key];
+      if (type === "checkbox") {
         return record[key] === value;
       }
+      if (!record[key] && !value) {
+        return true;
+      }
       return record[key]
-        .toLowerCase()
+        ?.toLowerCase()
         .includes(typeof value == "string" ? value.toLowerCase() : value);
     })
   );

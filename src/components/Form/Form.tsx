@@ -91,6 +91,7 @@ export default function Form({
                 <FormItemSelect
                   value={formValues?.[field.key] as string}
                   key={field.key}
+                  showClear
                   {...getCommonProps(field)}
                 />
               );

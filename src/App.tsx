@@ -4,12 +4,7 @@ import Button from "./components/Button";
 import Drawer from "./components/Drawer";
 import { Table } from "./components/Table";
 import { Form } from "./components/Form";
-import {
-  DEFAULT_COLUMNS,
-  LOCAL_STORAGE_KEYS,
-  OPTIONS_PRIORITY,
-  OPTIONS_STATUS,
-} from "./constants";
+import { DEFAULT_COLUMNS, LOCAL_STORAGE_KEYS } from "./constants";
 import { HiPlus, HiTrash } from "react-icons/hi2";
 import { getLocalStorage, setLocalStorage } from "./services/localStorage";
 import ColumnsConfig from "./components/ColumnsConfig";
@@ -73,25 +68,9 @@ function App() {
       <Drawer title="Create Task" isOpen={open} onClose={closeDrawer}>
         {open && (
           <Form
-            fields={[
-              { key: "title", label: "Title", type: "text", required: true },
-              {
-                key: "priority",
-                label: "Priority",
-                type: "dropdown",
-                dropdownOptions: OPTIONS_PRIORITY,
-                required: true,
-              },
-              {
-                key: "status",
-                label: "Status",
-                type: "dropdown",
-                dropdownOptions: OPTIONS_STATUS,
-                required: true,
-              },
-            ]}
+            fields={[...DEFAULT_COLUMNS, ...customColumns]}
             defaultValues={editData}
-            onSubmit={(values) => {
+            onSubmit={(values: any) => {
               if (editData) {
                 setData((prevData) => {
                   const index = prevData.findIndex(
@@ -99,9 +78,7 @@ function App() {
                   );
                   prevData[index] = {
                     id: editData.id,
-                    title: values.title,
-                    priority: values.priority,
-                    status: values.status,
+                    ...values,
                   };
                   return [...prevData];
                 });
@@ -110,9 +87,7 @@ function App() {
                   ...prevData,
                   {
                     id: crypto.randomUUID(),
-                    title: values.title,
-                    priority: values.priority,
-                    status: values.status,
+                    ...values,
                   },
                 ]);
               }
@@ -128,21 +103,7 @@ function App() {
       <div className="w-full p-4">
         <Table
           className="w-full p-4"
-          columns={[
-            { key: "title", label: "Title", type: "text" },
-            {
-              key: "priority",
-              label: "Priority",
-              type: "dropdown",
-              dropdownOptions: OPTIONS_PRIORITY,
-            },
-            {
-              key: "status",
-              label: "Status",
-              type: "dropdown",
-              dropdownOptions: OPTIONS_STATUS,
-            },
-          ]}
+          columns={[...DEFAULT_COLUMNS, ...customColumns]}
           keyProp="id"
           data={data}
           onRecordOpen={(record) => {
