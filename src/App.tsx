@@ -103,7 +103,10 @@ function App() {
       <div className="w-full p-4">
         <Table
           className="w-full p-4"
-          columns={[...DEFAULT_COLUMNS, ...customColumns]}
+          columns={[
+            ...DEFAULT_COLUMNS,
+            ...customColumns.filter((col) => col.visible),
+          ]}
           keyProp="id"
           data={data}
           onRecordOpen={(record) => {
