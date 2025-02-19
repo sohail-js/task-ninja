@@ -20,13 +20,14 @@ export const LOCAL_STORAGE_KEYS = {
 };
 
 export const DEFAULT_COLUMNS: CustomField[] = [
-  { key: "title", visible: true, label: "Title", type: "text" },
+  { key: "title", visible: true, label: "Title", type: "text", required: true },
   {
     key: "priority",
     visible: true,
     label: "Priority",
     type: "dropdown",
     dropdownOptions: OPTIONS_PRIORITY,
+    required: true,
   },
   {
     key: "status",
@@ -34,5 +35,6 @@ export const DEFAULT_COLUMNS: CustomField[] = [
     label: "Status",
     type: "dropdown",
     dropdownOptions: OPTIONS_STATUS,
+    required: true,
   },
 ];

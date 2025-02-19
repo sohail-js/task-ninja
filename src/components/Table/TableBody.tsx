@@ -3,7 +3,8 @@ import Empty from "./Empty";
 import TableRow from "./TableRow";
 
 export default function TableBody() {
-  const { data, columns, keyProp, pageSize, currentPage } = useTable();
+  const { data, columns, keyProp, pageSize, currentPage, onDataChange } =
+    useTable();
 
   const currentPageData = data.slice(
     (currentPage - 1) * pageSize,
@@ -20,7 +21,16 @@ export default function TableBody() {
         </tr>
       )}
       {currentPageData.map((row) => (
-        <TableRow key={row[keyProp]} row={row} />
+        <TableRow
+          key={row[keyProp]}
+          row={row}
+          onChange={(changedRow) => {
+            const newData = data.map((r) =>
+              r[keyProp] === changedRow[keyProp] ? changedRow : r
+            );
+            onDataChange?.(newData);
+          }}
+        />
       ))}
     </tbody>
   );

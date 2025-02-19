@@ -34,6 +34,19 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
     setData(columns);
   };
 
+  const handleAddColumn = () => {
+    setData([
+      ...data,
+      {
+        key: `custom-${crypto.randomUUID()}`,
+        label: "Custom Field",
+        type: "text",
+        visible: true,
+        editable: true,
+      },
+    ]);
+  };
+
   return (
     <>
       <Button
@@ -49,22 +62,7 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
         onClose={() => setOpenColumnsConfig(false)}
       >
         <div className="flex items-center justify-end p-4">
-          <Button
-            mode="primary"
-            prefix={<HiPlus />}
-            onClick={() => {
-              setData([
-                ...data,
-                {
-                  key: `custom-${crypto.randomUUID()}`,
-                  label: "Custom Field",
-                  type: "text",
-                  visible: true,
-                  editable: true,
-                },
-              ]);
-            }}
-          >
+          <Button mode="primary" prefix={<HiPlus />} onClick={handleAddColumn}>
             Add Column
           </Button>
         </div>
@@ -111,6 +109,10 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
             }}
             data={data}
             keyProp="key"
+            inlineEditable
+            onDataChange={(data) => {
+              setData(data);
+            }}
           />
         </div>
 

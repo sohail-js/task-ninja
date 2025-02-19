@@ -26,6 +26,7 @@ export type TableProps = {
   showPagination?: boolean;
   showFilters?: boolean;
   allowSort?: boolean;
+  onDataChange?: (data: any[]) => void;
 };
 
 export default function Table({

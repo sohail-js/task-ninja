@@ -3,9 +3,17 @@ import TableCheckbox from "./TableCheckbox";
 import TableDropdown from "./TableDropdown";
 import TableCell from "./TableCell";
 import Button from "../Button";
+import { useState } from "react";
 
-export default function TableRow({ row }: { row: any }) {
+export default function TableRow({
+  row,
+  onChange,
+}: {
+  row: any;
+  onChange: (value: any) => void;
+}) {
   const { keyProp, columns, selectable, actions, onActionClick } = useTable();
+  const [showErrors, setShowErrors] = useState(false);
 
   return (
     <tr key={row[keyProp]} className="group">
@@ -16,7 +24,14 @@ export default function TableRow({ row }: { row: any }) {
         </td>
       )}
       {columns.map((column) => (
-        <TableCell key={column.key} row={row} columnKey={column.key} />
+        <TableCell
+          key={column.key}
+          row={row}
+          column={column}
+          showErrors={showErrors}
+          onChange={onChange}
+          onValidityChange={() => {}}
+        />
       ))}
 
       {actions && (
