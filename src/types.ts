@@ -16,3 +16,8 @@ export type MenuItem = {
   label: string;
   icon: React.ReactNode;
 };
+
+export interface CustomField extends Field {
+  visible?: boolean;
+  editable?: boolean;
+}

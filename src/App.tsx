@@ -5,12 +5,16 @@ import Drawer from "./components/Drawer";
 import { Table } from "./components/Table";
 import { Form } from "./components/Form";
 import {
+  DEFAULT_COLUMNS,
   LOCAL_STORAGE_KEYS,
   OPTIONS_PRIORITY,
   OPTIONS_STATUS,
 } from "./constants";
-import { HiPlus, HiTrash, HiViewColumns } from "react-icons/hi2";
+import { HiPlus, HiTrash } from "react-icons/hi2";
 import { getLocalStorage, setLocalStorage } from "./services/localStorage";
+import ColumnsConfig from "./components/ColumnsConfig";
+import { CustomField } from "./types";
+import { useLocalStorageState } from "./hooks/useLocalStorageState";
 
 type RecordItem = {
   id: string | number;
@@ -21,7 +25,12 @@ type RecordItem = {
 
 function App() {
   const [open, setOpen] = useState(false);
-  const [openColumnsConfig, setOpenColumnsConfig] = useState(false);
+  const { data: customColumns, setData: setCustomColumns } =
+    useLocalStorageState<CustomField[]>({
+      localStorageKey: LOCAL_STORAGE_KEYS.columns,
+      defaultValue: DEFAULT_COLUMNS,
+    });
+
   const [data, setData] = useState<RecordItem[]>(
     getLocalStorage(LOCAL_STORAGE_KEYS.tasks) ?? []
   );
@@ -47,64 +56,20 @@ function App() {
         <h1 className="text-2xl font-bold">Task Ninja</h1>
 
         <div className="flex items-center gap-2">
-          <Button
-            mode="secondary"
-            onClick={() => setOpenColumnsConfig(true)}
-            prefix={<HiViewColumns />}
-          >
-            Columns Config
-          </Button>
+          <ColumnsConfig
+            columns={[...DEFAULT_COLUMNS, ...customColumns]}
+            onColumnsChange={(columns) => {
+              // saving only custom columns
+              setCustomColumns(columns.filter((col) => col.editable));
+            }}
+          />
+
           <Button mode="primary" onClick={addTaskHandler} prefix={<HiPlus />}>
             Create Task
           </Button>
         </div>
       </div>
 
-      <Drawer
-        title="Columns Config"
-        isOpen={openColumnsConfig}
-        onClose={() => setOpenColumnsConfig(false)}
-      >
-        <div className="toolbar"></div>
-        <div className="content">
-          <Table
-            columns={[
-              {
-                key: "visible",
-                label: "Visible",
-                type: "checkbox",
-              },
-              {
-                key: "label",
-                label: "Label",
-                type: "text",
-              },
-              {
-                key: "type",
-                label: "Type",
-                type: "dropdown",
-                dropdownOptions: [
-                  { label: "Text", value: "text" },
-                  { label: "Checkbox", value: "checkbox" },
-                ],
-              },
-            ]}
-            actions={[
-              {
-                key: "delete",
-                label: <HiTrash />,
-              },
-            ]}
-            onActionClick={(action, record) => {
-              console.log(action, record);
-            }}
-            data={[
-              { id: "title", visible: true, label: "Title", type: "text" },
-            ]}
-            keyProp="id"
-          />
-        </div>
-      </Drawer>
       <Drawer title="Create Task" isOpen={open} onClose={closeDrawer}>
         {open && (
           <Form
