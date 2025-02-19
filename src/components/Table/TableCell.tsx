@@ -11,6 +11,7 @@ type Props = {
   onChange: (value: any) => void;
   onValidityChange?: (valid: boolean) => void;
   data?: any[];
+  disabled?: boolean;
 };
 
 export default function TableCell({
@@ -19,6 +20,7 @@ export default function TableCell({
   onChange,
   onValidityChange,
   data,
+  disabled,
 }: Props) {
   const { onRecordOpen, inlineEditable } = useTable();
 
@@ -32,6 +34,7 @@ export default function TableCell({
           onChange={onChange}
           onValidityChange={onValidityChange}
           data={data}
+          disabled={disabled}
         />
       ) : (
         getDisplayValue(row[columnKey]) ?? (
@@ -71,6 +74,7 @@ function EditableCell({
   row,
   onValidityChange,
   data,
+  disabled,
 }: Props) {
   const value = row[column.key];
   function getCommonProps(field: CustomField) {
@@ -90,6 +94,7 @@ function EditableCell({
       value,
       data,
       keyProp: column.key,
+      disabled: disabled,
     };
   }
 

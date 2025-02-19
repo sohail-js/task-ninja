@@ -12,6 +12,7 @@ export default function TableBody() {
     currentPage,
     onDataChange,
     onValidityChange,
+    disabledRowIds,
   } = useTable();
 
   const [validatyStatus, setValidityStatus] = useState(
@@ -54,6 +55,7 @@ export default function TableBody() {
             });
           }}
           data={data.filter((r) => r[keyProp] !== row[keyProp])}
+          disabled={disabledRowIds?.includes(row[keyProp])}
         />
       ))}
     </tbody>

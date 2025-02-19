@@ -12,10 +12,16 @@ export default function FormItemText({
   onChange,
   placeholder,
   size = "md",
+  disabled,
   ...otherProps
 }: Props) {
   return (
-    <FormItemWrapper field={field} value={value} {...otherProps}>
+    <FormItemWrapper
+      field={field}
+      value={value}
+      disabled={disabled}
+      {...otherProps}
+    >
       <input
         type="text"
         value={value ?? ""}
@@ -29,6 +35,7 @@ export default function FormItemText({
           }
         )}
         placeholder={placeholder}
+        disabled={disabled}
       />
     </FormItemWrapper>
   );

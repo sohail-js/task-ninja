@@ -16,7 +16,8 @@ export type TableProps = {
     onClick: (record: any) => void;
   }>;
   onRecordOpen?: (record: any) => void;
-  inlineEditable?: boolean; // TODO
+  inlineEditable?: boolean;
+  disabledRowIds?: string[];
   actions?: Array<{
     label: string | React.ReactNode;
     key: string;

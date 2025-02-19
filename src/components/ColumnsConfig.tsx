@@ -5,6 +5,7 @@ import { Table } from "./Table";
 import { HiPlus, HiViewColumns } from "react-icons/hi2";
 import Button from "./Button";
 import { CustomField } from "../types";
+import { DEFAULT_COLUMNS } from "../constants";
 
 type Props = {
   columns: CustomField[];
@@ -119,6 +120,7 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
             data={data}
             keyProp="key"
             inlineEditable
+            disabledRowIds={DEFAULT_COLUMNS.map((item) => item.key)}
             onDataChange={(data) => {
               setData(data);
             }}

@@ -3,18 +3,19 @@ import TableCheckbox from "./TableCheckbox";
 import TableDropdown from "./TableDropdown";
 import TableCell from "./TableCell";
 import Button from "../Button";
-import { useState } from "react";
 
 export default function TableRow({
   row,
   onChange,
   onValidityChange,
   data,
+  disabled,
 }: {
   row: any;
   onChange: (value: any) => void;
   onValidityChange?: (valid: boolean) => void;
   data?: any[];
+  disabled?: boolean;
 }) {
   const { keyProp, columns, selectable, actions, onActionClick } = useTable();
 
@@ -38,6 +39,7 @@ export default function TableRow({
             onValidityChange?.(valid);
           }}
           data={data}
+          disabled={disabled}
         />
       ))}
 
@@ -50,6 +52,7 @@ export default function TableRow({
                 mode="danger"
                 size="sm"
                 onClick={() => onActionClick?.(action.key, row)}
+                disabled={disabled}
               >
                 {action.label}
               </Button>

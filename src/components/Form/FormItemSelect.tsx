@@ -16,10 +16,16 @@ export default function FormItemSelect({
   onChange,
   size = "md",
   showClear,
+  disabled,
   ...otherProps
 }: Props) {
   return (
-    <FormItemWrapper field={field} value={value} {...otherProps}>
+    <FormItemWrapper
+      field={field}
+      value={value}
+      disabled={disabled}
+      {...otherProps}
+    >
       <div className="relative">
         <select
           value={value}
@@ -32,6 +38,7 @@ export default function FormItemSelect({
               "py-2 px-3": size === "md",
             }
           )}
+          disabled={disabled}
         >
           {showClear && <option value="">Un selected</option>}
           {field.dropdownOptions?.map((option) => (

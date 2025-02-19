@@ -13,6 +13,7 @@ export type FormItemWrapperProps = {
   size?: "sm" | "md" | "lg";
   data?: any[];
   keyProp?: string;
+  disabled?: boolean;
 };
 
 export default function FormItemWrapper({
@@ -23,6 +24,7 @@ export default function FormItemWrapper({
   value,
   data,
   keyProp,
+  disabled,
   onValidityChange,
 }: FormItemWrapperProps) {
   const errors = getErrors(field, value, data, keyProp);
@@ -32,7 +34,11 @@ export default function FormItemWrapper({
   }, [JSON.stringify(errors)]);
 
   return (
-    <div className={classNames(className)}>
+    <div
+      className={classNames(className, {
+        "opacity-40 cursor-not-allowed": disabled,
+      })}
+    >
       {field.label && (
         <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-200">
           {field.label}
