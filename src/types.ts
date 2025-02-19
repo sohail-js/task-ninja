@@ -21,4 +21,7 @@ export interface CustomField extends Field {
   visible?: boolean;
   editable?: boolean;
   unique?: boolean;
+  pattern?: RegExp;
+  min?: number;
+  max?: number;
 }

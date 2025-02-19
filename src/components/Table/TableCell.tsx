@@ -85,10 +85,6 @@ function EditableCell({
           ...row,
           [field.key]: newValue,
         }),
-      validations: {
-        required: field.required,
-        unique: field.unique,
-      },
       onValidityChange: (valid: boolean) => onValidityChange?.(valid),
       showErrors: true,
       value,

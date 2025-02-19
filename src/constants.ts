@@ -26,7 +26,6 @@ export const DEFAULT_COLUMNS: CustomField[] = [
     label: "Title",
     type: "text",
     required: true,
-    unique: true,
   },
   {
     key: "priority",

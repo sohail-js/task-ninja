@@ -1,18 +1,11 @@
 import classNames from "classnames";
-import { Field } from "../../types";
+import { CustomField } from "../../types";
 import { useEffect } from "react";
 
 export type FormItemWrapperProps = {
-  field: Field;
+  field: CustomField;
   children: React.ReactNode;
   className?: string;
-  validations?: {
-    required?: boolean;
-    min?: number;
-    max?: number;
-    pattern?: RegExp;
-    unique?: boolean;
-  };
   value?: any;
   showErrors?: boolean;
   onValidityChange?: (valid: boolean) => void;
@@ -27,13 +20,12 @@ export default function FormItemWrapper({
   children,
   className,
   showErrors,
-  validations,
   value,
   data,
   keyProp,
   onValidityChange,
 }: FormItemWrapperProps) {
-  const errors = getErrors(validations, value, data, keyProp);
+  const errors = getErrors(field, value, data, keyProp);
 
   useEffect(() => {
     onValidityChange?.(errors.length === 0);
@@ -44,9 +36,7 @@ export default function FormItemWrapper({
       {field.label && (
         <label className="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-200">
           {field.label}
-          {validations?.required && (
-            <span className="text-red-500 ml-1">*</span>
-          )}
+          {field?.required && <span className="text-red-500 ml-1">*</span>}
         </label>
       )}
       {children}
@@ -64,25 +54,25 @@ export default function FormItemWrapper({
 }
 
 function getErrors(
-  validations: FormItemWrapperProps["validations"],
+  field: FormItemWrapperProps["field"],
   value: any,
   data: any[] = [],
   keyProp: string = ""
 ) {
   const errors = [];
-  if (validations?.required && !value) {
+  if (field?.required && !value) {
     errors.push("This field is required");
   }
-  if (validations?.min && value < validations.min) {
-    errors.push(`Minimum value is ${validations.min}`);
+  if (field?.min && value < field.min) {
+    errors.push(`Minimum value is ${field.min}`);
   }
-  if (validations?.max && value > validations.max) {
-    errors.push(`Maximum value is ${validations.max}`);
+  if (field?.max && value > field.max) {
+    errors.push(`Maximum value is ${field.max}`);
   }
-  if (validations?.pattern && !validations.pattern.test(value)) {
+  if (field?.pattern && !field.pattern.test(value)) {
     errors.push("Invalid value");
   }
-  if (validations?.unique && data?.find((item) => item[keyProp] === value)) {
+  if (field?.unique && data?.find((item) => item[keyProp] === value)) {
     errors.push("Value must be unique");
   }
   return errors;

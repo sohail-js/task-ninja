@@ -86,6 +86,7 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
                 type: "text",
                 required: true,
                 unique: true,
+                pattern: /^[a-zA-Z0-9_]+$/,
               },
               {
                 key: "type",
