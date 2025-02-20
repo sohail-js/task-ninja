@@ -39,12 +39,17 @@ export default function Table({
   return (
     <TableProvider {...props}>
       {/* <TableMeta /> */}
-      <table
-        className={classNames("min-w-full divide-y divide-gray-200", className)}
-      >
-        <TableHeader />
-        <TableBody />
-      </table>
+      <div className="w-full overflow-x-auto">
+        <table
+          className={classNames(
+            "min-w-full w-full divide-y divide-gray-200",
+            className
+          )}
+        >
+          <TableHeader />
+          <TableBody />
+        </table>
+      </div>
       {showPagination && <TablePagination className="mt-4" />}
     </TableProvider>
   );

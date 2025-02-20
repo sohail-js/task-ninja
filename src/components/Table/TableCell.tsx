@@ -4,6 +4,7 @@ import { CustomField } from "../../types";
 import FormItemCheckbox from "../Form/FormItemCheckbox";
 import FormItemSelect from "../Form/FormItemSelect";
 import FormItemText from "../Form/FormItemText";
+import classNames from "classnames";
 
 type Props = {
   row: any;
@@ -26,7 +27,12 @@ export default function TableCell({
 
   const columnKey = column.key;
   return (
-    <td className="px-6 py-4 whitespace-nowrap text-sm">
+    <td
+      className={classNames(
+        "px-3 py-1 whitespace-nowrap text-sm",
+        column.tableColumnClassName
+      )}
+    >
       {inlineEditable ? (
         <EditableCell
           row={row}
@@ -45,7 +51,7 @@ export default function TableCell({
       {columnKey === "title" && onRecordOpen && (
         <Button
           size="sm"
-          className="opacity-0 group-hover:opacity-100 transition-opacity duration-100"
+          className="opacity-0 group-hover:opacity-100 transition-opacity duration-100 ml-2"
           mode="secondary"
           onClick={() => onRecordOpen(row)}
         >

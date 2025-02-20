@@ -1,12 +1,12 @@
 import { HiSortAscending, HiSortDescending } from "react-icons/hi";
-import { Field } from "../../types";
+import { CustomField } from "../../types";
 import FormItemText from "../Form/FormItemText";
 import { useTable } from "./TableContext";
-import FormItemCheckbox from "../Form/FormItemCheckbox";
 import FormItemSelect from "../Form/FormItemSelect";
+import classNames from "classnames";
 
 type Props = {
-  column: Field;
+  column: CustomField;
 };
 
 export default function TableHeaderColumn({ column }: Props) {
@@ -21,7 +21,10 @@ export default function TableHeaderColumn({ column }: Props) {
   return (
     <th
       key={column.key}
-      className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider bg-gray-50 dark:bg-gray-800 dark:text-gray-200"
+      className={classNames(
+        "px-3 py-2 text-left text-xs font-medium uppercase tracking-wider bg-gray-50 dark:bg-gray-800 dark:text-gray-200",
+        column.tableColumnClassName
+      )}
     >
       <div
         className="flex items-center cursor-pointer"
@@ -57,7 +60,7 @@ export default function TableHeaderColumn({ column }: Props) {
   );
 }
 
-const TableFilter = ({ column }: { column: Field }) => {
+const TableFilter = ({ column }: { column: CustomField }) => {
   const { filter, setFilter } = useTable();
 
   switch (column.type) {
