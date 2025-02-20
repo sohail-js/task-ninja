@@ -23,10 +23,18 @@ export default function Drawer({ title, children, isOpen, onClose }: Props) {
     >
       <div
         className={classNames(
-          `fixed inset-y-0 right-0 w-2xl bg-white z-50 shadow-lg transform transition-transform duration-300 dark:bg-gray-800`,
+          "w-full md:w-2xl h-full",
+          "fixed bottom-0 right-0 z-50",
+          "transform md:inset-y-0 md:right-0 md:translate-y-0 transition-transform duration-300",
+          `bg-white shadow-lg dark:bg-gray-800`,
           {
-            "translate-x-0": isOpen,
-            "translate-x-full": !isOpen,
+            // Default for mobile: slide from bottom
+            "translate-y-full": !isOpen,
+            "translate-y-0": isOpen,
+
+            // Medium screens and above: slide from right
+            "md:translate-x-full": !isOpen,
+            "md:translate-x-0": isOpen,
           }
         )}
         onClick={(e) => e.stopPropagation()}
