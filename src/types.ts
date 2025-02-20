@@ -24,4 +24,5 @@ export interface CustomField extends Field {
   pattern?: RegExp;
   min?: number;
   max?: number;
+  tableColumnClassName?: string;
 }

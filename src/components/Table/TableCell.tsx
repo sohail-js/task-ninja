@@ -5,6 +5,7 @@ import FormItemCheckbox from "../Form/FormItemCheckbox";
 import FormItemSelect from "../Form/FormItemSelect";
 import FormItemText from "../Form/FormItemText";
 import classNames from "classnames";
+import { BsReverseLayoutSidebarInsetReverse } from "react-icons/bs";
 
 type Props = {
   row: any;
@@ -29,7 +30,7 @@ export default function TableCell({
   return (
     <td
       className={classNames(
-        "px-3 py-1 whitespace-nowrap text-sm",
+        "px-3 py-2 whitespace-nowrap text-sm",
         column.tableColumnClassName
       )}
     >
@@ -51,11 +52,12 @@ export default function TableCell({
       {columnKey === "title" && onRecordOpen && (
         <Button
           size="sm"
-          className="opacity-0 group-hover:opacity-100 transition-opacity duration-100 ml-2"
+          className="opacity-0 group-hover:opacity-100 transition-opacity duration-100 ml-2 font-thin tracking-widest"
           mode="secondary"
           onClick={() => onRecordOpen(row)}
+          prefix={<BsReverseLayoutSidebarInsetReverse />}
         >
-          Open
+          OPEN
         </Button>
       )}
     </td>

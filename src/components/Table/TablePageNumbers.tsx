@@ -1,3 +1,4 @@
+import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
 import Button from "../Button";
 import { useTable } from "./TableContext";
 
@@ -10,13 +11,14 @@ export default function TablePageNumbers({}: Props) {
   const totalPagesArray = Array.from({ length: totalPages }, (_, i) => i + 1);
   return (
     <div className="flex items-center gap-2">
-      <div>Page {currentPage}</div>
-      <div>of {Math.ceil(totalRecords / pageSize)}</div>
+      {/* <div>Page {currentPage}</div>
+      <div>of {Math.ceil(totalRecords / pageSize)}</div> */}
       <Button
         mode="secondary"
         className="border border-gray-200 rounded px-2"
         onClick={() => setCurrentPage(currentPage - 1)}
         disabled={currentPage === 1}
+        prefix={<HiChevronDoubleLeft />}
       >
         Prev
       </Button>
@@ -36,6 +38,7 @@ export default function TablePageNumbers({}: Props) {
         className="border border-gray-200 rounded px-2"
         onClick={() => setCurrentPage(currentPage + 1)}
         disabled={currentPage === Math.ceil(totalRecords / pageSize)}
+        postfix={<HiChevronDoubleRight />}
       >
         Next
       </Button>

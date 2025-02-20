@@ -9,7 +9,10 @@ type Props = {
 export default function TablePagination({ className }: Props) {
   return (
     <div
-      className={classNames(className, "flex items-center gap-3 justify-end")}
+      className={classNames(
+        className,
+        "flex items-center gap-3 justify-end flex-col md:flex-row"
+      )}
     >
       <TablePageSize />
       <TablePageNumbers />

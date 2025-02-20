@@ -22,7 +22,7 @@ export default function TableRow({
   return (
     <tr key={row[keyProp]} className="group">
       {selectable && (
-        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center justify-center w-0.5">
+        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium flex items-center justify-center w-0.5">
           <TableDropdown row={row} />
           <TableCheckbox row={row} />
         </td>

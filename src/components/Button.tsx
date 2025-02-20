@@ -10,6 +10,7 @@ type Props = {
   size?: "sm" | "md" | "lg";
   disabled?: boolean;
   prefix?: React.ReactNode;
+  postfix?: React.ReactNode;
 };
 
 export default function Button({
@@ -21,6 +22,7 @@ export default function Button({
   size = "md",
   disabled,
   prefix,
+  postfix,
 }: Props) {
   return (
     <button
@@ -52,6 +54,7 @@ export default function Button({
       <div className="flex items-center gap-1">
         {prefix}
         {children}
+        {postfix}
       </div>
     </button>
   );
