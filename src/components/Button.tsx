@@ -18,7 +18,7 @@ export default function Button({
   children,
   className,
   type,
-  size,
+  size = "md",
   disabled,
   prefix,
 }: Props) {
@@ -27,7 +27,7 @@ export default function Button({
       disabled={disabled}
       type={type}
       className={classNames(
-        "px-4 py-2 rounded",
+        "rounded",
         className,
         {
           "bg-blue-500 text-white hover:bg-blue-600": mode === "primary",
@@ -40,8 +40,11 @@ export default function Button({
         {
           "opacity-50 cursor-not-allowed": disabled,
           "cursor-pointer": !disabled,
-          "text-sm": size === "sm",
-          "text-lg": size === "lg",
+        },
+        {
+          "text-sm px-2 py-1": size === "sm",
+          "px-4 py-2": size === "md",
+          "text-lg px-6 py-4": size === "lg",
         }
       )}
       onClick={onClick}
