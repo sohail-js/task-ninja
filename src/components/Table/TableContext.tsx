@@ -19,8 +19,8 @@ interface TableContextProps extends TableProps {
   setPageSize: (pageSize: number) => void;
   currentPage: number;
   setCurrentPage: (currentPage: number) => void;
-  internalNewRowId: string;
-  setInternalNewRowId: React.Dispatch<React.SetStateAction<string>>;
+  internalNewRowId: string | number;
+  setInternalNewRowId: React.Dispatch<React.SetStateAction<string | number>>;
 }
 
 const TableContext = createContext<TableContextProps | null>(null);
@@ -78,7 +78,7 @@ export const TableProvider = ({
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   // This state is used to highlight the newly added row.
-  const [internalNewRowId, setInternalNewRowId] = useState<string>("");
+  const [internalNewRowId, setInternalNewRowId] = useState<string | number>("");
 
   const { filteredData } = useFilteredData({
     data,

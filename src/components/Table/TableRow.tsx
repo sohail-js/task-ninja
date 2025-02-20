@@ -45,7 +45,7 @@ export default function TableRow({
   return (
     <tr
       key={row[keyProp]}
-      className={classNames("transition-colors duration-1000", {
+      className={classNames("transition-colors duration-1000 group", {
         "bg-yellow-300/40": highlight,
       })}
     >

@@ -20,7 +20,7 @@ type RecordItem = {
 
 function App() {
   const [open, setOpen] = useState(false);
-  const [newRowId, setNewRowId] = useState<string>();
+  const [newRowId, setNewRowId] = useState<string | number>();
   const { data: customColumns, setData: setCustomColumns } =
     useLocalStorageState<CustomField[]>({
       localStorageKey: LOCAL_STORAGE_KEYS.columns,
@@ -56,6 +56,7 @@ function App() {
         };
         return [...prevData];
       });
+      setNewRowId(editData.id);
     } else {
       const id = crypto.randomUUID();
       setData((prevData) => [
