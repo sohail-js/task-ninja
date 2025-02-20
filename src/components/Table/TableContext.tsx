@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Field } from "../../types";
 import { TableProps } from "./Table";
 
@@ -19,6 +19,8 @@ interface TableContextProps extends TableProps {
   setPageSize: (pageSize: number) => void;
   currentPage: number;
   setCurrentPage: (currentPage: number) => void;
+  internalNewRowId: string;
+  setInternalNewRowId: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const TableContext = createContext<TableContextProps | null>(null);
@@ -47,6 +49,7 @@ export const TableProvider = ({
   contextMenuOptions,
   onDataChange,
   onValidityChange,
+  newRowId,
 }: Omit<
   TableContextProps,
   | "selectedRows"
@@ -61,6 +64,8 @@ export const TableProvider = ({
   | "setPageSize"
   | "currentPage"
   | "setCurrentPage"
+  | "internalNewRowId"
+  | "setInternalNewRowId"
 > & {
   children: React.ReactNode;
 }) => {
@@ -72,6 +77,8 @@ export const TableProvider = ({
 
   const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  // This state is used to highlight the newly added row.
+  const [internalNewRowId, setInternalNewRowId] = useState<string>("");
 
   const { filteredData } = useFilteredData({
     data,
@@ -83,6 +90,23 @@ export const TableProvider = ({
   const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>(
     filteredData.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
   );
+
+  useEffect(() => {
+    if (newRowId) {
+      setInternalNewRowId(newRowId);
+    }
+  }, [newRowId]);
+
+  useEffect(() => {
+    if (internalNewRowId) {
+      const rowNumber = filteredData.findIndex(
+        (row) => row[keyProp] === internalNewRowId
+      );
+      const pageNumber = Math.ceil((rowNumber + 1) / pageSize);
+
+      setCurrentPage(pageNumber);
+    }
+  }, [internalNewRowId]);
 
   // Reset current page if the data changes and the current page is out of bounds.
   if (filteredData.length < pageSize * (currentPage - 1)) {
@@ -125,6 +149,8 @@ export const TableProvider = ({
         allowSort,
         onDataChange,
         onValidityChange,
+        internalNewRowId,
+        setInternalNewRowId,
       }}
     >
       {children}
@@ -171,6 +197,15 @@ function useFilteredData({
 
   if (sortColumn) {
     filteredData.sort((a, b) => {
+      const type = sortColumn.type;
+      if (type === "text") {
+        const compare = a[sortColumn.key].localeCompare(b[sortColumn.key]);
+        return sortDirection === "asc" ? compare : -compare;
+      }
+      if (type === "dropdown") {
+        const compare = a[sortColumn.key].localeCompare(b[sortColumn.key]);
+        return sortDirection === "asc" ? compare : -compare;
+      }
       if (a[sortColumn.key] < b[sortColumn.key]) {
         return sortDirection === "asc" ? -1 : 1;
       }

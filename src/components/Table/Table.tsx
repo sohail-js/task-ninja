@@ -29,6 +29,7 @@ export type TableProps = {
   allowSort?: boolean;
   onDataChange?: (data: any[]) => void;
   onValidityChange?: (valid: boolean) => void;
+  newRowId?: string;
 };
 
 export default function Table({

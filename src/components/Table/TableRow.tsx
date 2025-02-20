@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
 import { useTable } from "./TableContext";
 import TableCheckbox from "./TableCheckbox";
 import TableDropdown from "./TableDropdown";
 import TableCell from "./TableCell";
 import Button from "../Button";
+import classNames from "classnames";
 
 export default function TableRow({
   row,
@@ -17,10 +19,36 @@ export default function TableRow({
   data?: any[];
   disabled?: boolean;
 }) {
-  const { keyProp, columns, selectable, actions, onActionClick } = useTable();
+  const {
+    keyProp,
+    columns,
+    selectable,
+    actions,
+    onActionClick,
+    internalNewRowId,
+    setInternalNewRowId,
+  } = useTable();
+  const [highlight, setHighlight] = useState(false);
+
+  useEffect(() => {
+    // Highlight the newly added row
+    if (internalNewRowId === row[keyProp]) {
+      setHighlight(true);
+      const timer = setTimeout(() => {
+        setHighlight(false);
+        setInternalNewRowId("");
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [internalNewRowId]);
 
   return (
-    <tr key={row[keyProp]} className="group">
+    <tr
+      key={row[keyProp]}
+      className={classNames("transition-colors duration-1000", {
+        "bg-yellow-300/40": highlight,
+      })}
+    >
       {selectable && (
         <td className="px-6 py-2 whitespace-nowrap text-sm font-medium flex items-center justify-center w-0.5">
           <TableDropdown row={row} />

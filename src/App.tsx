@@ -20,6 +20,7 @@ type RecordItem = {
 
 function App() {
   const [open, setOpen] = useState(false);
+  const [newRowId, setNewRowId] = useState<string>();
   const { data: customColumns, setData: setCustomColumns } =
     useLocalStorageState<CustomField[]>({
       localStorageKey: LOCAL_STORAGE_KEYS.columns,
@@ -31,6 +32,11 @@ function App() {
   );
   const [editData, setEditData] = useState<RecordItem>();
 
+  useEffect(() => {
+    console.log("Data changed");
+    setLocalStorage(LOCAL_STORAGE_KEYS.tasks, data);
+  }, [data]);
+
   const addTaskHandler = () => {
     setOpen(true);
   };
@@ -40,10 +46,29 @@ function App() {
     setEditData(undefined);
   };
 
-  useEffect(() => {
-    console.log("Data changed");
-    setLocalStorage(LOCAL_STORAGE_KEYS.tasks, data);
-  }, [data]);
+  const handleAddTask = (values: RecordItem) => {
+    if (editData) {
+      setData((prevData) => {
+        const index = prevData.findIndex((item) => item.id === editData.id);
+        prevData[index] = {
+          ...values,
+          id: editData.id,
+        };
+        return [...prevData];
+      });
+    } else {
+      const id = crypto.randomUUID();
+      setData((prevData) => [
+        ...prevData,
+        {
+          ...values,
+          id,
+        },
+      ]);
+      setNewRowId(id);
+    }
+    closeDrawer();
+  };
 
   return (
     <>
@@ -75,29 +100,7 @@ function App() {
           <Form
             fields={[...DEFAULT_COLUMNS, ...customColumns]}
             defaultValues={editData}
-            onSubmit={(values: any) => {
-              if (editData) {
-                setData((prevData) => {
-                  const index = prevData.findIndex(
-                    (item) => item.id === editData.id
-                  );
-                  prevData[index] = {
-                    id: editData.id,
-                    ...values,
-                  };
-                  return [...prevData];
-                });
-              } else {
-                setData((prevData) => [
-                  ...prevData,
-                  {
-                    id: crypto.randomUUID(),
-                    ...values,
-                  },
-                ]);
-              }
-              closeDrawer();
-            }}
+            onSubmit={handleAddTask as any}
             onCancel={() => {
               closeDrawer();
             }}
@@ -134,6 +137,7 @@ function App() {
           selectable
           showPagination
           showFilters
+          newRowId={newRowId}
         />
       </div>
     </>
