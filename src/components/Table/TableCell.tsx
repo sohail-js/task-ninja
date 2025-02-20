@@ -27,6 +27,26 @@ export default function TableCell({
   const { onRecordOpen, inlineEditable } = useTable();
 
   const columnKey = column.key;
+
+  function getDisplayValue(value: any) {
+    if (typeof value === "boolean") {
+      return value ? "true" : "false";
+    }
+
+    if (value instanceof Date) {
+      return value.toLocaleDateString();
+    }
+
+    if (column.type === "dropdown") {
+      const option = column.dropdownOptions?.find(
+        (option) => option.value === value
+      );
+      return option?.label;
+    }
+
+    return value;
+  }
+
   return (
     <td
       className={classNames(
@@ -62,18 +82,6 @@ export default function TableCell({
       )}
     </td>
   );
-}
-
-function getDisplayValue(value: any) {
-  if (typeof value === "boolean") {
-    return value ? "true" : "false";
-  }
-
-  if (value instanceof Date) {
-    return value.toLocaleDateString();
-  }
-
-  return value;
 }
 
 function EditableCell({
