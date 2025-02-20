@@ -44,7 +44,7 @@ export default function TableRow({
       ))}
 
       {actions && (
-        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+        <td className="px-3 py-2 whitespace-nowrap text-right text-sm font-medium">
           <div className="flex items-center gap-2">
             {actions.map((action) => (
               <Button

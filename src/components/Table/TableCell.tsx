@@ -30,7 +30,7 @@ export default function TableCell({
   return (
     <td
       className={classNames(
-        "px-3 py-2 whitespace-nowrap text-sm",
+        "px-3 py-2 whitespace-nowrap text-sm align-top",
         column.tableColumnClassName
       )}
     >
@@ -91,7 +91,6 @@ function EditableCell({
         ...field,
         label: "",
       },
-      className: "mb-4",
       onChange: (newValue: any) =>
         onChange({
           ...row,
@@ -116,6 +115,6 @@ function EditableCell({
       return <FormItemSelect {...getCommonProps(column)} />;
 
     case "checkbox":
-      return <FormItemCheckbox {...getCommonProps(column)} />;
+      return <FormItemCheckbox {...getCommonProps(column)} className="p-2" />;
   }
 }

@@ -11,6 +11,7 @@ type Props = {
   disabled?: boolean;
   prefix?: React.ReactNode;
   postfix?: React.ReactNode;
+  title?: string;
 };
 
 export default function Button({
@@ -23,28 +24,38 @@ export default function Button({
   disabled,
   prefix,
   postfix,
+  title,
 }: Props) {
   return (
     <button
+      title={title}
       disabled={disabled}
       type={type}
       className={classNames(
         "rounded",
         className,
         {
-          "bg-blue-500 text-white hover:bg-blue-600": mode === "primary",
-          "bg-gray-500 text-white hover:bg-gray-600": mode === "secondary",
-          "text-blue-500 hover:text-blue-600": mode === "link",
-          "bg-red-500 text-white hover:bg-red-600": mode === "danger",
-          "bg-yellow-500 text-white hover:bg-yellow-600": mode === "warning",
-          "bg-green-500 text-white hover:bg-green-600": mode === "success",
+          "bg-blue-500 text-white": mode === "primary",
+          "bg-gray-500 text-white": mode === "secondary",
+          "text-blue-500": mode === "link",
+          "bg-red-500 text-white": mode === "danger",
+          "bg-yellow-500 text-white": mode === "warning",
+          "bg-green-500 text-white": mode === "success",
+        },
+        {
+          "hover:bg-blue-600": !disabled && mode === "primary",
+          "hover:bg-gray-600": !disabled && mode === "secondary",
+          "hover:text-blue-600": !disabled && mode === "link",
+          "hover:bg-red-600": !disabled && mode === "danger",
+          "hover:bg-yellow-600": !disabled && mode === "warning",
+          "hover:bg-green-600": !disabled && mode === "success",
         },
         {
           "opacity-50 cursor-not-allowed": disabled,
           "cursor-pointer": !disabled,
         },
         {
-          "text-sm px-2 py-1": size === "sm",
+          "text-xs px-2 py-1": size === "sm",
           "px-4 py-2": size === "md",
           "text-lg px-6 py-4": size === "lg",
         }

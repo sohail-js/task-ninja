@@ -26,6 +26,7 @@ export const DEFAULT_COLUMNS: CustomField[] = [
     label: "Title",
     type: "text",
     required: true,
+    tableColumnClassName: "min-w-64 max-w-64",
   },
   {
     key: "priority",
@@ -34,6 +35,7 @@ export const DEFAULT_COLUMNS: CustomField[] = [
     type: "dropdown",
     dropdownOptions: OPTIONS_PRIORITY,
     required: true,
+    tableColumnClassName: "min-w-30 max-w-30",
   },
   {
     key: "status",
@@ -42,5 +44,6 @@ export const DEFAULT_COLUMNS: CustomField[] = [
     type: "dropdown",
     dropdownOptions: OPTIONS_STATUS,
     required: true,
+    tableColumnClassName: "min-w-35 max-w-35",
   },
 ];

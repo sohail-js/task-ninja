@@ -27,7 +27,10 @@ export default function TableHeaderColumn({ column }: Props) {
       )}
     >
       <div
-        className="flex items-center cursor-pointer"
+        className={classNames("flex items-center", {
+          "cursor-pointer": allowSort,
+        })}
+        title={allowSort ? "Click to sort" : undefined}
         role="button"
         onClick={() => {
           if (!allowSort) return;

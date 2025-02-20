@@ -59,8 +59,13 @@ function App() {
             }}
           />
 
-          <Button mode="primary" onClick={addTaskHandler} prefix={<HiPlus />}>
-            Create Task
+          <Button
+            mode="primary"
+            onClick={addTaskHandler}
+            prefix={<HiPlus />}
+            title="Create Task"
+          >
+            <span className="hidden md:inline">Create Task</span>
           </Button>
         </div>
       </div>

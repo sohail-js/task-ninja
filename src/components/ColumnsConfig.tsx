@@ -55,21 +55,17 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
         mode="secondary"
         onClick={handleOpenColumnsConfig}
         prefix={<HiViewColumns />}
+        title="Columns Config"
       >
-        Columns Config
+        <span className="hidden md:inline">Columns Config</span>
       </Button>
       <Drawer
         title="Columns Config"
         isOpen={openColumnsConfig}
         onClose={() => setOpenColumnsConfig(false)}
       >
-        <div className="flex items-center justify-end p-4">
-          <Button
-            mode="primary"
-            size="sm"
-            prefix={<HiPlus />}
-            onClick={handleAddColumn}
-          >
+        <div className="flex items-center justify-end py-4">
+          <Button mode="primary" prefix={<HiPlus />} onClick={handleAddColumn}>
             Add Column
           </Button>
         </div>
@@ -88,6 +84,7 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
                 required: true,
                 unique: true,
                 pattern: /^[a-zA-Z0-9_ ]+$/,
+                tableColumnClassName: "min-w-40 max-w-40",
               },
               {
                 key: "type",
@@ -97,6 +94,7 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
                   { label: "Text", value: "text" },
                   { label: "Checkbox", value: "checkbox" },
                 ],
+                tableColumnClassName: "min-w-35 max-w-35",
               },
               {
                 key: "required",

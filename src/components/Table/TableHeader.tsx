@@ -44,7 +44,11 @@ export default function TableHeader() {
           <TableHeaderColumn key={column.key} column={column} />
         ))}
 
-        {Boolean(actions?.length) && <th className="px-6 py-3"></th>}
+        {Boolean(actions?.length) && (
+          <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider bg-gray-50 dark:bg-gray-800 dark:text-gray-200">
+            ACTIONS
+          </th>
+        )}
       </tr>
     </thead>
   );
