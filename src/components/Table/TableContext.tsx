@@ -46,7 +46,6 @@ export const TableProvider = ({
   showFilters,
   allowSort,
   onRecordOpen,
-  contextMenuOptions,
   onDataChange,
   onValidityChange,
   newRowId,
@@ -104,7 +103,7 @@ export const TableProvider = ({
       );
       const pageNumber = Math.ceil((rowNumber + 1) / pageSize);
 
-      setCurrentPage(pageNumber);
+      pageNumber > 0 && setCurrentPage(pageNumber);
     }
   }, [internalNewRowId]);
 
@@ -129,7 +128,6 @@ export const TableProvider = ({
         selectedRows,
         setSelectedRows,
         onRecordOpen,
-        contextMenuOptions,
         sortColumn,
         setSortColumn,
         sortDirection,
