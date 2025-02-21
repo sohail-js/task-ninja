@@ -25,7 +25,7 @@ export default function FormItemSelect(props: Props) {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className={classNames(
-            "shadow appearance-none border rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-700 dark:text-gray-200 cursor-pointer",
+            "shadow appearance-none border rounded w-full text-gray-700 leading-tight dark:bg-gray-700 dark:text-gray-200 cursor-pointer",
             {
               "text-sm py-0.5 px-1": size === "sm",
               "text-lg py-2 px-3": size === "lg",

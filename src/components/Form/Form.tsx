@@ -4,6 +4,7 @@ import Button from "../Button";
 import FormItemText from "./FormItemText";
 import FormItemSelect from "./FormItemSelect";
 import FormItemCheckbox from "./FormItemCheckbox";
+import { useRef } from "react";
 
 type Props = {
   fields: Column[];
@@ -27,8 +28,19 @@ export default function Form({
     generateFieldProps,
   } = useFormState({ fields, defaultValues, onSubmit, onCancel });
 
+  const firstInputRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    firstInputRef.current?.focus();
+  }, []);
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      ref={(el) => {
+        firstInputRef.current = el?.querySelector("input") as HTMLInputElement;
+      }}
+    >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xxl:grid-cols-3">
         {fields.map((field) => {
           switch (field.type) {
