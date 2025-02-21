@@ -3,6 +3,7 @@ import { MenuItem } from "../types";
 import Button from "./Button";
 import { HiX } from "react-icons/hi";
 import classNames from "classnames";
+import Backdrop from "./Backdrop";
 // import ReactDOM from "react-dom";
 
 type Props = {
@@ -25,15 +26,10 @@ export function Modal({
   return (
     <>
       {/* backdrop */}
-      <div
-        className={classNames(
-          "fixed inset-0 bg-black/80 transition-opacity duration-200 flex items-center justify-center z-20",
-          {
-            "opacity-100": isOpen,
-            "opacity-0 pointer-events-none": !isOpen,
-          }
-        )}
-        onClick={onClose}
+      <Backdrop
+        isOpen={isOpen}
+        onClose={onClose}
+        className="flex items-center justify-center z-20"
       >
         <div
           className={classNames(
@@ -71,7 +67,7 @@ export function Modal({
             </div>
           )}
         </div>
-      </div>
+      </Backdrop>
       {/* modal */}
     </>
   );
