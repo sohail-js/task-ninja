@@ -71,15 +71,12 @@ function useTableSelection() {
     .map(([key]) => key);
 
   const handleConfirmDelete = (option: MenuItem) => {
-    if (option.value === "cancel") {
-      handleClose();
-      return;
+    if (option.value === "delete") {
+      // Delete the selected rows
+      onDataChange?.(data.filter((row) => !selectedRows[row[keyProp]]));
     }
 
-    // Delete the selected rows
-    onDataChange?.(data.filter((row) => !selectedRows[row[keyProp]]));
-    setSelectedRows({});
-    setDeleteModalOpen(false);
+    handleClose();
   };
 
   const handleClose = () => {

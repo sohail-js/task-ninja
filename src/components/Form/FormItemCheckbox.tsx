@@ -5,7 +5,7 @@ interface Props extends Omit<FormItemWrapperProps<boolean>, "children"> {
 }
 
 export default function FormItemCheckbox(props: Props) {
-  const { indeterminate, value, onChange, disabled } = props;
+  const { indeterminate, value = false, onChange, disabled } = props;
   return (
     <FormItemWrapper {...props}>
       <input

@@ -43,13 +43,12 @@ export default function TableHead() {
 }
 
 function useTableHead() {
-  const { selectedRows } = useTable();
-  const selectedRowValues = Object.values(selectedRows);
+  const { selectedRows, data, keyProp } = useTable();
   const allSelected =
-    selectedRowValues.length > 0 && selectedRowValues.every((value) => value);
+    data.length > 0 && data.every((record) => selectedRows[record[keyProp]]);
   const indeterminate =
-    selectedRowValues.some((value) => value) &&
-    selectedRowValues.some((value) => !value);
+    data.some((record) => selectedRows[record[keyProp]]) &&
+    data.some((record) => !selectedRows[record[keyProp]]);
   return {
     allSelected,
     indeterminate,
