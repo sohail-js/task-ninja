@@ -103,21 +103,7 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
                 type: "checkbox",
               },
             ]}
-            actions={[
-              {
-                label: "",
-                value: "delete",
-                icon: <HiTrash />,
-                mode: "danger",
-              },
-            ]}
-            onActionClick={(action, record: Field) => {
-              if (action === "delete" && record.editable) {
-                setData((prevData) => {
-                  return prevData.filter((item) => item.key !== record.key);
-                });
-              }
-            }}
+            showActions
             data={data}
             keyProp="key"
             inlineEditable
