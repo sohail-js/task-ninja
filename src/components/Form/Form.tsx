@@ -60,8 +60,12 @@ export default function Form({
     return {
       field,
       className: "mb-4",
-      onChange: (value: any) =>
-        setFormValues((prev) => ({ ...prev, [field.key]: value })),
+      onChange: (value: string | number | boolean) => {
+        setFormValues((prev) => ({
+          ...prev,
+          [field.key]: field.type == "number" ? Number(value) : value,
+        }));
+      },
       validations: {
         required: field.required,
       },
@@ -77,11 +81,13 @@ export default function Form({
         {fields.map((field) => {
           switch (field.type) {
             case "text":
+            case "number":
               return (
                 <FormItemText
                   key={field.key}
+                  type={field.type}
                   {...getCommonProps(field)}
-                  placeholder="Enter text"
+                  placeholder={"Enter " + field.type}
                   value={formValues?.[field.key] as string}
                 />
               );

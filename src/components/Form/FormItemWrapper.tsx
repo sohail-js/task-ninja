@@ -66,7 +66,7 @@ function getErrors(
   keyProp: string = ""
 ) {
   const errors = [];
-  if (field?.required && !value) {
+  if (field?.required && !value && value !== 0) {
     errors.push("This field is required");
   }
   if (field?.min && value < field.min) {

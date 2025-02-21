@@ -1,9 +1,11 @@
 import classNames from "classnames";
 import FormItemWrapper, { FormItemWrapperProps } from "./FormItemWrapper";
+import { HTMLInputTypeAttribute } from "react";
 
 interface Props extends Omit<FormItemWrapperProps, "children"> {
-  onChange: (value: string) => void;
+  onChange: (value: string | number) => void;
   value?: string;
+  type?: HTMLInputTypeAttribute;
 }
 
 export default function FormItemText({
@@ -13,6 +15,7 @@ export default function FormItemText({
   placeholder,
   size = "md",
   disabled,
+  type,
   ...otherProps
 }: Props) {
   return (
@@ -23,7 +26,7 @@ export default function FormItemText({
       {...otherProps}
     >
       <input
-        type="text"
+        type={type}
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
         className={classNames(

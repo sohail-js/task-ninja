@@ -206,10 +206,14 @@ function useFilteredData({
         const compare = a[sortColumn.key].localeCompare(b[sortColumn.key]);
         return sortDirection === "asc" ? compare : -compare;
       }
-      if (a[sortColumn.key] < b[sortColumn.key]) {
+
+      const aValue = a[sortColumn.key] ?? Number.MIN_SAFE_INTEGER;
+      const bValue = b[sortColumn.key] ?? Number.MIN_SAFE_INTEGER;
+
+      if (aValue < bValue) {
         return sortDirection === "asc" ? -1 : 1;
       }
-      if (a[sortColumn.key] > b[sortColumn.key]) {
+      if (aValue > bValue) {
         return sortDirection === "asc" ? 1 : -1;
       }
       return 0;

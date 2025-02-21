@@ -92,6 +92,7 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
                 type: "dropdown",
                 dropdownOptions: [
                   { label: "Text", value: "text" },
+                  { label: "Number", value: "number" },
                   { label: "Checkbox", value: "checkbox" },
                 ],
                 tableColumnClassName: "min-w-35 max-w-35",

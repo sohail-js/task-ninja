@@ -1,6 +1,6 @@
 export interface Field {
   key: string;
-  type: "text" | "dropdown" | "checkbox";
+  type: "text" | "dropdown" | "checkbox" | "number";
   label: string;
   dropdownOptions?: Array<{ value: string | number; label: string }>;
   required?: boolean;
