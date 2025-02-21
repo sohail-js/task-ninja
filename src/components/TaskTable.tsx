@@ -39,6 +39,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
         contextMenuOptions={[
           {
             label: "Delete",
+            value: "delete",
             onClick: (record) => {
               if (confirm("Are you sure you want to delete this record?")) {
                 undoStack.current.push({ data, columns: customColumns });

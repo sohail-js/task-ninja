@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { TableProvider } from "./TableContext";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
-import { Field } from "../../types";
+import { Field, MenuItem } from "../../types";
 import TablePagination from "./TablePagination";
 
 export type TableProps = {
@@ -10,11 +10,11 @@ export type TableProps = {
   data: any[];
   keyProp: string;
   className?: string;
-  contextMenuOptions?: Array<{
-    label: string;
-    icon: React.ReactNode;
-    onClick: (record: any) => void;
-  }>;
+  contextMenuOptions?: Array<
+    MenuItem & {
+      onClick?: (record: any) => void;
+    }
+  >;
   onRecordOpen?: (record: any) => void;
   inlineEditable?: boolean;
   disabledRowIds?: string[];

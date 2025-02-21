@@ -11,12 +11,13 @@ export default function TableDropdown({ row }: { row: any }) {
       menuItems={(contextMenuOptions ?? []).map((option) => ({
         label: option.label,
         icon: option.icon,
+        value: option.value,
       }))}
       onItemClick={(item) => {
         const option = contextMenuOptions?.find(
-          (option) => option.label === item.label
+          (option) => option.value === item.value
         );
-        option?.onClick(row);
+        option?.onClick?.(row);
       }}
     >
       <Button mode="link" size="sm">

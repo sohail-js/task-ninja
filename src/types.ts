@@ -13,14 +13,9 @@ export interface Field {
   tableColumnClassName?: string;
 }
 
-export interface ContextMenuOption {
-  label: string;
-  value: string;
-  icon: string;
-}
-
 export type MenuItem = {
   label: string;
+  value: string;
   icon: React.ReactNode;
 };
 
