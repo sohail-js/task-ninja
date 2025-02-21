@@ -30,6 +30,7 @@ export default function TableRow({
     onDataChange,
   } = useTable();
   const [highlight, setHighlight] = useState(false);
+  const [deleteHighlight, setDeleteHighlight] = useState(false);
 
   useEffect(() => {
     // Highlight the newly added row
@@ -45,16 +46,25 @@ export default function TableRow({
 
   const handleDelete = () => {
     if (confirm("Are you sure you want to delete this record?")) {
-      onDataChange?.(tableData.filter((r) => r[keyProp] !== row[keyProp]));
+      setDeleteHighlight(true);
+      setTimeout(() => {
+        onDataChange?.(tableData.filter((r) => r[keyProp] !== row[keyProp]));
+      }, 500);
     }
   };
 
   return (
     <tr
       key={row[keyProp]}
-      className={classNames("transition-colors duration-1000 group", {
-        "bg-yellow-300/40": highlight,
-      })}
+      className={classNames(
+        "transition-all group",
+        {
+          "bg-yellow-300/40 duration-1000": highlight,
+        },
+        {
+          "bg-red-500 duration-500 opacity-0": deleteHighlight,
+        }
+      )}
     >
       {selectable && (
         <td className="px-3 py-2 whitespace-nowrap text-sm font-medium flex items-center justify-center">
