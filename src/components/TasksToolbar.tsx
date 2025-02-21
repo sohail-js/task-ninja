@@ -13,17 +13,17 @@ type HeaderProps = {
   undoDisabled: boolean;
   redoDisabled: boolean;
   customColumns: Column[];
-  handleColumnsChange: (columns: Column[]) => void;
+  onColumnsChange: (columns: Column[]) => void;
 };
 
-const Header: React.FC<HeaderProps> = ({
+const TasksToolbar: React.FC<HeaderProps> = ({
   onUndo,
   onRedo,
   onAddTaskClick,
   undoDisabled,
   redoDisabled,
   customColumns,
-  handleColumnsChange,
+  onColumnsChange,
 }) => {
   return (
     <div className="flex items-center gap-2">
@@ -48,7 +48,7 @@ const Header: React.FC<HeaderProps> = ({
       </Button>
       <ColumnsConfig
         columns={[...DEFAULT_COLUMNS, ...customColumns]}
-        onColumnsChange={handleColumnsChange}
+        onColumnsChange={onColumnsChange}
       />
 
       <Button
@@ -63,4 +63,4 @@ const Header: React.FC<HeaderProps> = ({
   );
 };
 
-export default Header;
+export default TasksToolbar;

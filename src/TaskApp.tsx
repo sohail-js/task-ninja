@@ -3,7 +3,7 @@ import "./App.css";
 import { LOCAL_STORAGE_KEYS } from "./constants";
 import { Column, Task, HistoryItem } from "./types";
 import { useLocalStorageState } from "./hooks/useLocalStorageState";
-import Header from "./components/Header";
+import TasksToolbar from "./components/TasksToolbar";
 import TaskDrawer from "./components/TaskDrawer";
 import TaskTable from "./components/TaskTable";
 
@@ -44,14 +44,14 @@ export default function TaskApp() {
         onDataChange={handleTasksDataChange}
         newRowId={newRowId}
         toolbar={
-          <Header
+          <TasksToolbar
             onUndo={handleUndo}
             onRedo={handleRedo}
             onAddTaskClick={handleAddTaskClick}
             undoDisabled={undoStack.current.length === 0}
             redoDisabled={redoStack.current.length === 0}
             customColumns={customColumns}
-            handleColumnsChange={handleColumnsChange}
+            onColumnsChange={handleColumnsChange}
           />
         }
       />
