@@ -39,13 +39,21 @@ export default function TableSelection({}: Props) {
   return (
     <div className="ml-6">
       {selectedRowsArray.length > 0 && (
-        <div className="flex">
-          <Button mode="primary" onClick={() => setSelectedRows({})}>
+        <div className="flex items-center rounded-md overflow-hidden">
+          <div
+            role="button"
+            className="border-r-1 px-2 py-1 bg-blue-300 hover:bg-blue-400 transition-colors text-gray-900 cursor-pointer"
+            onClick={() => setSelectedRows({})}
+          >
             {selectedRowsArray.length} rows selected
-          </Button>
-          <Button mode="danger" onClick={handleDelete}>
+          </div>
+          <div
+            role="button"
+            className="px-2 py-2 bg-red-300 hover:bg-red-400 transition-colors text-gray-900 h-full cursor-pointer"
+            onClick={handleDelete}
+          >
             <HiTrash />
-          </Button>
+          </div>
         </div>
       )}
 
