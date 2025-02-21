@@ -14,8 +14,7 @@ export type TableProps = {
   onRecordOpen?: (record: any) => void;
   inlineEditable?: boolean;
   disabledRowIds?: string[];
-  actions?: Array<MenuItem>;
-  onActionClick?: (action: string, record: any) => void;
+  showActions?: boolean;
   selectable?: boolean;
   showPagination?: boolean;
   showFilters?: boolean;

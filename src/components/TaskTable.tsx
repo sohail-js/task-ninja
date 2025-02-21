@@ -38,23 +38,10 @@ const TaskTable: React.FC<TaskTableProps> = ({
           setEditData(record);
           setOpen(true);
         }}
-        actions={[
-          {
-            label: "",
-            value: "delete",
-            icon: <HiTrash />,
-            mode: "danger",
-          },
-        ]}
-        onActionClick={(action, record) => {
-          if (action === "delete") {
-            if (confirm("Are you sure you want to delete this record?")) {
-              undoStack.current.push({ data, columns: customColumns });
-              setData((prevData) =>
-                prevData.filter((item) => item.id !== record.id)
-              );
-            }
-          }
+        showActions
+        onDataChange={(newData) => {
+          undoStack.current.push({ data, columns: customColumns });
+          setData(newData);
         }}
         allowSort
         selectable

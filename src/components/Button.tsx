@@ -4,7 +4,7 @@ import { Mode } from "../types";
 
 type Props = {
   onClick?: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   mode: Mode;
   className?: string;
   type?: "button" | "submit" | "reset";

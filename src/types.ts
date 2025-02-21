@@ -16,7 +16,7 @@ export interface Field {
 export type MenuItem = {
   label: string;
   value: string;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   mode?: Mode;
 };
 

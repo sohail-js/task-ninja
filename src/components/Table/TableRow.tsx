@@ -4,6 +4,7 @@ import TableCheckbox from "./TableCheckbox";
 import TableCell from "./TableCell";
 import Button from "../Button";
 import classNames from "classnames";
+import { HiTrash } from "react-icons/hi2";
 
 export default function TableRow({
   row,
@@ -22,10 +23,11 @@ export default function TableRow({
     keyProp,
     columns,
     selectable,
-    actions,
-    onActionClick,
     internalNewRowId,
     setInternalNewRowId,
+    showActions,
+    data: tableData,
+    onDataChange,
   } = useTable();
   const [highlight, setHighlight] = useState(false);
 
@@ -40,6 +42,12 @@ export default function TableRow({
       return () => clearTimeout(timer);
     }
   }, [internalNewRowId]);
+
+  const handleDelete = () => {
+    if (confirm("Are you sure you want to delete this record?")) {
+      onDataChange?.(tableData.filter((r) => r[keyProp] !== row[keyProp]));
+    }
+  };
 
   return (
     <tr
@@ -69,21 +77,17 @@ export default function TableRow({
         />
       ))}
 
-      {actions && (
+      {showActions && (
         <td className="px-3 py-2 whitespace-nowrap text-right text-sm font-medium">
           <div className="flex items-center gap-2">
-            {actions.map((action) => (
-              <Button
-                key={action.value}
-                mode={action.mode ?? "primary"}
-                size="sm"
-                onClick={() => onActionClick?.(action.value, row)}
-                disabled={disabled}
-                prefix={action.icon}
-              >
-                {action.label}
-              </Button>
-            ))}
+            <Button
+              key="delete"
+              mode="danger"
+              size="sm"
+              onClick={handleDelete}
+              disabled={disabled}
+              prefix={<HiTrash />}
+            />
           </div>
         </td>
       )}
