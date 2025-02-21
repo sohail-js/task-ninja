@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import "./App.css";
-import { DEFAULT_COLUMNS, LOCAL_STORAGE_KEYS } from "./constants";
+import { LOCAL_STORAGE_KEYS } from "./constants";
 import { getLocalStorage, setLocalStorage } from "./services/localStorage";
 import { Field, RecordItem, HistoryItem } from "./types";
 import { useLocalStorageState } from "./hooks/useLocalStorageState";
@@ -14,7 +14,7 @@ function TaskApp() {
   const { data: customColumns, setData: setCustomColumns } =
     useLocalStorageState<Field[]>({
       localStorageKey: LOCAL_STORAGE_KEYS.columns,
-      defaultValue: DEFAULT_COLUMNS,
+      defaultValue: [],
     });
 
   const [tasksData, setTasksData] = useState<RecordItem[]>(
