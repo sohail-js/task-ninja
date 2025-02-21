@@ -68,9 +68,11 @@ const TableFilter = ({ column }: { column: CustomField }) => {
 
   switch (column.type) {
     case "text":
+    case "number":
       return (
         <FormItemText
           size="sm"
+          type={column.type}
           field={{ ...column, label: "" }}
           className="mt-2"
           placeholder={`Filter ${column.label}`}

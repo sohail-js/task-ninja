@@ -186,6 +186,9 @@ function useFilteredData({
       if (type === "checkbox") {
         return record[key] === value;
       }
+      if (type === "number") {
+        return record[key] === Number(value);
+      }
       if (!record[key] && !value) {
         return true;
       }
