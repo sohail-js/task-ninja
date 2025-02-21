@@ -1,3 +1,4 @@
+import "./App.css";
 import TaskApp from "./components/TaskApp";
 
 type Props = {};

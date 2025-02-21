@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import "./App.css";
 import { LOCAL_STORAGE_KEYS } from "../../constants";
 import { Column, Task, HistoryItem } from "../../types";
 import { useLocalStorageState } from "../../hooks/useLocalStorageState";
