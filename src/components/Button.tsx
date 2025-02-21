@@ -1,10 +1,11 @@
 import classNames from "classnames";
 import React from "react";
+import { Mode } from "../types";
 
 type Props = {
   onClick?: () => void;
   children: React.ReactNode;
-  mode: "primary" | "secondary" | "link" | "danger" | "warning" | "success";
+  mode: Mode;
   className?: string;
   type?: "button" | "submit" | "reset";
   size?: "sm" | "md" | "lg";

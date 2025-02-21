@@ -17,6 +17,7 @@ export type MenuItem = {
   label: string;
   value: string;
   icon: React.ReactNode;
+  mode?: Mode;
 };
 
 export type RecordItem = {
@@ -30,3 +31,11 @@ export type HistoryItem = {
   data: RecordItem[];
   columns: Field[];
 };
+
+export type Mode =
+  | "primary"
+  | "secondary"
+  | "link"
+  | "danger"
+  | "warning"
+  | "success";

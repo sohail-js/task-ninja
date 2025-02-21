@@ -10,18 +10,10 @@ export type TableProps = {
   data: any[];
   keyProp: string;
   className?: string;
-  contextMenuOptions?: Array<
-    MenuItem & {
-      onClick?: (record: any) => void;
-    }
-  >;
   onRecordOpen?: (record: any) => void;
   inlineEditable?: boolean;
   disabledRowIds?: string[];
-  actions?: Array<{
-    label: string | React.ReactNode;
-    key: string;
-  }>;
+  actions?: Array<MenuItem>;
   onActionClick?: (action: string, record: any) => void;
   selectable?: boolean;
   showPagination?: boolean;

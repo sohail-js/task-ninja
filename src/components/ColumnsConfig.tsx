@@ -105,8 +105,10 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
             ]}
             actions={[
               {
-                key: "delete",
-                label: <HiTrash />,
+                label: "",
+                value: "delete",
+                icon: <HiTrash />,
+                mode: "danger",
               },
             ]}
             onActionClick={(action, record: Field) => {

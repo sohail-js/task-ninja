@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTable } from "./TableContext";
 import TableCheckbox from "./TableCheckbox";
-import TableDropdown from "./TableDropdown";
 import TableCell from "./TableCell";
 import Button from "../Button";
 import classNames from "classnames";
@@ -51,7 +50,6 @@ export default function TableRow({
     >
       {selectable && (
         <td className="px-6 py-2 whitespace-nowrap text-sm font-medium flex items-center justify-center w-0.5">
-          <TableDropdown row={row} />
           <TableCheckbox row={row} />
         </td>
       )}
@@ -76,11 +74,12 @@ export default function TableRow({
           <div className="flex items-center gap-2">
             {actions.map((action) => (
               <Button
-                key={action.key}
-                mode="danger"
+                key={action.value}
+                mode={action.mode ?? "primary"}
                 size="sm"
-                onClick={() => onActionClick?.(action.key, row)}
+                onClick={() => onActionClick?.(action.value, row)}
                 disabled={disabled}
+                prefix={action.icon}
               >
                 {action.label}
               </Button>

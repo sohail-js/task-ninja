@@ -36,21 +36,24 @@ const TaskTable: React.FC<TaskTableProps> = ({
           setEditData(record);
           setOpen(true);
         }}
-        contextMenuOptions={[
+        actions={[
           {
-            label: "Delete",
+            label: "",
             value: "delete",
-            onClick: (record) => {
-              if (confirm("Are you sure you want to delete this record?")) {
-                undoStack.current.push({ data, columns: customColumns });
-                setData((prevData) =>
-                  prevData.filter((item) => item.id !== record.id)
-                );
-              }
-            },
             icon: <HiTrash />,
+            mode: "danger",
           },
         ]}
+        onActionClick={(action, record) => {
+          if (action === "delete") {
+            if (confirm("Are you sure you want to delete this record?")) {
+              undoStack.current.push({ data, columns: customColumns });
+              setData((prevData) =>
+                prevData.filter((item) => item.id !== record.id)
+              );
+            }
+          }
+        }}
         allowSort
         selectable
         showPagination
