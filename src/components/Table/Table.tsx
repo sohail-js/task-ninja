@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { TableProvider, useTable } from "./TableContext";
+import { TableProvider } from "./TableContext";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 import { CustomField } from "../../types";
@@ -56,19 +56,19 @@ export default function Table({
   );
 }
 
-function TableMeta() {
-  const { sortColumn, sortDirection, filter, selectedRows } = useTable();
-  return (
-    <div className="flex flex-col">
-      <div>sortColumn: {sortColumn?.label}</div>
-      <div>sortDirection: {sortDirection}</div>
-      <div>filter: {JSON.stringify(filter)}</div>
-      <div>
-        selected rows:{" "}
-        {Object.keys(selectedRows)
-          .filter((x) => selectedRows[x])
-          .join(", ")}
-      </div>
-    </div>
-  );
-}
+// function TableMeta() {
+//   const { sortColumn, sortDirection, filter, selectedRows } = useTable();
+//   return (
+//     <div className="flex flex-col">
+//       <div>sortColumn: {sortColumn?.label}</div>
+//       <div>sortDirection: {sortDirection}</div>
+//       <div>filter: {JSON.stringify(filter)}</div>
+//       <div>
+//         selected rows:{" "}
+//         {Object.keys(selectedRows)
+//           .filter((x) => selectedRows[x])
+//           .join(", ")}
+//       </div>
+//     </div>
+//   );
+// }
