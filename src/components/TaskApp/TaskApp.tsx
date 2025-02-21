@@ -1,11 +1,11 @@
 import { useState, useRef } from "react";
 import "./App.css";
-import { LOCAL_STORAGE_KEYS } from "./constants";
-import { Column, Task, HistoryItem } from "./types";
-import { useLocalStorageState } from "./hooks/useLocalStorageState";
-import TasksToolbar from "./components/TasksToolbar";
-import TaskDrawer from "./components/TaskDrawer";
-import TaskTable from "./components/TaskTable";
+import { LOCAL_STORAGE_KEYS } from "../../constants";
+import { Column, Task, HistoryItem } from "../../types";
+import { useLocalStorageState } from "../../hooks/useLocalStorageState";
+import TasksToolbar from "./TasksToolbar";
+import TaskDrawer from "./TaskDrawer";
+import TaskTable from "./TaskTable";
 
 export default function TaskApp() {
   const {

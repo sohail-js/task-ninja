@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "./Button";
-import ColumnsConfig from "./ColumnsConfig";
+import Button from "../Button";
+import ColumnsConfig from "../ColumnsConfig";
 import { LuUndo, LuRedo } from "react-icons/lu";
 import { HiPlus } from "react-icons/hi2";
-import { DEFAULT_COLUMNS } from "../constants";
-import { Column } from "../types";
+import { DEFAULT_COLUMNS } from "../../constants";
+import { Column } from "../../types";
 
 type HeaderProps = {
   onUndo: () => void;

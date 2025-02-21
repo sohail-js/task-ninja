@@ -1,8 +1,8 @@
 import React from "react";
-import Drawer from "./Drawer";
-import { Form } from "./Form";
-import { Column, Task } from "../types";
-import { DEFAULT_COLUMNS } from "../constants";
+import Drawer from "../Drawer";
+import { Form } from "../Form";
+import { Column, Task } from "../../types";
+import { DEFAULT_COLUMNS } from "../../constants";
 
 type TaskDrawerProps = {
   isOpen: boolean;

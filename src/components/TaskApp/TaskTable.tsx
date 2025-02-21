@@ -1,7 +1,7 @@
 import React from "react";
-import { Table } from "./Table";
-import { Column, Task } from "../types";
-import { DEFAULT_COLUMNS } from "../constants";
+import { Table } from "../Table";
+import { Column, Task } from "../../types";
+import { DEFAULT_COLUMNS } from "../../constants";
 
 type TaskTableProps = {
   data: Task[];

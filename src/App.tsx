@@ -1,4 +1,4 @@
-import TaskApp from "./TaskApp";
+import TaskApp from "./components/TaskApp";
 
 type Props = {};
 
