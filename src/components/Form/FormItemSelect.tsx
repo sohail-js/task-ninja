@@ -4,28 +4,22 @@ import classNames from "classnames";
 import Button from "../Button";
 import { HiX } from "react-icons/hi";
 
-interface Props extends Omit<FormItemWrapperProps, "children"> {
-  onChange: (value: string | number) => void;
-  value?: string | number;
+interface Props
+  extends Omit<FormItemWrapperProps<string | number>, "children"> {
   showClear?: boolean;
 }
 
-export default function FormItemSelect({
-  field,
-  value,
-  onChange,
-  size = "md",
-  showClear,
-  disabled,
-  ...otherProps
-}: Props) {
+export default function FormItemSelect(props: Props) {
+  const {
+    field,
+    value,
+    onChange,
+    showClear = false,
+    size = "md",
+    disabled,
+  } = props;
   return (
-    <FormItemWrapper
-      field={field}
-      value={value}
-      disabled={disabled}
-      {...otherProps}
-    >
+    <FormItemWrapper {...props}>
       <div className="relative">
         <select
           value={value}

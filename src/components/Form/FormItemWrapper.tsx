@@ -2,11 +2,10 @@ import classNames from "classnames";
 import { Column } from "../../types";
 import { useEffect } from "react";
 
-export type FormItemWrapperProps = {
+export type FormItemWrapperProps<T = any> = {
   field: Column;
   children: React.ReactNode;
   className?: string;
-  value?: any;
   showErrors?: boolean;
   onValidityChange?: (valid: boolean) => void;
   placeholder?: string;
@@ -14,6 +13,8 @@ export type FormItemWrapperProps = {
   data?: any[];
   keyProp?: string;
   disabled?: boolean;
+  value: T;
+  onChange: (value: T) => void;
 };
 
 export default function FormItemWrapper({

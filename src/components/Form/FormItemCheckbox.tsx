@@ -1,24 +1,16 @@
 import FormItemWrapper, { FormItemWrapperProps } from "./FormItemWrapper";
 
-interface Props extends Omit<FormItemWrapperProps, "children"> {
-  onChange: (value: boolean) => void;
-  value?: boolean;
+interface Props extends Omit<FormItemWrapperProps<boolean>, "children"> {
   indeterminate?: boolean;
 }
 
-export default function FormItemCheckbox({
-  field,
-  value,
-  indeterminate,
-  onChange,
-  disabled,
-  ...otherProps
-}: Props) {
+export default function FormItemCheckbox(props: Props) {
+  const { indeterminate, value, onChange, disabled } = props;
   return (
-    <FormItemWrapper field={field} value={value} {...otherProps}>
+    <FormItemWrapper {...props}>
       <input
         type="checkbox"
-        checked={!!value}
+        checked={value}
         ref={(el) => {
           if (el) el.indeterminate = indeterminate ?? false;
         }}
