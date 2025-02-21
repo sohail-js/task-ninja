@@ -12,7 +12,7 @@ type Props = {
 
 export default function Drawer({ title, children, isOpen, onClose }: Props) {
   return (
-    <Backdrop isOpen={isOpen} onClose={onClose}>
+    <Backdrop isActive={isOpen} onClose={onClose}>
       <Container isOpen={isOpen}>
         <Head title={title} onClose={onClose} />
         <div className="p-4">{children}</div>

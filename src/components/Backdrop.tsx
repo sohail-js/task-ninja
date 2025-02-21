@@ -3,14 +3,14 @@ import React from "react";
 
 type Props = {
   children: React.ReactNode;
-  isOpen: boolean;
+  isActive: boolean;
   onClose: () => void;
   className?: string;
 };
 
 export default function Backdrop({
   children,
-  isOpen,
+  isActive: isOpen,
   onClose,
   className,
 }: Props) {

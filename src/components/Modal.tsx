@@ -27,7 +27,7 @@ export function Modal({
     <>
       {/* backdrop */}
       <Backdrop
-        isOpen={isOpen}
+        isActive={isOpen}
         onClose={onClose}
         className="flex items-center justify-center z-20"
       >
