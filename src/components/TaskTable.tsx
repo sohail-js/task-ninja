@@ -1,6 +1,5 @@
 import React from "react";
 import { Table } from "./Table";
-import { HiTrash } from "react-icons/hi2";
 import { Field, HistoryItem, RecordItem } from "../types";
 import { DEFAULT_COLUMNS } from "../constants";
 

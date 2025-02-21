@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { HiTrash } from "react-icons/hi";
 import Drawer from "./Drawer";
 import { Table } from "./Table";
 import { HiPlus, HiViewColumns } from "react-icons/hi2";

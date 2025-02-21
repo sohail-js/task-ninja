@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Modal } from "../Modal";
 import { useTable } from "./TableContext";
 import { MenuItem } from "../../types";
-import Button from "../Button";
 import { HiTrash } from "react-icons/hi";
 
 type Props = {};

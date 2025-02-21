@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { TableProvider } from "./TableContext";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
-import { Field, MenuItem } from "../../types";
+import { Field } from "../../types";
 import TablePagination from "./TablePagination";
 import TableSelection from "./TableSelection";
 
