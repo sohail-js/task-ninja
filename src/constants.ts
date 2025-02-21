@@ -1,4 +1,4 @@
-import { CustomField } from "./types";
+import { Field } from "./types";
 
 export const OPTIONS_PRIORITY = [
   { value: "none", label: "None" },
@@ -19,7 +19,7 @@ export const LOCAL_STORAGE_KEYS = {
   columns: "columns",
 };
 
-export const DEFAULT_COLUMNS: CustomField[] = [
+export const DEFAULT_COLUMNS: Field[] = [
   {
     key: "title",
     visible: true,

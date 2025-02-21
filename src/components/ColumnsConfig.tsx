@@ -4,12 +4,12 @@ import Drawer from "./Drawer";
 import { Table } from "./Table";
 import { HiPlus, HiViewColumns } from "react-icons/hi2";
 import Button from "./Button";
-import { CustomField } from "../types";
+import { Field } from "../types";
 import { DEFAULT_COLUMNS } from "../constants";
 
 type Props = {
-  columns: CustomField[];
-  onColumnsChange: (columns: CustomField[]) => void;
+  columns: Field[];
+  onColumnsChange: (columns: Field[]) => void;
 };
 
 export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
@@ -109,7 +109,7 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
                 label: <HiTrash />,
               },
             ]}
-            onActionClick={(action, record: CustomField) => {
+            onActionClick={(action, record: Field) => {
               if (action === "delete" && record.editable) {
                 setData((prevData) => {
                   return prevData.filter((item) => item.key !== record.key);

@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import "./App.css";
 import { DEFAULT_COLUMNS, LOCAL_STORAGE_KEYS } from "./constants";
 import { getLocalStorage, setLocalStorage } from "./services/localStorage";
-import { CustomField, RecordItem, HistoryItem } from "./types";
+import { Field, RecordItem, HistoryItem } from "./types";
 import { useLocalStorageState } from "./hooks/useLocalStorageState";
 import Header from "./components/Header";
 import TaskDrawer from "./components/TaskDrawer";
@@ -12,7 +12,7 @@ function TaskApp() {
   const [openTaskDrawer, setOpenTaskDrawer] = useState(false);
   const [newRowId, setNewRowId] = useState<string | number>();
   const { data: customColumns, setData: setCustomColumns } =
-    useLocalStorageState<CustomField[]>({
+    useLocalStorageState<Field[]>({
       localStorageKey: LOCAL_STORAGE_KEYS.columns,
       defaultValue: DEFAULT_COLUMNS,
     });
@@ -86,7 +86,7 @@ function TaskApp() {
     }
   };
 
-  const handleColumnsChange = (columns: CustomField[]) => {
+  const handleColumnsChange = (columns: Field[]) => {
     undoStack.current.push({ columns: customColumns, data: tasksData });
     setCustomColumns(columns.filter((col) => col.editable));
   };

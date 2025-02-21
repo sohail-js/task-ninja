@@ -4,6 +4,13 @@ export interface Field {
   label: string;
   dropdownOptions?: Array<{ value: string | number; label: string }>;
   required?: boolean;
+  visible?: boolean;
+  editable?: boolean;
+  unique?: boolean;
+  pattern?: RegExp;
+  min?: number;
+  max?: number;
+  tableColumnClassName?: string;
 }
 
 export interface ContextMenuOption {
@@ -17,16 +24,6 @@ export type MenuItem = {
   icon: React.ReactNode;
 };
 
-export interface CustomField extends Field {
-  visible?: boolean;
-  editable?: boolean;
-  unique?: boolean;
-  pattern?: RegExp;
-  min?: number;
-  max?: number;
-  tableColumnClassName?: string;
-}
-
 export type RecordItem = {
   id: string | number;
   title: string;
@@ -36,5 +33,5 @@ export type RecordItem = {
 
 export type HistoryItem = {
   data: RecordItem[];
-  columns: CustomField[];
+  columns: Field[];
 };

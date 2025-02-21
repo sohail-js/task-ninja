@@ -1,7 +1,7 @@
 import React from "react";
 import Drawer from "./Drawer";
 import { Form } from "./Form";
-import { CustomField, RecordItem } from "../types";
+import { Field, RecordItem } from "../types";
 import { DEFAULT_COLUMNS } from "../constants";
 
 type TaskDrawerProps = {
@@ -9,7 +9,7 @@ type TaskDrawerProps = {
   closeDrawer: () => void;
   handleAddTask: (values: RecordItem) => void;
   editData?: RecordItem;
-  customColumns: CustomField[];
+  customColumns: Field[];
 };
 
 const TaskDrawer: React.FC<TaskDrawerProps> = ({

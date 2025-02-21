@@ -1,12 +1,12 @@
 import { HiSortAscending, HiSortDescending } from "react-icons/hi";
-import { CustomField } from "../../types";
+import { Field } from "../../types";
 import FormItemText from "../Form/FormItemText";
 import { useTable } from "./TableContext";
 import FormItemSelect from "../Form/FormItemSelect";
 import classNames from "classnames";
 
 type Props = {
-  column: CustomField;
+  column: Field;
 };
 
 export default function TableHeaderColumn({ column }: Props) {
@@ -63,7 +63,7 @@ export default function TableHeaderColumn({ column }: Props) {
   );
 }
 
-const TableFilter = ({ column }: { column: CustomField }) => {
+const TableFilter = ({ column }: { column: Field }) => {
   const { filter, setFilter } = useTable();
 
   switch (column.type) {

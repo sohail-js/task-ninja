@@ -1,12 +1,12 @@
 import React from "react";
 import { Table } from "./Table";
 import { HiTrash } from "react-icons/hi2";
-import { CustomField, HistoryItem, RecordItem } from "../types";
+import { Field, HistoryItem, RecordItem } from "../types";
 import { DEFAULT_COLUMNS } from "../constants";
 
 type TaskTableProps = {
   data: RecordItem[];
-  customColumns: CustomField[];
+  customColumns: Field[];
   setEditData: (record: RecordItem) => void;
   setOpen: (open: boolean) => void;
   setData: React.Dispatch<React.SetStateAction<RecordItem[]>>;

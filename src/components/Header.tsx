@@ -4,7 +4,7 @@ import ColumnsConfig from "./ColumnsConfig";
 import { LuUndo, LuRedo } from "react-icons/lu";
 import { HiPlus } from "react-icons/hi2";
 import { DEFAULT_COLUMNS } from "../constants";
-import { CustomField } from "../types";
+import { Field } from "../types";
 
 type HeaderProps = {
   handleUndo: () => void;
@@ -12,8 +12,8 @@ type HeaderProps = {
   addTaskHandler: () => void;
   undoDisabled: boolean;
   redoDisabled: boolean;
-  customColumns: CustomField[];
-  handleColumnsChange: (columns: CustomField[]) => void;
+  customColumns: Field[];
+  handleColumnsChange: (columns: Field[]) => void;
 };
 
 const Header: React.FC<HeaderProps> = ({

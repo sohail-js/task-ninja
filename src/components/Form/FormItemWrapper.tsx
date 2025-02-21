@@ -1,9 +1,9 @@
 import classNames from "classnames";
-import { CustomField } from "../../types";
+import { Field } from "../../types";
 import { useEffect } from "react";
 
 export type FormItemWrapperProps = {
-  field: CustomField;
+  field: Field;
   children: React.ReactNode;
   className?: string;
   value?: any;
