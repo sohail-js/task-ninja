@@ -7,7 +7,7 @@ import Header from "./components/Header";
 import TaskDrawer from "./components/TaskDrawer";
 import TaskTable from "./components/TaskTable";
 
-function TaskApp() {
+export default function TaskApp() {
   const {
     isTaskDrawerOpen,
     newRowId,
@@ -22,9 +22,8 @@ function TaskApp() {
     handleUndo,
     handleRedo,
     handleColumnsChange,
-    setCurrentTaskEditData,
-    setIsTaskDrawerOpen,
-    setTasksData,
+    handleTaskOpen,
+    handleTasksDataChange,
   } = useTaskManager();
 
   return (
@@ -41,10 +40,8 @@ function TaskApp() {
       <TaskTable
         data={tasksData}
         customColumns={customColumns}
-        setEditData={setCurrentTaskEditData}
-        setOpen={setIsTaskDrawerOpen}
-        setData={setTasksData}
-        undoStack={undoStack}
+        onTaskOpen={handleTaskOpen}
+        onDataChange={handleTasksDataChange}
         newRowId={newRowId}
         toolbar={
           <Header
@@ -61,8 +58,6 @@ function TaskApp() {
     </>
   );
 }
-
-export default TaskApp;
 
 function useTaskManager() {
   const [isTaskDrawerOpen, setIsTaskDrawerOpen] = useState(false);
@@ -156,6 +151,16 @@ function useTaskManager() {
     setCustomColumns(columns.filter((col) => col.editable));
   };
 
+  const handleTaskOpen = (record: Task) => {
+    setCurrentTaskEditData(record);
+    setIsTaskDrawerOpen(true);
+  };
+
+  const handleTasksDataChange = (newData: Task[]) => {
+    undoStack.current.push({ tasks: tasksData, columns: customColumns });
+    setTasksData(newData);
+  };
+
   return {
     isTaskDrawerOpen,
     newRowId,
@@ -173,5 +178,7 @@ function useTaskManager() {
     setCurrentTaskEditData,
     setIsTaskDrawerOpen,
     setTasksData,
+    handleTaskOpen,
+    handleTasksDataChange,
   };
 }
