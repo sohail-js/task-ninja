@@ -20,7 +20,11 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({
   customColumns,
 }) => {
   return (
-    <Drawer title="Create Task" isOpen={open} onClose={closeDrawer}>
+    <Drawer
+      title={editData ? "Edit Task" : "Create Task"}
+      isOpen={open}
+      onClose={closeDrawer}
+    >
       {open && (
         <Form
           fields={[...DEFAULT_COLUMNS, ...customColumns]}
