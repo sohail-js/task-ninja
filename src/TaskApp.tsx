@@ -9,11 +9,11 @@ import TaskTable from "./components/TaskTable";
 
 function TaskApp() {
   const {
-    isTaskDrawerOpen: openTaskDrawer,
+    isTaskDrawerOpen,
     newRowId,
     customColumns,
     tasksData,
-    currentTaskEditData: editData,
+    currentTaskEditData,
     undoStack,
     redoStack,
     handleAddTaskClick,
@@ -22,8 +22,8 @@ function TaskApp() {
     handleUndo,
     handleRedo,
     handleColumnsChange,
-    setCurrentTaskEditData: setEditData,
-    setIsTaskDrawerOpen: setOpenTaskDrawer,
+    setCurrentTaskEditData,
+    setIsTaskDrawerOpen,
     setTasksData,
   } = useTaskManager();
 
@@ -31,18 +31,18 @@ function TaskApp() {
     <>
       <h1 className="text-2xl font-bold m-4">Task Ninja</h1>
       <TaskDrawer
-        open={openTaskDrawer}
+        isOpen={isTaskDrawerOpen}
         onDrawerClose={handleDrawerClose}
-        onSaveTask={handleTaskSave}
-        editData={editData}
+        onTaskSave={handleTaskSave}
+        editData={currentTaskEditData}
         customColumns={customColumns}
       />
 
       <TaskTable
         data={tasksData}
         customColumns={customColumns}
-        setEditData={setEditData}
-        setOpen={setOpenTaskDrawer}
+        setEditData={setCurrentTaskEditData}
+        setOpen={setIsTaskDrawerOpen}
         setData={setTasksData}
         undoStack={undoStack}
         newRowId={newRowId}

@@ -5,27 +5,27 @@ import { Column, Task } from "../types";
 import { DEFAULT_COLUMNS } from "../constants";
 
 type TaskDrawerProps = {
-  open: boolean;
+  isOpen: boolean;
   onDrawerClose: () => void;
-  onSaveTask: (values: Task) => void;
+  onTaskSave: (values: Task) => void;
   editData?: Task;
   customColumns: Column[];
 };
 
 const TaskDrawer: React.FC<TaskDrawerProps> = ({
-  open,
+  isOpen,
   onDrawerClose,
-  onSaveTask,
+  onTaskSave: onSaveTask,
   editData,
   customColumns,
 }) => {
   return (
     <Drawer
       title={editData ? "Edit Task" : "Create Task"}
-      isOpen={open}
+      isOpen={isOpen}
       onClose={onDrawerClose}
     >
-      {open && (
+      {isOpen && (
         <Form
           fields={[...DEFAULT_COLUMNS, ...customColumns]}
           defaultValues={editData}
