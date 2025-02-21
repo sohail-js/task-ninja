@@ -18,65 +18,17 @@ export default function Form({
   onSubmit,
   onCancel,
 }: Props) {
-  const [formValues, setFormValues] = useState<Record<string, any>>(
-    defaultValues || {}
-  );
-
-  const [formValid, setFormValid] = useState(
-    fields.reduce((acc, field) => ({
-      ...acc,
-      [field.key]: true,
-    }))
-  );
-
-  const [showErrors, setShowErrors] = useState(false);
-
-  const valid = Object.values(formValid).every((v) => v);
-
-  useEffect(() => {
-    setFormValues(defaultValues || {});
-  }, [defaultValues]);
-
-  const submitHandler = (e: React.FormEvent) => {
-    e.preventDefault();
-    setShowErrors(true);
-    if (valid) {
-      onSubmit(formValues);
-      close();
-    }
-  };
-
-  const cancelHandler = () => {
-    onCancel?.();
-    close();
-  };
-
-  const close = () => {
-    setFormValues({});
-    setShowErrors(false);
-  };
-
-  function getCommonProps(field: Column) {
-    return {
-      field,
-      className: "mb-4",
-      onChange: (value: string | number | boolean) => {
-        setFormValues((prev) => ({
-          ...prev,
-          [field.key]: field.type == "number" ? Number(value) : value,
-        }));
-      },
-      validations: {
-        required: field.required,
-      },
-      onValidityChange: (valid: boolean) =>
-        setFormValid((prev) => ({ ...prev, [field.key]: valid })),
-      showErrors: showErrors,
-    };
-  }
+  const {
+    formValues,
+    showErrors,
+    isValid,
+    handleSubmit,
+    handleCancel,
+    generateFieldProps,
+  } = useFormState({ fields, defaultValues, onSubmit, onCancel });
 
   return (
-    <form onSubmit={submitHandler}>
+    <form onSubmit={handleSubmit}>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xxl:grid-cols-3">
         {fields.map((field) => {
           switch (field.type) {
@@ -86,7 +38,7 @@ export default function Form({
                 <FormItemText
                   key={field.key}
                   type={field.type}
-                  {...getCommonProps(field)}
+                  {...generateFieldProps(field)}
                   placeholder={"Enter " + field.type}
                   value={formValues?.[field.key] as string}
                 />
@@ -98,7 +50,7 @@ export default function Form({
                   value={formValues?.[field.key] as string}
                   key={field.key}
                   showClear
-                  {...getCommonProps(field)}
+                  {...generateFieldProps(field)}
                 />
               );
 
@@ -107,20 +59,82 @@ export default function Form({
                 <FormItemCheckbox
                   value={!!formValues?.[field.key]}
                   key={field.key}
-                  {...getCommonProps(field)}
+                  {...generateFieldProps(field)}
                 />
               );
           }
         })}
       </div>
       <div className="flex justify-end space-x-4 mt-4">
-        <Button mode="secondary" type="button" onClick={cancelHandler}>
+        <Button mode="secondary" type="button" onClick={handleCancel}>
           Cancel
         </Button>
-        <Button mode="primary" type="submit" disabled={showErrors && !valid}>
+        <Button mode="primary" type="submit" disabled={showErrors && !isValid}>
           Submit
         </Button>
       </div>
     </form>
   );
+}
+
+function useFormState({ fields, defaultValues, onSubmit, onCancel }: Props) {
+  const [formValues, setFormValues] = useState<Record<string, any>>(
+    defaultValues || {}
+  );
+
+  const [fieldsValidationStatus, setFieldsValidationStatus] = useState<
+    Record<string, boolean>
+  >({});
+
+  const [showErrors, setShowErrors] = useState(false);
+
+  const isValid = fields.every((field) => fieldsValidationStatus[field.key]);
+
+  useEffect(() => {
+    setFormValues(defaultValues || {});
+  }, [defaultValues]);
+
+  const clearForm = () => {
+    setFormValues({});
+    setShowErrors(false);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowErrors(true);
+    if (isValid) {
+      onSubmit(formValues);
+      clearForm();
+    }
+  };
+
+  const handleCancel = () => {
+    onCancel?.();
+    clearForm();
+  };
+
+  function generateFieldProps(field: Column) {
+    return {
+      field,
+      className: "mb-4",
+      onChange: (value: string | number | boolean) => {
+        setFormValues((prev) => ({
+          ...prev,
+          [field.key]: field.type == "number" ? Number(value) : value,
+        }));
+      },
+      onValidityChange: (valid: boolean) =>
+        setFieldsValidationStatus((prev) => ({ ...prev, [field.key]: valid })),
+      showErrors,
+    };
+  }
+
+  return {
+    formValues,
+    showErrors,
+    isValid,
+    handleSubmit,
+    handleCancel,
+    generateFieldProps,
+  };
 }
