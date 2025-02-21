@@ -26,3 +26,15 @@ export interface CustomField extends Field {
   max?: number;
   tableColumnClassName?: string;
 }
+
+export type RecordItem = {
+  id: string | number;
+  title: string;
+  priority: string;
+  status: string;
+};
+
+export type HistoryItem = {
+  data: RecordItem[];
+  columns: CustomField[];
+};
