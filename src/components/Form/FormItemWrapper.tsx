@@ -1,9 +1,9 @@
 import classNames from "classnames";
-import { Field } from "../../types";
+import { Column } from "../../types";
 import { useEffect } from "react";
 
 export type FormItemWrapperProps = {
-  field: Field;
+  field: Column;
   children: React.ReactNode;
   className?: string;
   value?: any;

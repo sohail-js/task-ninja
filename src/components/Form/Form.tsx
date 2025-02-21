@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Field } from "../../types";
+import { Column } from "../../types";
 import Button from "../Button";
 import FormItemText from "./FormItemText";
 import FormItemSelect from "./FormItemSelect";
 import FormItemCheckbox from "./FormItemCheckbox";
 
 type Props = {
-  fields: Field[];
+  fields: Column[];
   defaultValues?: Record<string, any>;
   onSubmit: (data: Record<string, any>) => void;
   onCancel?: () => void;
@@ -56,7 +56,7 @@ export default function Form({
     setShowErrors(false);
   };
 
-  function getCommonProps(field: Field) {
+  function getCommonProps(field: Column) {
     return {
       field,
       className: "mb-4",

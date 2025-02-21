@@ -4,22 +4,22 @@ import ColumnsConfig from "./ColumnsConfig";
 import { LuUndo, LuRedo } from "react-icons/lu";
 import { HiPlus } from "react-icons/hi2";
 import { DEFAULT_COLUMNS } from "../constants";
-import { Field } from "../types";
+import { Column } from "../types";
 
 type HeaderProps = {
-  handleUndo: () => void;
-  handleRedo: () => void;
-  addTaskHandler: () => void;
+  onUndo: () => void;
+  onRedo: () => void;
+  onAddTaskClick: () => void;
   undoDisabled: boolean;
   redoDisabled: boolean;
-  customColumns: Field[];
-  handleColumnsChange: (columns: Field[]) => void;
+  customColumns: Column[];
+  handleColumnsChange: (columns: Column[]) => void;
 };
 
 const Header: React.FC<HeaderProps> = ({
-  handleUndo,
-  handleRedo,
-  addTaskHandler,
+  onUndo,
+  onRedo,
+  onAddTaskClick,
   undoDisabled,
   redoDisabled,
   customColumns,
@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({
     <div className="flex items-center gap-2">
       <Button
         mode="secondary"
-        onClick={handleUndo}
+        onClick={onUndo}
         prefix={<LuUndo />}
         title="Undo"
         disabled={undoDisabled}
@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({
 
       <Button
         mode="secondary"
-        onClick={handleRedo}
+        onClick={onRedo}
         prefix={<LuRedo />}
         title="Redo"
         disabled={redoDisabled}
@@ -53,7 +53,7 @@ const Header: React.FC<HeaderProps> = ({
 
       <Button
         mode="primary"
-        onClick={addTaskHandler}
+        onClick={onAddTaskClick}
         prefix={<HiPlus />}
         title="Create Task"
       >

@@ -1,4 +1,4 @@
-export interface Field {
+export interface Column {
   key: string;
   type: "text" | "dropdown" | "checkbox" | "number";
   label: string;
@@ -20,16 +20,19 @@ export type MenuItem = {
   mode?: Mode;
 };
 
-export type RecordItem = {
+export type Task = {
   id: string | number;
   title: string;
   priority: string;
   status: string;
+
+  // for custom fields
+  [key: string]: string | number | boolean;
 };
 
 export type HistoryItem = {
-  data: RecordItem[];
-  columns: Field[];
+  tasks: Task[];
+  columns: Column[];
 };
 
 export type Mode =

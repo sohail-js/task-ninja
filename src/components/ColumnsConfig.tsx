@@ -3,12 +3,12 @@ import Drawer from "./Drawer";
 import { Table } from "./Table";
 import { HiPlus, HiViewColumns } from "react-icons/hi2";
 import Button from "./Button";
-import { Field } from "../types";
+import { Column } from "../types";
 import { DEFAULT_COLUMNS } from "../constants";
 
 type Props = {
-  columns: Field[];
-  onColumnsChange: (columns: Field[]) => void;
+  columns: Column[];
+  onColumnsChange: (columns: Column[]) => void;
 };
 
 export default function ColumnsConfig({ columns, onColumnsChange }: Props) {

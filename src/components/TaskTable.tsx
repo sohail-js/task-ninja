@@ -1,14 +1,14 @@
 import React from "react";
 import { Table } from "./Table";
-import { Field, HistoryItem, RecordItem } from "../types";
+import { Column, HistoryItem, Task } from "../types";
 import { DEFAULT_COLUMNS } from "../constants";
 
 type TaskTableProps = {
-  data: RecordItem[];
-  customColumns: Field[];
-  setEditData: (record: RecordItem) => void;
+  data: Task[];
+  customColumns: Column[];
+  setEditData: (record: Task) => void;
   setOpen: (open: boolean) => void;
-  setData: React.Dispatch<React.SetStateAction<RecordItem[]>>;
+  setData: React.Dispatch<React.SetStateAction<Task[]>>;
   undoStack: React.MutableRefObject<HistoryItem[]>;
   newRowId?: string | number;
   toolbar?: React.ReactNode;
@@ -39,7 +39,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
         }}
         showActions
         onDataChange={(newData) => {
-          undoStack.current.push({ data, columns: customColumns });
+          undoStack.current.push({ tasks: data, columns: customColumns });
           setData(newData);
         }}
         allowSort

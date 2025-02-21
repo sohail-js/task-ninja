@@ -1,21 +1,21 @@
 import React from "react";
 import Drawer from "./Drawer";
 import { Form } from "./Form";
-import { Field, RecordItem } from "../types";
+import { Column, Task } from "../types";
 import { DEFAULT_COLUMNS } from "../constants";
 
 type TaskDrawerProps = {
   open: boolean;
-  closeDrawer: () => void;
-  handleAddTask: (values: RecordItem) => void;
-  editData?: RecordItem;
-  customColumns: Field[];
+  onDrawerClose: () => void;
+  onSaveTask: (values: Task) => void;
+  editData?: Task;
+  customColumns: Column[];
 };
 
 const TaskDrawer: React.FC<TaskDrawerProps> = ({
   open,
-  closeDrawer,
-  handleAddTask,
+  onDrawerClose,
+  onSaveTask,
   editData,
   customColumns,
 }) => {
@@ -23,14 +23,14 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({
     <Drawer
       title={editData ? "Edit Task" : "Create Task"}
       isOpen={open}
-      onClose={closeDrawer}
+      onClose={onDrawerClose}
     >
       {open && (
         <Form
           fields={[...DEFAULT_COLUMNS, ...customColumns]}
           defaultValues={editData}
-          onSubmit={handleAddTask as any}
-          onCancel={closeDrawer}
+          onSubmit={onSaveTask as any}
+          onCancel={onDrawerClose}
         />
       )}
     </Drawer>

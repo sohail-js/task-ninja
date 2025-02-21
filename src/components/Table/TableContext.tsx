@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { Field } from "../../types";
+import { Column } from "../../types";
 import { TableProps } from "./Table";
 
 interface TableContextProps extends TableProps {
@@ -7,8 +7,8 @@ interface TableContextProps extends TableProps {
   setSelectedRows: React.Dispatch<
     React.SetStateAction<Record<string, boolean>>
   >;
-  sortColumn: Field | null;
-  setSortColumn: React.Dispatch<React.SetStateAction<Field | null>>;
+  sortColumn: Column | null;
+  setSortColumn: React.Dispatch<React.SetStateAction<Column | null>>;
   sortDirection: "asc" | "desc";
   setSortDirection: React.Dispatch<React.SetStateAction<"asc" | "desc">>;
   filter: Record<string, string | number | boolean>;
@@ -67,7 +67,7 @@ export const TableProvider = ({
 > & {
   children: React.ReactNode;
 }) => {
-  const [sortColumn, setSortColumn] = useState<Field | null>(null);
+  const [sortColumn, setSortColumn] = useState<Column | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [filter, setFilter] = useState<
     Record<string, string | number | boolean>
@@ -168,9 +168,9 @@ function useFilteredData({
 }: {
   data: any[];
   filter: Record<string, string | number | boolean>;
-  sortColumn?: Field | null;
+  sortColumn?: Column | null;
   sortDirection?: "asc" | "desc";
-  columns: Field[];
+  columns: Column[];
 }) {
   const typeMap = columns.reduce((acc, column) => {
     acc[column.key] = column.type;

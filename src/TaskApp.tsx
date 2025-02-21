@@ -1,103 +1,39 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import "./App.css";
 import { LOCAL_STORAGE_KEYS } from "./constants";
-import { getLocalStorage, setLocalStorage } from "./services/localStorage";
-import { Field, RecordItem, HistoryItem } from "./types";
+import { Column, Task, HistoryItem } from "./types";
 import { useLocalStorageState } from "./hooks/useLocalStorageState";
 import Header from "./components/Header";
 import TaskDrawer from "./components/TaskDrawer";
 import TaskTable from "./components/TaskTable";
 
 function TaskApp() {
-  const [openTaskDrawer, setOpenTaskDrawer] = useState(false);
-  const [newRowId, setNewRowId] = useState<string | number>();
-  const { data: customColumns, setData: setCustomColumns } =
-    useLocalStorageState<Field[]>({
-      localStorageKey: LOCAL_STORAGE_KEYS.columns,
-      defaultValue: [],
-    });
-
-  const [tasksData, setTasksData] = useState<RecordItem[]>(
-    getLocalStorage(LOCAL_STORAGE_KEYS.tasks) ?? []
-  );
-  const [editData, setEditData] = useState<RecordItem>();
-
-  const undoStack = useRef<HistoryItem[]>([]);
-  const redoStack = useRef<HistoryItem[]>([]);
-
-  useEffect(() => {
-    console.log("Data changed");
-    setLocalStorage(LOCAL_STORAGE_KEYS.tasks, tasksData);
-  }, [tasksData]);
-
-  const addTaskHandler = () => {
-    setOpenTaskDrawer(true);
-  };
-
-  const closeDrawer = () => {
-    setOpenTaskDrawer(false);
-    setEditData(undefined);
-  };
-
-  const handleAddTask = (values: RecordItem) => {
-    undoStack.current.push({
-      data: [...tasksData],
-      columns: [...customColumns],
-    });
-    if (editData) {
-      setTasksData((prevData) => {
-        const index = prevData.findIndex((item) => item.id === editData.id);
-        prevData[index] = {
-          ...values,
-          id: editData.id,
-        };
-        return [...prevData];
-      });
-      setNewRowId(editData.id);
-    } else {
-      const id = crypto.randomUUID();
-      setTasksData((prevData) => [
-        ...prevData,
-        {
-          ...values,
-          id,
-        },
-      ]);
-      setNewRowId(id);
-    }
-    closeDrawer();
-  };
-
-  const handleUndo = () => {
-    if (undoStack.current.length > 0) {
-      redoStack.current.push({ data: tasksData, columns: customColumns });
-      const stackItem = undoStack.current.pop();
-      setTasksData(stackItem?.data!);
-      setCustomColumns(stackItem?.columns!);
-    }
-  };
-
-  const handleRedo = () => {
-    if (redoStack.current.length > 0) {
-      undoStack.current.push({ data: tasksData, columns: customColumns });
-      const stackItem = redoStack.current.pop();
-      setTasksData(stackItem?.data!);
-      setCustomColumns(stackItem?.columns!);
-    }
-  };
-
-  const handleColumnsChange = (columns: Field[]) => {
-    undoStack.current.push({ columns: customColumns, data: tasksData });
-    setCustomColumns(columns.filter((col) => col.editable));
-  };
+  const {
+    isTaskDrawerOpen: openTaskDrawer,
+    newRowId,
+    customColumns,
+    tasksData,
+    currentTaskEditData: editData,
+    undoStack,
+    redoStack,
+    handleAddTaskClick,
+    handleDrawerClose,
+    handleTaskSave,
+    handleUndo,
+    handleRedo,
+    handleColumnsChange,
+    setCurrentTaskEditData: setEditData,
+    setIsTaskDrawerOpen: setOpenTaskDrawer,
+    setTasksData,
+  } = useTaskManager();
 
   return (
     <>
       <h1 className="text-2xl font-bold m-4">Task Ninja</h1>
       <TaskDrawer
         open={openTaskDrawer}
-        closeDrawer={closeDrawer}
-        handleAddTask={handleAddTask}
+        onDrawerClose={handleDrawerClose}
+        onSaveTask={handleTaskSave}
         editData={editData}
         customColumns={customColumns}
       />
@@ -112,9 +48,9 @@ function TaskApp() {
         newRowId={newRowId}
         toolbar={
           <Header
-            handleUndo={handleUndo}
-            handleRedo={handleRedo}
-            addTaskHandler={addTaskHandler}
+            onUndo={handleUndo}
+            onRedo={handleRedo}
+            onAddTaskClick={handleAddTaskClick}
             undoDisabled={undoStack.current.length === 0}
             redoDisabled={redoStack.current.length === 0}
             customColumns={customColumns}
@@ -127,3 +63,115 @@ function TaskApp() {
 }
 
 export default TaskApp;
+
+function useTaskManager() {
+  const [isTaskDrawerOpen, setIsTaskDrawerOpen] = useState(false);
+
+  // to highlight the newly added row
+  const [newRowId, setNewRowId] = useState<string | number>();
+  const [currentTaskEditData, setCurrentTaskEditData] = useState<Task>();
+
+  const { data: customColumns, setData: setCustomColumns } =
+    useLocalStorageState<Column[]>({
+      localStorageKey: LOCAL_STORAGE_KEYS.columns,
+      defaultValue: [],
+    });
+
+  const { data: tasksData, setData: setTasksData } = useLocalStorageState<
+    Task[]
+  >({
+    localStorageKey: LOCAL_STORAGE_KEYS.tasks,
+    defaultValue: [],
+  });
+
+  const undoStack = useRef<HistoryItem[]>([]);
+  const redoStack = useRef<HistoryItem[]>([]);
+
+  const handleAddTaskClick = () => {
+    setIsTaskDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setIsTaskDrawerOpen(false);
+    setCurrentTaskEditData(undefined);
+  };
+
+  const handleTaskSave = (values: Task) => {
+    undoStack.current.push({
+      tasks: [...tasksData],
+      columns: [...customColumns],
+    });
+
+    // if edit mode
+    if (currentTaskEditData) {
+      setTasksData((prevData) => {
+        const index = prevData.findIndex(
+          (item) => item.id === currentTaskEditData.id
+        );
+        prevData[index] = {
+          ...values,
+          id: currentTaskEditData.id,
+        };
+        return [...prevData];
+      });
+      setNewRowId(currentTaskEditData.id);
+    } else {
+      const id = crypto.randomUUID();
+      setTasksData((prevData) => [
+        ...prevData,
+        {
+          ...values,
+          id,
+        },
+      ]);
+      setNewRowId(id);
+    }
+    handleDrawerClose();
+  };
+
+  const handleUndo = () => {
+    if (undoStack.current.length > 0) {
+      redoStack.current.push({ tasks: tasksData, columns: customColumns });
+
+      const stackItem = undoStack.current.pop();
+      setTasksData(stackItem?.tasks!);
+      setCustomColumns(stackItem?.columns!);
+    }
+  };
+
+  const handleRedo = () => {
+    if (redoStack.current.length > 0) {
+      undoStack.current.push({ tasks: tasksData, columns: customColumns });
+
+      const stackItem = redoStack.current.pop();
+      setTasksData(stackItem?.tasks!);
+      setCustomColumns(stackItem?.columns!);
+    }
+  };
+
+  const handleColumnsChange = (columns: Column[]) => {
+    undoStack.current.push({ columns: customColumns, tasks: tasksData });
+
+    // editable true will be set on custom columns and we only need to save those columns in local storage
+    setCustomColumns(columns.filter((col) => col.editable));
+  };
+
+  return {
+    isTaskDrawerOpen,
+    newRowId,
+    customColumns,
+    tasksData,
+    currentTaskEditData,
+    undoStack,
+    redoStack,
+    handleAddTaskClick,
+    handleDrawerClose,
+    handleTaskSave,
+    handleUndo,
+    handleRedo,
+    handleColumnsChange,
+    setCurrentTaskEditData,
+    setIsTaskDrawerOpen,
+    setTasksData,
+  };
+}

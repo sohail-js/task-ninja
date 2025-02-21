@@ -1,6 +1,6 @@
 import { useTable } from "./TableContext";
 import Button from "../Button";
-import { Field } from "../../types";
+import { Column } from "../../types";
 import FormItemCheckbox from "../Form/FormItemCheckbox";
 import FormItemSelect from "../Form/FormItemSelect";
 import FormItemText from "../Form/FormItemText";
@@ -9,7 +9,7 @@ import { BsReverseLayoutSidebarInsetReverse } from "react-icons/bs";
 
 type Props = {
   row: any;
-  column: Field;
+  column: Column;
   onChange: (value: any) => void;
   onValidityChange?: (valid: boolean) => void;
   data?: any[];
@@ -93,7 +93,7 @@ function EditableCell({
   disabled,
 }: Props) {
   const value = row[column.key];
-  function getCommonProps(field: Field) {
+  function getCommonProps(field: Column) {
     return {
       field: {
         ...field,
