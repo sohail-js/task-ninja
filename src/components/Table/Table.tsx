@@ -4,6 +4,7 @@ import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 import { Field, MenuItem } from "../../types";
 import TablePagination from "./TablePagination";
+import TableSelection from "./TableSelection";
 
 export type TableProps = {
   columns: Array<Field>;
@@ -22,16 +23,24 @@ export type TableProps = {
   onDataChange?: (data: any[]) => void;
   onValidityChange?: (valid: boolean) => void;
   newRowId?: string | number;
+  toolbar?: React.ReactNode;
 };
 
 export default function Table({
   className,
   showPagination,
+  toolbar,
   ...props
 }: TableProps) {
   return (
     <TableProvider {...props}>
       {/* <TableMeta /> */}
+      <div className="flex justify-between items-center mb-2">
+        <div className="left">
+          <TableSelection />
+        </div>
+        <div className="right">{toolbar}</div>
+      </div>
       <div className="w-full overflow-x-auto">
         <table
           className={classNames(

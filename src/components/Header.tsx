@@ -26,43 +26,39 @@ const Header: React.FC<HeaderProps> = ({
   handleColumnsChange,
 }) => {
   return (
-    <div className="flex justify-between items-center p-4 pb-0.5">
-      <h1 className="text-2xl font-bold">Task Ninja</h1>
+    <div className="flex items-center gap-2">
+      <Button
+        mode="secondary"
+        onClick={handleUndo}
+        prefix={<LuUndo />}
+        title="Undo"
+        disabled={undoDisabled}
+      >
+        <span className="hidden md:inline">Undo</span>
+      </Button>
 
-      <div className="flex items-center gap-2">
-        <Button
-          mode="secondary"
-          onClick={handleUndo}
-          prefix={<LuUndo />}
-          title="Undo"
-          disabled={undoDisabled}
-        >
-          <span className="hidden md:inline">Undo</span>
-        </Button>
+      <Button
+        mode="secondary"
+        onClick={handleRedo}
+        prefix={<LuRedo />}
+        title="Redo"
+        disabled={redoDisabled}
+      >
+        <span className="hidden md:inline">Redo</span>
+      </Button>
+      <ColumnsConfig
+        columns={[...DEFAULT_COLUMNS, ...customColumns]}
+        onColumnsChange={handleColumnsChange}
+      />
 
-        <Button
-          mode="secondary"
-          onClick={handleRedo}
-          prefix={<LuRedo />}
-          title="Redo"
-          disabled={redoDisabled}
-        >
-          <span className="hidden md:inline">Redo</span>
-        </Button>
-        <ColumnsConfig
-          columns={[...DEFAULT_COLUMNS, ...customColumns]}
-          onColumnsChange={handleColumnsChange}
-        />
-
-        <Button
-          mode="primary"
-          onClick={addTaskHandler}
-          prefix={<HiPlus />}
-          title="Create Task"
-        >
-          <span className="hidden md:inline">Create Task</span>
-        </Button>
-      </div>
+      <Button
+        mode="primary"
+        onClick={addTaskHandler}
+        prefix={<HiPlus />}
+        title="Create Task"
+      >
+        <span className="hidden md:inline">Create Task</span>
+      </Button>
     </div>
   );
 };

@@ -93,16 +93,7 @@ function TaskApp() {
 
   return (
     <>
-      <Header
-        handleUndo={handleUndo}
-        handleRedo={handleRedo}
-        addTaskHandler={addTaskHandler}
-        undoDisabled={undoStack.current.length === 0}
-        redoDisabled={redoStack.current.length === 0}
-        customColumns={customColumns}
-        handleColumnsChange={handleColumnsChange}
-      />
-
+      <h1 className="text-2xl font-bold m-4">Task Ninja</h1>
       <TaskDrawer
         open={openTaskDrawer}
         closeDrawer={closeDrawer}
@@ -119,6 +110,17 @@ function TaskApp() {
         setData={setTasksData}
         undoStack={undoStack}
         newRowId={newRowId}
+        toolbar={
+          <Header
+            handleUndo={handleUndo}
+            handleRedo={handleRedo}
+            addTaskHandler={addTaskHandler}
+            undoDisabled={undoStack.current.length === 0}
+            redoDisabled={redoStack.current.length === 0}
+            customColumns={customColumns}
+            handleColumnsChange={handleColumnsChange}
+          />
+        }
       />
     </>
   );

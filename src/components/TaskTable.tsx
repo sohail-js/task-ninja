@@ -12,6 +12,7 @@ type TaskTableProps = {
   setData: React.Dispatch<React.SetStateAction<RecordItem[]>>;
   undoStack: React.MutableRefObject<HistoryItem[]>;
   newRowId?: string | number;
+  toolbar?: React.ReactNode;
 };
 
 const TaskTable: React.FC<TaskTableProps> = ({
@@ -22,6 +23,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
   setData,
   undoStack,
   newRowId,
+  toolbar,
 }) => {
   return (
     <div className="w-full p-4">
@@ -59,6 +61,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
         showPagination
         showFilters
         newRowId={newRowId}
+        toolbar={toolbar}
       />
     </div>
   );

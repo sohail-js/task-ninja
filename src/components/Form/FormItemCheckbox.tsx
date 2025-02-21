@@ -23,7 +23,6 @@ export default function FormItemCheckbox({
           if (el) el.indeterminate = indeterminate ?? false;
         }}
         onChange={(e) => onChange(e.target.checked)}
-        className="mr-2 leading-tight"
         disabled={disabled}
       />
     </FormItemWrapper>

@@ -90,6 +90,11 @@ export const TableProvider = ({
     filteredData.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
   );
 
+  // Reset selected rows when the filter changes.
+  useEffect(() => {
+    setSelectedRows({});
+  }, [filter]);
+
   useEffect(() => {
     if (newRowId) {
       setInternalNewRowId(newRowId);

@@ -49,7 +49,7 @@ export default function TableRow({
       })}
     >
       {selectable && (
-        <td className="px-6 py-2 whitespace-nowrap text-sm font-medium flex items-center justify-center w-0.5">
+        <td className="px-3 py-2 whitespace-nowrap text-sm font-medium flex items-center justify-center">
           <TableCheckbox row={row} />
         </td>
       )}
