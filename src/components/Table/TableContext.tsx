@@ -33,105 +33,53 @@ export const useTable = () => {
   return context;
 };
 
-export const TableProvider = ({
-  children,
-  columns,
-  data,
-  keyProp,
-  inlineEditable,
-  disabledRowIds,
-  showActions,
-  selectable,
-  showFilters,
-  allowSort,
-  onRecordOpen,
-  onDataChange,
-  onValidityChange,
-  newRowId,
-}: Omit<
-  TableContextProps,
-  | "selectedRows"
-  | "setSelectedRows"
-  | "sortColumn"
-  | "setSortColumn"
-  | "sortDirection"
-  | "setSortDirection"
-  | "filter"
-  | "setFilter"
-  | "pageSize"
-  | "setPageSize"
-  | "currentPage"
-  | "setCurrentPage"
-  | "internalNewRowId"
-  | "setInternalNewRowId"
-> & {
-  children: React.ReactNode;
-}) => {
-  const [sortColumn, setSortColumn] = useState<Column | null>(null);
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-  const [filter, setFilter] = useState<
-    Record<string, string | number | boolean>
-  >({}); // key: column key, value: filter value
-
-  const [pageSize, setPageSize] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
-  // This state is used to highlight the newly added row.
-  const [internalNewRowId, setInternalNewRowId] = useState<string | number>("");
-
-  const { filteredData } = useFilteredData({
-    data,
-    filter,
-    sortColumn,
-    sortDirection,
-    columns,
-  });
-  const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>(
-    filteredData.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
-  );
-
-  // Reset selected rows when the filter changes.
-  useEffect(() => {
-    setSelectedRows({});
-  }, [filter]);
-
-  useEffect(() => {
-    if (newRowId) {
-      setInternalNewRowId(newRowId);
-    }
-  }, [newRowId]);
-
-  useEffect(() => {
-    if (internalNewRowId) {
-      const rowNumber = filteredData.findIndex(
-        (row) => row[keyProp] === internalNewRowId
-      );
-      const pageNumber = Math.ceil((rowNumber + 1) / pageSize);
-
-      pageNumber > 0 && setCurrentPage(pageNumber);
-    }
-  }, [internalNewRowId]);
-
-  // Reset current page if the data changes and the current page is out of bounds.
-  if (filteredData.length < pageSize * (currentPage - 1)) {
-    setCurrentPage(1);
+export const TableProvider = (
+  props: Omit<
+    TableContextProps,
+    | "selectedRows"
+    | "setSelectedRows"
+    | "sortColumn"
+    | "setSortColumn"
+    | "sortDirection"
+    | "setSortDirection"
+    | "filter"
+    | "setFilter"
+    | "pageSize"
+    | "setPageSize"
+    | "currentPage"
+    | "setCurrentPage"
+    | "internalNewRowId"
+    | "setInternalNewRowId"
+  > & {
+    children: React.ReactNode;
   }
-
-  // TODO: Reset selected rows when data changes.
-  // useEffect(() => {
-  //   setSelectedRows(
-  //     filteredData.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
-  //   );
-  // }, [JSON.stringify(filteredData), keyProp]);
+) => {
+  const { children, data, columns, keyProp, newRowId } = props;
+  const {
+    selectedRows,
+    setSelectedRows,
+    sortColumn,
+    setSortColumn,
+    sortDirection,
+    setSortDirection,
+    filter,
+    setFilter,
+    pageSize,
+    setPageSize,
+    currentPage,
+    setCurrentPage,
+    internalNewRowId,
+    setInternalNewRowId,
+    filteredData,
+  } = useTableProvider({ data, columns, keyProp, newRowId });
 
   return (
     <TableContext.Provider
       value={{
-        columns,
+        ...props,
         data: filteredData,
-        keyProp,
         selectedRows,
         setSelectedRows,
-        onRecordOpen,
         sortColumn,
         setSortColumn,
         sortDirection,
@@ -142,14 +90,6 @@ export const TableProvider = ({
         setPageSize,
         currentPage,
         setCurrentPage,
-        inlineEditable,
-        disabledRowIds,
-        showActions,
-        selectable,
-        showFilters,
-        allowSort,
-        onDataChange,
-        onValidityChange,
         internalNewRowId,
         setInternalNewRowId,
       }}
@@ -225,4 +165,73 @@ function useFilteredData({
   }
 
   return { filteredData };
+}
+
+function useTableProvider({ data, columns, keyProp, newRowId }: TableProps) {
+  const [sortColumn, setSortColumn] = useState<Column | null>(null);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [filter, setFilter] = useState<
+    Record<string, string | number | boolean>
+  >({}); // key: column key, value: filter value
+
+  const [pageSize, setPageSize] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  // This state is used to highlight the newly added row.
+  const [internalNewRowId, setInternalNewRowId] = useState<string | number>("");
+
+  const { filteredData } = useFilteredData({
+    data,
+    filter,
+    sortColumn,
+    sortDirection,
+    columns,
+  });
+  const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>(
+    filteredData.reduce((acc, row) => ({ ...acc, [row[keyProp]]: false }), {})
+  );
+
+  // Reset selected rows when the filter changes.
+  useEffect(() => {
+    setSelectedRows({});
+  }, [filter]);
+
+  useEffect(() => {
+    if (newRowId) {
+      setInternalNewRowId(newRowId);
+    }
+  }, [newRowId]);
+
+  useEffect(() => {
+    if (internalNewRowId) {
+      const rowNumber = filteredData.findIndex(
+        (row) => row[keyProp] === internalNewRowId
+      );
+      const pageNumber = Math.ceil((rowNumber + 1) / pageSize);
+
+      pageNumber > 0 && setCurrentPage(pageNumber);
+    }
+  }, [internalNewRowId]);
+
+  // Reset current page if the data changes and the current page is out of bounds.
+  if (filteredData.length < pageSize * (currentPage - 1)) {
+    setCurrentPage(1);
+  }
+
+  return {
+    selectedRows,
+    setSelectedRows,
+    sortColumn,
+    setSortColumn,
+    sortDirection,
+    setSortDirection,
+    filter,
+    setFilter,
+    pageSize,
+    setPageSize,
+    currentPage,
+    setCurrentPage,
+    internalNewRowId,
+    setInternalNewRowId,
+    filteredData,
+  };
 }

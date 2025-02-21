@@ -1,5 +1,5 @@
 import React from "react";
-import { Table } from "../Table";
+import Table from "../Table";
 import { Column, Task } from "../../types";
 import { DEFAULT_COLUMNS } from "../../constants";
 
@@ -22,7 +22,7 @@ const TaskTable: React.FC<TaskTableProps> = ({
 }) => {
   return (
     <div className="w-full p-4">
-      <Table
+      <Table<Task>
         columns={[
           ...DEFAULT_COLUMNS,
           ...customColumns.filter((col) => col.visible),

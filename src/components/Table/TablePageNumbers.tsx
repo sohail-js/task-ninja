@@ -6,30 +6,8 @@ import React from "react";
 type Props = {};
 
 export default function TablePageNumbers({}: Props) {
-  const { pageSize, data, currentPage, setCurrentPage } = useTable();
-  const totalRecords = data.length;
-  const totalPages = Math.ceil(totalRecords / pageSize);
-
-  const getPageNumbers = () => {
-    if (totalPages <= 5)
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-
-    const pages = new Set<number>();
-
-    pages.add(1);
-    pages.add(2);
-    pages.add(totalPages);
-    pages.add(totalPages - 1);
-    pages.add(currentPage);
-    pages.add(currentPage - 1);
-    pages.add(currentPage + 1);
-
-    return [...pages]
-      .filter((page) => page >= 1 && page <= totalPages)
-      .sort((a, b) => a - b);
-  };
-
-  const pageNumbers = getPageNumbers();
+  const { totalPages, pageNumbers, setCurrentPage, currentPage } =
+    useTablePageNumbers();
 
   return (
     <div className="flex items-center gap-2">
@@ -69,4 +47,38 @@ export default function TablePageNumbers({}: Props) {
       </Button>
     </div>
   );
+}
+
+function useTablePageNumbers() {
+  const { pageSize, data, currentPage, setCurrentPage } = useTable();
+  const totalRecords = data.length;
+  const totalPages = Math.ceil(totalRecords / pageSize);
+
+  const getPageNumbers = () => {
+    if (totalPages <= 5)
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+
+    const pages = new Set<number>();
+
+    pages.add(1);
+    pages.add(2);
+    pages.add(totalPages);
+    pages.add(totalPages - 1);
+    pages.add(currentPage);
+    pages.add(currentPage - 1);
+    pages.add(currentPage + 1);
+
+    return [...pages]
+      .filter((page) => page >= 1 && page <= totalPages)
+      .sort((a, b) => a - b);
+  };
+
+  const pageNumbers = getPageNumbers();
+
+  return {
+    totalPages,
+    pageNumbers,
+    setCurrentPage,
+    currentPage,
+  };
 }

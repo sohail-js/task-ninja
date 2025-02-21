@@ -9,7 +9,7 @@ type Props = {
   column: Column;
 };
 
-export default function TableHeaderColumn({ column }: Props) {
+export default function TableHeadColumn({ column }: Props) {
   const {
     sortColumn,
     setSortColumn,

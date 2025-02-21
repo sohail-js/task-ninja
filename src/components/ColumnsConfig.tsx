@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Drawer from "./Drawer";
-import { Table } from "./Table";
+import Table from "./Table";
 import { HiPlus, HiViewColumns } from "react-icons/hi2";
 import Button from "./Button";
 import { Column } from "../types";
@@ -69,7 +69,7 @@ export default function ColumnsConfig({ columns, onColumnsChange }: Props) {
           </Button>
         </div>
         <div className="content">
-          <Table
+          <Table<Column>
             columns={[
               {
                 key: "visible",

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTable } from "./TableContext";
-import TableCheckbox from "./TableCheckbox";
+import RowSelectionCheckbox from "./RowSelectionCheckbox";
 import TableCell from "./TableCell";
 import Button from "../Button";
 import classNames from "classnames";
@@ -68,7 +68,7 @@ export default function TableRow({
     >
       {selectable && (
         <td className="px-3 py-2 whitespace-nowrap text-sm font-medium flex items-center justify-center">
-          <TableCheckbox row={row} />
+          <RowSelectionCheckbox row={row} />
         </td>
       )}
       {columns.map((column) => (

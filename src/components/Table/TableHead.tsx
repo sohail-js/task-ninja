@@ -1,24 +1,12 @@
 import FormItemCheckbox from "../Form/FormItemCheckbox";
 import { useTable } from "./TableContext";
-import TableHeaderColumn from "./TableHeaderColumn";
+import TableHeadColumn from "./TableHeadColumn";
 
-export default function TableHeader() {
-  const {
-    columns,
-    data,
-    keyProp,
-    selectedRows,
-    setSelectedRows,
-    selectable,
-    showActions,
-  } = useTable();
+export default function TableHead() {
+  const { columns, data, keyProp, setSelectedRows, selectable, showActions } =
+    useTable();
 
-  const selectedRowValues = Object.values(selectedRows);
-  const allSelected =
-    selectedRowValues.length > 0 && selectedRowValues.every((value) => value);
-  const indeterminate =
-    selectedRowValues.some((value) => value) &&
-    selectedRowValues.some((value) => !value);
+  const { allSelected, indeterminate } = useTableHead();
 
   return (
     <thead>
@@ -41,7 +29,7 @@ export default function TableHeader() {
           </th>
         )}
         {columns.map((column) => (
-          <TableHeaderColumn key={column.key} column={column} />
+          <TableHeadColumn key={column.key} column={column} />
         ))}
 
         {showActions && (
@@ -52,4 +40,18 @@ export default function TableHeader() {
       </tr>
     </thead>
   );
+}
+
+function useTableHead() {
+  const { selectedRows } = useTable();
+  const selectedRowValues = Object.values(selectedRows);
+  const allSelected =
+    selectedRowValues.length > 0 && selectedRowValues.every((value) => value);
+  const indeterminate =
+    selectedRowValues.some((value) => value) &&
+    selectedRowValues.some((value) => !value);
+  return {
+    allSelected,
+    indeterminate,
+  };
 }

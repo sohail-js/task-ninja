@@ -7,33 +7,15 @@ import { HiTrash } from "react-icons/hi";
 type Props = {};
 
 export default function TableSelection({}: Props) {
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const { selectedRows, setSelectedRows, data, onDataChange, keyProp } =
-    useTable();
-  const selectedRowsArray = Object.entries(selectedRows)
-    .filter(([_, value]) => value)
-    .map(([key]) => key);
+  const {
+    selectedRowsArray,
+    handleDelete,
+    deleteModalOpen,
+    handleClose,
+    handleConfirmDelete,
+  } = useTableSelection();
 
-  const handleConfirmDelete = (option: MenuItem) => {
-    if (option.value === "cancel") {
-      handleClose();
-      return;
-    }
-
-    // Delete the selected rows
-    onDataChange?.(data.filter((row) => !selectedRows[row[keyProp]]));
-    setSelectedRows({});
-    setDeleteModalOpen(false);
-  };
-
-  const handleClose = () => {
-    setDeleteModalOpen(false);
-    setSelectedRows({});
-  };
-
-  const handleDelete = () => {
-    setDeleteModalOpen(true);
-  };
+  const { setSelectedRows } = useTable();
 
   return (
     <div className="ml-6">
@@ -78,4 +60,42 @@ export default function TableSelection({}: Props) {
       </Modal>
     </div>
   );
+}
+
+function useTableSelection() {
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const { selectedRows, setSelectedRows, data, onDataChange, keyProp } =
+    useTable();
+  const selectedRowsArray = Object.entries(selectedRows)
+    .filter(([_, value]) => value)
+    .map(([key]) => key);
+
+  const handleConfirmDelete = (option: MenuItem) => {
+    if (option.value === "cancel") {
+      handleClose();
+      return;
+    }
+
+    // Delete the selected rows
+    onDataChange?.(data.filter((row) => !selectedRows[row[keyProp]]));
+    setSelectedRows({});
+    setDeleteModalOpen(false);
+  };
+
+  const handleClose = () => {
+    setDeleteModalOpen(false);
+    setSelectedRows({});
+  };
+
+  const handleDelete = () => {
+    setDeleteModalOpen(true);
+  };
+
+  return {
+    selectedRowsArray,
+    handleDelete,
+    deleteModalOpen,
+    handleClose,
+    handleConfirmDelete,
+  };
 }

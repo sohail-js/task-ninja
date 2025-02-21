@@ -4,29 +4,9 @@ import TableRow from "./TableRow";
 import { useEffect, useState } from "react";
 
 export default function TableBody() {
-  const {
-    data,
-    columns,
-    keyProp,
-    pageSize,
-    currentPage,
-    onDataChange,
-    onValidityChange,
-    disabledRowIds,
-  } = useTable();
+  const { data, columns, keyProp, onDataChange, disabledRowIds } = useTable();
 
-  const [validatyStatus, setValidityStatus] = useState(
-    Array(data.length).fill(true)
-  );
-
-  useEffect(() => {
-    onValidityChange?.(validatyStatus.every((valid) => valid));
-  }, [validatyStatus]);
-
-  const currentPageData = data.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
+  const { setRowsValidityStatus, currentPageData } = useTableBodyState();
 
   return (
     <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -48,7 +28,7 @@ export default function TableBody() {
             onDataChange?.(newData);
           }}
           onValidityChange={(valid) => {
-            setValidityStatus((prev) => {
+            setRowsValidityStatus((prev) => {
               const newStatus = [...prev];
               newStatus[index] = valid;
               return newStatus;
@@ -60,4 +40,25 @@ export default function TableBody() {
       ))}
     </tbody>
   );
+}
+
+function useTableBodyState() {
+  const { data, pageSize, currentPage, onValidityChange } = useTable();
+  const [rowsValidityStatus, setRowsValidityStatus] = useState(
+    Array(data.length).fill(true)
+  );
+
+  useEffect(() => {
+    onValidityChange?.(rowsValidityStatus.every((valid) => valid));
+  }, [rowsValidityStatus]);
+
+  const currentPageData = data.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
+  return {
+    setRowsValidityStatus,
+    currentPageData,
+  };
 }

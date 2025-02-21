@@ -1,36 +1,37 @@
 import classNames from "classnames";
 import { TableProvider } from "./TableContext";
-import TableHeader from "./TableHeader";
+import TableHead from "./TableHead";
 import TableBody from "./TableBody";
 import { Column } from "../../types";
 import TablePagination from "./TablePagination";
 import TableSelection from "./TableSelection";
 
-export type TableProps = {
+export type TableProps<T = any> = {
   columns: Array<Column>;
-  data: any[];
-  keyProp: string;
+  data: T[];
+  keyProp: keyof T;
   className?: string;
-  onRecordOpen?: (record: any) => void;
+  onRecordOpen?: (record: T) => void;
   inlineEditable?: boolean;
+  // disables the complete row along with actions
   disabledRowIds?: string[];
   showActions?: boolean;
   selectable?: boolean;
   showPagination?: boolean;
   showFilters?: boolean;
   allowSort?: boolean;
-  onDataChange?: (data: any[]) => void;
+  onDataChange?: (data: T[]) => void;
   onValidityChange?: (valid: boolean) => void;
   newRowId?: string | number;
   toolbar?: React.ReactNode;
 };
 
-export default function Table({
+export default function Table<T>({
   className,
   showPagination,
   toolbar,
   ...props
-}: TableProps) {
+}: TableProps<T>) {
   return (
     <TableProvider {...props}>
       {/* <TableMeta /> */}
@@ -47,7 +48,7 @@ export default function Table({
             className
           )}
         >
-          <TableHeader />
+          <TableHead />
           <TableBody />
         </table>
       </div>
