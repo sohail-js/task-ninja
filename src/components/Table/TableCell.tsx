@@ -6,6 +6,7 @@ import FormItemSelect from "../Form/FormItemSelect";
 import FormItemText from "../Form/FormItemText";
 import classNames from "classnames";
 import { BsReverseLayoutSidebarInsetReverse } from "react-icons/bs";
+import Pill from "../Pill";
 
 type Props = {
   row: any;
@@ -41,7 +42,9 @@ export default function TableCell({
       const option = column.dropdownOptions?.find(
         (option) => option.value === value
       );
-      return option?.label;
+      return (
+        <Pill color={option?.color ?? "gray"} label={option?.label ?? ""} />
+      );
     }
 
     return value;

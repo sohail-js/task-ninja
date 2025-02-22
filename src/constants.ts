@@ -1,17 +1,17 @@
 import { Column } from "./types";
 
 export const OPTIONS_PRIORITY = [
-  { value: "none", label: "None" },
-  { value: "low", label: "Low" },
-  { value: "medium", label: "Medium" },
-  { value: "high", label: "High" },
-  { value: "urgent", label: "Urgent" },
+  { value: "none", label: "None", color: "gray" },
+  { value: "low", label: "Low", color: "green" },
+  { value: "medium", label: "Medium", color: "blue" },
+  { value: "high", label: "High", color: "orange" },
+  { value: "urgent", label: "Urgent", color: "red" },
 ];
 
 export const OPTIONS_STATUS = [
-  { value: "not_started", label: "Not Started" },
-  { value: "in_progress", label: "In Progress" },
-  { value: "completed", label: "Completed" },
+  { value: "not_started", label: "Not Started", color: "gray" },
+  { value: "in_progress", label: "In Progress", color: "orange" },
+  { value: "completed", label: "Completed", color: "green" },
 ];
 
 export const LOCAL_STORAGE_KEYS = {

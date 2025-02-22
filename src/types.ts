@@ -2,7 +2,11 @@ export interface Column {
   key: string;
   type: "text" | "dropdown" | "checkbox" | "number";
   label: string;
-  dropdownOptions?: Array<{ value: string | number; label: string }>;
+  dropdownOptions?: Array<{
+    value: string | number;
+    label: string;
+    color?: string;
+  }>;
   required?: boolean;
   visible?: boolean;
   editable?: boolean;
