@@ -1,19 +1,19 @@
 # Task Ninja
 
-Task Ninja is a task management app designed to help you organize and prioritize your tasks efficiently.
+Task Ninja is a task management app (todo on steroids)
 
-## Demo
+## Preview
 
-Check out the live demo: https://task-ninja-007.web.app
+Check out live preview: https://task-ninja-007.web.app
 
 ## Features
 
-- Create, edit, and delete tasks
-- Organize tasks by priority and status
-- Customizable columns for task attributes
-- Undo and redo actions
-- Responsive design
+- CRUD Tasks
+- Filtering & Sorting
+- Pagination
 - Local storage support
+- Custom Fields
+- Responsive Design
 
 ## Technologies Used
 
@@ -22,3 +22,13 @@ Check out the live demo: https://task-ninja-007.web.app
 - Tailwind CSS
 - Vite
 - Firebase
+
+## Design Decisions
+
+1. Used Context API for State Management
+
+## Bonus Milestones
+
+1. Animations & Transitions
+2. Undo/Redo
+3. Multiselect for bulk actions (only for delete)

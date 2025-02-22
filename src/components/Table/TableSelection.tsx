@@ -23,7 +23,7 @@ export default function TableSelection({}: Props) {
         <div className="flex items-center rounded-md overflow-hidden">
           <div
             role="button"
-            className="border-r-1 px-2 py-1 bg-blue-300 hover:bg-blue-400 transition-colors text-gray-900 cursor-pointer"
+            className="border-r-1 px-2 py-1 bg-blue-300 hover:bg-blue-400 transition-colors text-gray-900 cursor-pointer whitespace-nowrap"
             onClick={() => setSelectedRows({})}
           >
             {selectedRowsArray.length} rows selected
